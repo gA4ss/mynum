@@ -8,7 +8,7 @@
 namespace mynum {
 namespace number {
 
-class Fraction : public Number {
+class Fraction {
 public:
   Fraction() { zero(); }
   Fraction(const char* number, int base=10) { __create_from_string(number, base); }
@@ -18,15 +18,18 @@ public:
   Fraction(const Fraction& c) { assign(c); }
   virtual ~Fraction() {}
 
-  virtual void assign(const Fraction& n) { real_park_ = n.real_park(); imaginary_park_ = n.imaginary_park(); }
-  virtual void zero() { real_park_.zero(); imaginary_park_.zero(); }
-  virtual void one(int sign) { real_park_.one(sign); imaginary_park_.zero(); }
+  virtual void assign(const Fraction& n) {
+    numerator_park_ = n.numerator_park(); 
+    denominator_park_ = n.denominator_park(); 
+  }
+  virtual void zero() { numerator_park_.zero(); denominator_park_.zero(); }
+  virtual void one(int sign) { numerator_park_.one(sign); denominator_park_.zero(); }
   virtual void infinite(int sign) { operand_type_is_invalid_exception("infinite"); }
-  virtual void nan() { real_park_.nan(kPositive); imaginary_park_.nan(kPositive); }
-  virtual void none() { real_park_.none(); imaginary_park_.none(); }
+  virtual void nan() { numerator_park_.nan(kPositive); denominator_park_.nan(kPositive); }
+  virtual void none() { numerator_park_.none(); denominator_park_.none(); }
 
-  Numeric real_park() const { return real_park_; }
-  Numeric imaginary_park() const { return imaginary_park_; }
+  Complex numerator_park() const { return numerator_park_; }
+  Complex denominator_park() const { return denominator_park_; }
 
   virtual std::string str() const;
 
@@ -205,8 +208,6 @@ public:
   friend Fraction operator<<(const char* num1, const Fraction& bits);
   friend Fraction operator>>(const char* num1, const Fraction& bits);
 
-  friend Fraction conjugate(const Fraction& num1);
-
   //////////////////////////////
   // operation function
   //////////////////////////////
@@ -245,14 +246,14 @@ public:
 
 protected:
   void __create_from_string(const char* n, int base);
-  void __set_real_park(const Numeric& real_park) { real_park_ = real_park; }
-  void __set_real_park_zero() { real_park_.zero(); }
-  void __set_imaginary_park(const Numeric& imaginary_park) { imaginary_park_ = imaginary_park; }
-  void __set_imaginary_park_zero() { imaginary_park_.zero(); }
+  void __set_numerator_park(const Numeric& numerator_park) { numerator_park_ = numerator_park; }
+  void __set_numerator_park_zero() { numerator_park_.zero(); }
+  void __set_denominator_park(const Numeric& denominator_park) { denominator_park_ = denominator_park; }
+  void __set_denominator_park_zero() { denominator_park_.zero(); }
 
 protected:
-  Numeric real_park_;
-  Numeric imaginary_park_;
+  Complex numerator_park_;
+  Complex denominator_park_;
 };
 
 //
@@ -426,8 +427,6 @@ Fraction operator&(const char* num1, const Fraction& num2);
 Fraction operator^(const char* num1, const Fraction& num2);
 Fraction operator<<(const char* num1, const Fraction& bits);
 Fraction operator>>(const char* num1, const Fraction& bits);
-
-Fraction conjugate(const Fraction& num1);
 
 typedef std::shared_ptr<Fraction> fraction_t;
 
