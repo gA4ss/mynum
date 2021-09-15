@@ -19,8 +19,8 @@ public:
   virtual ~Fraction() {}
 
   virtual void assign(const Fraction& n) {
-    numerator_park_ = n.numerator_park(); 
-    denominator_park_ = n.denominator_park(); 
+    numerator_park_ = n.numerator_park();
+    denominator_park_ = n.denominator_park();
   }
   virtual void zero() { numerator_park_.zero(); denominator_park_.zero(); }
   virtual void one(int sign) { numerator_park_.one(sign); denominator_park_.zero(); }

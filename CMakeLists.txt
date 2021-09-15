@@ -15,7 +15,7 @@ set(CORE_DIRECTORY ./src/core)
 set(NUMBER_DIRECTORY ./src/number)
 
 #
-# Mysnum include path
+# Mynum include path
 #
 include_directories(
   ./
