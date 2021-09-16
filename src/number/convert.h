@@ -11,15 +11,15 @@ namespace number {
 
 mynum_complex_t convert_to_complex(const mynum_number_t& object);
 Complex* convert_to_complex(Number* object);
-Complex convert_to_complex(Number& object);
+Complex convert_to_complex(const Number& object);
 
 mynum_real_t convert_to_real(const mynum_number_t& object);
 Real* convert_to_real(Number* object);
-Real convert_to_real(Number& object);
+Real convert_to_real(const Number& object);
 
 mynum_integer_t convert_to_integer(const mynum_number_t& object);
 Integer* convert_to_integer(Number* object);
-Integer convert_to_integer(Number& object);
+Integer convert_to_integer(Number* object);
 
 bool is_complex(const mynum_number_t& object);
 bool is_complex(Number* object);

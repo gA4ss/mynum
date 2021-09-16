@@ -13,7 +13,7 @@ public:
   Fraction() { zero(); }
   Fraction(const char* number, int base=10) { __create_from_string(number, base); }
   Fraction(std::string& number, int base=10) { __create_from_string(number.c_str(), base); }
-  Fraction(const Numeric& real_park, const Numeric& imaginary_park) { real_park_ = real_park; imaginary_park_ = imaginary_park; }
+  Fraction(const Numeric& numerator_park, const Numeric& denominator_park) { real_park_ = real_park; imaginary_park_ = imaginary_park; }
   Fraction(Fraction* c) { assign(*c); }
   Fraction(const Fraction& c) { assign(c); }
   virtual ~Fraction() {}
@@ -28,8 +28,8 @@ public:
   virtual void nan() { numerator_park_.nan(kPositive); denominator_park_.nan(kPositive); }
   virtual void none() { numerator_park_.none(); denominator_park_.none(); }
 
-  Complex numerator_park() const { return numerator_park_; }
-  Complex denominator_park() const { return denominator_park_; }
+  Number& numerator_park() const { return numerator_park_; }
+  Number& denominator_park() const { return denominator_park_; }
 
   virtual std::string str() const;
 

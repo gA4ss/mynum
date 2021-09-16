@@ -9,7 +9,7 @@
 using namespace mynum::core;
 using namespace mynum::number;
 
-TEST(Number, ConvertObject) {
+TEST(Number, ConvertShared) {
   mynum_number_t obj1 = create_object<Complex>();
   mynum_complex_t comp_obj = convert_to_complex(obj1);
   EXPECT_TRUE(comp_obj != nullptr) << "class type = " << comp_obj->class_name();
@@ -31,22 +31,28 @@ TEST(Number, ConvertObject) {
 
 TEST(Number, ConvertPtr) {
   Number* obj1 = new Complex;
-  Complex* comp_obj = convert_to_complex_ptr(obj1);
+  Complex* comp_obj = convert_to_complex(obj1);
   EXPECT_TRUE(comp_obj != nullptr);
-  EXPECT_FALSE(is_real_ptr(comp_obj));
-  EXPECT_FALSE(is_integer_ptr(comp_obj));
+  EXPECT_FALSE(is_real(comp_obj));
+  EXPECT_FALSE(is_integer(comp_obj));
 
   Number* obj2 = new Real;
-  Real* real_obj = convert_to_real_ptr(obj2);
+  Real* real_obj = convert_to_real(obj2);
   EXPECT_TRUE(real_obj != nullptr);
-  EXPECT_FALSE(is_complex_ptr(real_obj));
-  EXPECT_FALSE(is_integer_ptr(real_obj));
+  EXPECT_FALSE(is_complex(real_obj));
+  EXPECT_FALSE(is_integer(real_obj));
 
   Number* obj3 = new Integer;
-  Integer* integer_obj = convert_to_integer_ptr(obj3);
+  Integer* integer_obj = convert_to_integer(obj3);
   EXPECT_TRUE(integer_obj != nullptr);
-  EXPECT_FALSE(is_complex_ptr(integer_obj));
-  EXPECT_FALSE(is_real_ptr(integer_obj));
+  EXPECT_FALSE(is_complex(integer_obj));
+  EXPECT_FALSE(is_real(integer_obj));
+}
+
+TEST(Number, ConvertObject) {
+  Complex comp;
+  Complex comp_obj = convert_to_complex(comp);
+  std::cout << comp_obj.str() << std::endl;
 }
 
 int main(int argc, char* argv[]) {
