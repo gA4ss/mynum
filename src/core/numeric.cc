@@ -12,15 +12,16 @@ static const unit_t kZeroCode = 48;
  * 在内部除法中__div中不能使用缩减，因为
  * 最末尾的0是为了占位。
  */
-static void __shrink_zero(bignum_t& a, bool reverse=false) {
-  if (a.empty()) return;
-  if ((a.size() == 1) && (a[0] == 0)) return;
-  
+static uinteger_t __shrink_zero(bignum_t& a, bool reverse=false) {
+  if (a.empty()) return 0;
+  if ((a.size() == 1) && (a[0] == 0)) return 0;
+
+  uinteger_t ret = 0;
   if (reverse) {
     int l = static_cast<int>(a.size());
     for (int i = l-1; i > 0; i--) {
       if (a[i] == 0) {
-        a.pop_back();
+        a.pop_back(); ++ret;
       } else {
         break;
       }
@@ -29,15 +30,16 @@ static void __shrink_zero(bignum_t& a, bool reverse=false) {
     int l = static_cast<int>(a.size());
     for (int i = 0; i < l; i++) {
       if (a[i] == 0) {
-        a.pop_front();
+        a.pop_front(); ++ret;
       } else {
         break;
       }
     }
   }
+  return ret;
 }
 
-config_t Numeric::config_ = { 128 };
+config_t Numeric::config_ = { 128, 32, 0.000000000001 };
 
 Numeric::Numeric() { nan(); }
 
@@ -1154,8 +1156,34 @@ Numeric div(const Numeric& num1, const Numeric& num2) {
   bignum2.insert(bignum2.end(), decimal_park_2.begin(), decimal_park_2.end());
   bignum2.insert(bignum2.end(), integer_park_2.begin(), integer_park_2.end());
 
+  //
+  // 当被除数与除数是以0开头的小数时。
+  // 例如:0.1/6 或者 1/0.6
+  // 则在统一化为整数时，记录缩小或扩张位数。
+  //
+  uinteger_t increase = __shrink_zero(bignum1, true);
+  uinteger_t reduce = __shrink_zero(bignum2, true);
+
+  //
+  // 真正的运算，这里将小数部分也当作整数运算。完后一并
+  // 计算精度。
+  //
   uinteger_t multiple = 0;
   bignum_t quotient = __div(bignum1, bignum2, Numeric::config_.max_quotient_borrow, &multiple);
+  
+  //
+  // 之前扩大多少位，这里商就要缩小多少。
+  // 之前缩小多少位，这里商就要扩大多少。
+  //
+  uinteger_t borrow = 0;
+  if (increase > reduce) {
+    borrow = increase - reduce;
+    while (borrow--) quotient.push_front(0);
+  } else if (increase < reduce) {
+    borrow = reduce - increase;
+  } else {
+    borrow = 0;
+  }
 
   //
   // 分割整数与小数部分
@@ -1175,6 +1203,7 @@ Numeric div(const Numeric& num1, const Numeric& num2) {
     decimal_park.insert(decimal_park.end(), quotient.begin(), quotient.begin()+precision);
     integer_park.insert(integer_park.end(), quotient.begin()+precision, quotient.end());
   }
+  if (integer_park.empty()) integer_park.push_back(0);  // 保证整数部分最少是0。
 
   __shrink_zero(decimal_park, false);
   __shrink_zero(integer_park, true);
@@ -1702,8 +1731,25 @@ int sgn(const Numeric& num1) {
 }
 
 Numeric sin(const Numeric& x) {
-  operation_is_not_implement_exception("%s", "sin");
-  Numeric res;
+  Numeric res = "0";
+  uinteger_t taylor_expansion = Numeric::config_.taylor_expansion;
+  
+  Numeric numerator, denominator = "1", item;
+  while (taylor_expansion--) {
+    numerator = pow(x, denominator);
+    std::cout << taylor_expansion << std::endl;
+    std::cout << "numerator = " << numerator.str() << std::endl;
+    std::cout << "factorial(denominator) = " << factorial(denominator).str() << std::endl;
+    item = div(numerator, factorial(denominator));
+    std::cout << "item = " << item.str() << std::endl;
+    if (is_even(denominator)) {
+      res -= item;
+    } else {
+      res += item;
+    }
+    std::cout << "res = " << res.str() << std::endl;
+    denominator += "2";
+  }
   return res;
 }
 

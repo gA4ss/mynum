@@ -29,6 +29,16 @@ TEST(Number, ComplexCreate) {
   EXPECT_STREQ(c.str().c_str(), "123-1.618i");
 }
 
+TEST(Number, ComplexSingleOpt) {
+  Complex c("3+1i");
+  Complex d = c++;
+  EXPECT_TRUE(d == "3+1i") << "d = " << d.str();
+  ++c;
+  EXPECT_TRUE(c == "5+3i") << "c = " << d.str();
+  --c;
+  EXPECT_TRUE(c == "4+2i") << "c = " << d.str();
+}
+
 TEST(Number, ComplexOperation) {
   Complex a = "123+5i", b = "542-3i";
   Complex c = a * b;
@@ -51,7 +61,6 @@ TEST(Number, ComplexOperation) {
   EXPECT_TRUE(abs(c.imaginary_park() - "0.010480881496938111") < "0.0000000001") << "c.imaginary_park - 0.010480881496938111 = " 
                                                                                           << abs(c.imaginary_park() - "0.010480881496938111").str();
 }
-
 
 TEST(Number, Integer) {
   Integer i = "3.1415926", j = "4.43";

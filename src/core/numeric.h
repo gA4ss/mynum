@@ -2,8 +2,9 @@
 #define MYNUM_CORE_NUMERIC_H_
 
 #include <ctype.h>
+#include <iostream>
 
-#include <mynum/core/common.h>
+#include <mynum/common.h>
 
 namespace mynum {
 namespace core {
@@ -13,6 +14,8 @@ typedef std::deque<unit_t> bignum_t;
 
 typedef struct Config {
   uinteger_t max_quotient_borrow;
+  uinteger_t taylor_expansion;
+  float_t epsilon;
 } config_t;
 
 class Numeric {

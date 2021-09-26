@@ -391,7 +391,36 @@ TEST(Numeric, Pow) {
   EXPECT_TRUE(n == "340282366920938463463374607431768211456") << "n = " << n.str();
 }
 
+TEST(Numeric, Trigonometric) {
+  Numeric x = "0.5235987666666667", y;
+  // Numeric x = "30", y;
+  y = sin(x);
+  EXPECT_TRUE(y - "0.5" < "0.0001") << "y = " << y.str();
+}
+
 int main(int argc, char* argv[]) {
+  // Numeric x = "0.1435475698776374";
+  Numeric x = "0.1", y = "6", z;
+  z = div(x, y);
+  std::cout << "0.1 / 6 = " << z.str() << std::endl;
+
+  x = "1";
+  y = "0.6";
+  z = div(x, y);
+  std::cout << "1 / 0.6 = "  << z.str() << std::endl;
+
+  x = "0.1";
+  y = "0.6";
+  z = div(x, y);
+  std::cout << "0.1 / 0.6 = "  << z.str() << std::endl;
+
+  x = "1";
+  y = "6";
+  z = div(x, y);
+  std::cout << "1 / 6 = "  << z.str() << std::endl;
+
+  return 0;
+
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }

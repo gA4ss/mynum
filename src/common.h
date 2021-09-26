@@ -1,11 +1,10 @@
-#ifndef MYNUM_CORE_COMMON_H_
-#define MYNUM_CORE_COMMON_H_
+#ifndef MYNUM_COMMON_H_
+#define MYNUM_COMMON_H_
 
 #include <my/my_common.h>
-#include <mynum/core/exception.h>
+#include <mynum/exception.h>
 
 namespace mynum {
-namespace core {
 
 using namespace my;
 
@@ -28,7 +27,8 @@ typedef uint32_t uinteger_t;
 static const uint32_t kNumericUnitMax = 0xFFFFFFFF;
 #endif
 
-} // namespace core
+typedef double float_t;
+
 } // namespace mynum
 
-#endif // MYNUM_CORE_COMMON_H_
+#endif // MYNUM_COMMON_H_
