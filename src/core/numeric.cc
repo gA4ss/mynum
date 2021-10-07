@@ -619,6 +619,17 @@ static Numeric __infinite_operation_result(int inf) {
 
 // ----------------------------------------------------------------------
 
+static bool __is_zero(const bignum_t& a) {
+  if (a.empty())
+    return true;
+  
+  for (size_t i = 0; i < a.size(); i++) {
+    if (a[i] != 0)
+      return false;
+  }
+  return true;
+}
+
 static bignum_t __add_integer_park(const bignum_t& a, const bignum_t& b, bool o) {
   bignum_t x, y, z;
   if (a.empty() && !b.empty()) {
@@ -939,15 +950,20 @@ Numeric mul(const Numeric& num1, const Numeric& num2) {
   if (!is_none(res))
     return res;
 
+
   bignum_t integer_park_1 = num1.integer_park(), decimal_park_1 = num1.decimal_park();
   bignum_t integer_park_2 = num2.integer_park(), decimal_park_2 = num2.decimal_park();
   bignum_t bignum1, bignum2;
 
-  bignum1.insert(bignum1.end(), decimal_park_1.begin(), decimal_park_1.end());
-  bignum1.insert(bignum1.end(), integer_park_1.begin(), integer_park_1.end());
+  if (!__is_zero(decimal_park_1))
+    bignum1.insert(bignum1.end(), decimal_park_1.begin(), decimal_park_1.end());
+  if (!__is_zero(integer_park_1))
+    bignum1.insert(bignum1.end(), integer_park_1.begin(), integer_park_1.end());
 
-  bignum2.insert(bignum2.end(), decimal_park_2.begin(), decimal_park_2.end());
-  bignum2.insert(bignum2.end(), integer_park_2.begin(), integer_park_2.end());
+  if (!__is_zero(decimal_park_2))
+    bignum2.insert(bignum2.end(), decimal_park_2.begin(), decimal_park_2.end());
+  if (!__is_zero(integer_park_2))
+    bignum2.insert(bignum2.end(), integer_park_2.begin(), integer_park_2.end());
   bignum_t product = __mul(bignum1, bignum2);
 
   int sign = kPositive;
@@ -1150,11 +1166,15 @@ Numeric div(const Numeric& num1, const Numeric& num2) {
   bignum_t integer_park_2 = num2.integer_park(), decimal_park_2 = num2.decimal_park();
   bignum_t bignum1, bignum2;
 
-  bignum1.insert(bignum1.end(), decimal_park_1.begin(), decimal_park_1.end());
-  bignum1.insert(bignum1.end(), integer_park_1.begin(), integer_park_1.end());
+  if (!__is_zero(decimal_park_1))
+    bignum1.insert(bignum1.end(), decimal_park_1.begin(), decimal_park_1.end());
+  if (!__is_zero(integer_park_1))
+    bignum1.insert(bignum1.end(), integer_park_1.begin(), integer_park_1.end());
 
-  bignum2.insert(bignum2.end(), decimal_park_2.begin(), decimal_park_2.end());
-  bignum2.insert(bignum2.end(), integer_park_2.begin(), integer_park_2.end());
+  if (!__is_zero(decimal_park_2))
+    bignum2.insert(bignum2.end(), decimal_park_2.begin(), decimal_park_2.end());
+  if (!__is_zero(integer_park_2))
+    bignum2.insert(bignum2.end(), integer_park_2.begin(), integer_park_2.end());
 
   //
   // 当被除数与除数是以0开头的小数时。
@@ -1178,7 +1198,7 @@ Numeric div(const Numeric& num1, const Numeric& num2) {
   uinteger_t borrow = 0;
   if (increase > reduce) {
     borrow = increase - reduce;
-    while (borrow--) quotient.push_front(0);
+    while (borrow--) quotient.push_back(0);
   } else if (increase < reduce) {
     borrow = reduce - increase;
   } else {
@@ -1645,7 +1665,7 @@ Numeric factorial(const Numeric& num1) {
     b *= a;
     --a;
   }
-  return b;
+  return integer(b);
 }
 
 /*
