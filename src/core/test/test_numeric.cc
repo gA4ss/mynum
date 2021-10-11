@@ -396,7 +396,7 @@ TEST(Numeric, DecimalsDiv) {
   Numeric x = "0.1", y = "6", z;
   z = div(x, y);
   EXPECT_TRUE(z - "0.016666666666666666" < "0.0001") << "z = " << z.str();
-  // std::cout << "0.1 / 6 = " << z.str() << std::endl;
+  std::cout << "0.1 / 6 = " << z.str() << std::endl;
 
   x = "1";
   y = "0.6";

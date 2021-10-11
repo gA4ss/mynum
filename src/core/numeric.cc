@@ -950,20 +950,14 @@ Numeric mul(const Numeric& num1, const Numeric& num2) {
   if (!is_none(res))
     return res;
 
-
   bignum_t integer_park_1 = num1.integer_park(), decimal_park_1 = num1.decimal_park();
   bignum_t integer_park_2 = num2.integer_park(), decimal_park_2 = num2.decimal_park();
   bignum_t bignum1, bignum2;
 
-  if (!__is_zero(decimal_park_1))
-    bignum1.insert(bignum1.end(), decimal_park_1.begin(), decimal_park_1.end());
-  if (!__is_zero(integer_park_1))
-    bignum1.insert(bignum1.end(), integer_park_1.begin(), integer_park_1.end());
-
-  if (!__is_zero(decimal_park_2))
-    bignum2.insert(bignum2.end(), decimal_park_2.begin(), decimal_park_2.end());
-  if (!__is_zero(integer_park_2))
-    bignum2.insert(bignum2.end(), integer_park_2.begin(), integer_park_2.end());
+  bignum1.insert(bignum1.end(), decimal_park_1.begin(), decimal_park_1.end());
+  bignum1.insert(bignum1.end(), integer_park_1.begin(), integer_park_1.end());
+  bignum2.insert(bignum2.end(), decimal_park_2.begin(), decimal_park_2.end());
+  bignum2.insert(bignum2.end(), integer_park_2.begin(), integer_park_2.end());
   bignum_t product = __mul(bignum1, bignum2);
 
   int sign = kPositive;
@@ -975,6 +969,7 @@ Numeric mul(const Numeric& num1, const Numeric& num2) {
   //size_t digit = product.size() - precision;
   decimal_park.insert(decimal_park.end(), product.begin(), product.begin()+precision);
   integer_park.insert(integer_park.end(), product.begin()+precision, product.end());
+  if (integer_park.empty()) integer_park.push_back(0);
 
   res.__set_integer_park(integer_park);
   res.__set_decimal_park(decimal_park);
@@ -1166,15 +1161,11 @@ Numeric div(const Numeric& num1, const Numeric& num2) {
   bignum_t integer_park_2 = num2.integer_park(), decimal_park_2 = num2.decimal_park();
   bignum_t bignum1, bignum2;
 
-  if (!__is_zero(decimal_park_1))
-    bignum1.insert(bignum1.end(), decimal_park_1.begin(), decimal_park_1.end());
-  if (!__is_zero(integer_park_1))
-    bignum1.insert(bignum1.end(), integer_park_1.begin(), integer_park_1.end());
+  bignum1.insert(bignum1.end(), decimal_park_1.begin(), decimal_park_1.end());
+  bignum1.insert(bignum1.end(), integer_park_1.begin(), integer_park_1.end());
 
-  if (!__is_zero(decimal_park_2))
-    bignum2.insert(bignum2.end(), decimal_park_2.begin(), decimal_park_2.end());
-  if (!__is_zero(integer_park_2))
-    bignum2.insert(bignum2.end(), integer_park_2.begin(), integer_park_2.end());
+  bignum2.insert(bignum2.end(), decimal_park_2.begin(), decimal_park_2.end());
+  bignum2.insert(bignum2.end(), integer_park_2.begin(), integer_park_2.end());
 
   //
   // 当被除数与除数是以0开头的小数时。
