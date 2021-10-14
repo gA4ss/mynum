@@ -108,6 +108,10 @@ TEST(Numeric, Div) {
   m = "0";
   m /= "inf";
   EXPECT_TRUE(m == "0");
+
+  m = "0.143547569877637386872863141781742486069962962963";
+  m /= "6.0";
+  std::cout << m.str() << std::endl;
 }
 
 TEST(Numeric, IDiv) {
