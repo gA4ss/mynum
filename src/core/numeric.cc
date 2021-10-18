@@ -39,7 +39,8 @@ static uinteger_t __shrink_zero(bignum_t& a, bool reverse=false) {
   return ret;
 }
 
-config_t Numeric::config_ = { 128, 32, 0.000000000001 };
+// config_t Numeric::config_ = { 128, 32, 0.000000000001 };
+config_t Numeric::config_ = { 8, 32, 0.000000000001 };
 
 Numeric::Numeric() { nan(); }
 
@@ -619,16 +620,16 @@ static Numeric __infinite_operation_result(int inf) {
 
 // ----------------------------------------------------------------------
 
-static bool __is_zero(const bignum_t& a) {
-  if (a.empty())
-    return true;
+// static bool __is_zero(const bignum_t& a) {
+//   if (a.empty())
+//     return true;
   
-  for (size_t i = 0; i < a.size(); i++) {
-    if (a[i] != 0)
-      return false;
-  }
-  return true;
-}
+//   for (size_t i = 0; i < a.size(); i++) {
+//     if (a[i] != 0)
+//       return false;
+//   }
+//   return true;
+// }
 
 static bignum_t __add_integer_park(const bignum_t& a, const bignum_t& b, bool o) {
   bignum_t x, y, z;
@@ -1115,13 +1116,23 @@ static bignum_t __div(const bignum_t& a, const bignum_t& b,
       quotient.pop_front();
     } else {
       if (__cmp(dividend, {0}) == 0) dividend.clear();  // 余数为零。
-      while ((__cmp(dividend, divisor) == -1) && (dividend_remainder_digits != 0)) {
-        dividend.insert(dividend.end(), 
-                        x.begin()+dividend_remainder_digits-1, 
-                        x.begin()+dividend_remainder_digits);
+      //
+      // 这里首先借一位，如果大于则直接做运算。
+      // 如果还是小于则商使用0补位。
+      // 保证被除数大于除数。
+      //
+      if ((__cmp(dividend, divisor) == -1) && (dividend_remainder_digits != 0)) {
+        dividend.push_front(x[dividend_remainder_digits-1]);
         --dividend_remainder_digits;
+        //
+        // 这里如果借了一位还是小于那么开始补位
+        //
+        while ((__cmp(dividend, divisor) == -1) && (dividend_remainder_digits != 0)) {
+          dividend.push_front(x[dividend_remainder_digits-1]);
+          quotient.push_front(0);
+          --dividend_remainder_digits;
+        }
       }
-
       // 如果被除数剩余全部是0。
       if (__cmp(dividend, {0}) == 0) {
         quotient.insert(quotient.begin(), dividend.begin(), dividend.end());
@@ -1167,13 +1178,8 @@ Numeric div(const Numeric& num1, const Numeric& num2) {
   bignum2.insert(bignum2.end(), decimal_park_2.begin(), decimal_park_2.end());
   bignum2.insert(bignum2.end(), integer_park_2.begin(), integer_park_2.end());
 
-  //
-  // 当被除数与除数是以0开头的小数时。
-  // 例如:0.1/6 或者 1/0.6
-  // 则在统一化为整数时，记录缩小或扩张位数。
-  //
-  uinteger_t increase = __shrink_zero(bignum1, true);
-  uinteger_t reduce = __shrink_zero(bignum2, true);
+  // __div除法，前边不能存在0。
+  __shrink_zero(bignum1, true); __shrink_zero(bignum2, true);
 
   //
   // 真正的运算，这里将小数部分也当作整数运算。完后一并
@@ -1183,41 +1189,35 @@ Numeric div(const Numeric& num1, const Numeric& num2) {
   bignum_t quotient = __div(bignum1, bignum2, Numeric::config_.max_quotient_borrow, &multiple);
   
   //
-  // 之前扩大多少位，这里商就要缩小多少。
-  // 之前缩小多少位，这里商就要扩大多少。
-  //
-  uinteger_t borrow = 0;
-  if (increase > reduce) {
-    borrow = increase - reduce;
-    while (borrow--) quotient.push_back(0);
-  } else if (increase < reduce) {
-    borrow = reduce - increase;
-  } else {
-    borrow = 0;
-  }
-
-  //
-  // 分割整数与小数部分
+  // 分割整数部分与小数部分
   //
   bignum_t integer_park, decimal_park;
-  uinteger_t precision = 0;
+  uinteger_t precision = 0, fill_zero = 0;
   if (num1.precision() > num2.precision()) {
     precision = num1.precision() - num2.precision() + multiple;
+    if (precision > quotient.size()) {
+      fill_zero = precision - quotient.size();
+      while (fill_zero--) quotient.push_back(0);
+    }
     decimal_park.insert(decimal_park.end(), quotient.begin(), quotient.begin()+precision);
     integer_park.insert(integer_park.end(), quotient.begin()+precision, quotient.end());
   } else if (num1.precision() < num2.precision()) {
-    precision = num2.precision() - num1.precision();
-    integer_park.insert(integer_park.end(), quotient.end()-precision-1, quotient.end());
-    decimal_park.insert(decimal_park.end(), quotient.begin(), quotient.end()-precision-1);
+    precision = num2.precision() - num1.precision() + multiple;
+    if (precision > quotient.size()) {
+      fill_zero = precision - quotient.size();
+      while (fill_zero--) quotient.push_front(0);
+    }
+    decimal_park.insert(decimal_park.end(), quotient.begin(), quotient.begin()+precision);
+    integer_park.insert(integer_park.end(), quotient.begin()+precision, quotient.end());
+    __shrink_zero(decimal_park, false); // 删除小数末尾的0
+    // integer_park.insert(integer_park.end(), quotient.end()-precision-1, quotient.end());
+    // decimal_park.insert(decimal_park.end(), quotient.begin(), quotient.end()-precision-1);
   } else {
     precision = multiple;
     decimal_park.insert(decimal_park.end(), quotient.begin(), quotient.begin()+precision);
     integer_park.insert(integer_park.end(), quotient.begin()+precision, quotient.end());
   }
-  if (integer_park.empty()) integer_park.push_back(0);  // 保证整数部分最少是0。
-
-  __shrink_zero(decimal_park, false);
-  __shrink_zero(integer_park, true);
+  if (integer_park.empty()) integer_park.push_back(0);  // 保证整数部分最少是0
 
   int sign = kPositive;
   if (num1.sign() == num2.sign()) sign = kPositive;
