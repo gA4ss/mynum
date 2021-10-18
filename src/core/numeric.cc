@@ -39,8 +39,8 @@ static uinteger_t __shrink_zero(bignum_t& a, bool reverse=false) {
   return ret;
 }
 
-// config_t Numeric::config_ = { 128, 32, 0.000000000001 };
-config_t Numeric::config_ = { 8, 32, 0.000000000001 };
+config_t Numeric::config_ = { 16, 32, 0.000000000001 };
+// config_t Numeric::config_ = { 8, 32, 0.000000000001 };
 
 Numeric::Numeric() { nan(); }
 
@@ -779,12 +779,19 @@ static bignum_t __sub_decimal_park(const bignum_t& a, const bignum_t& b, bool* t
   unit_t r = 0, c = 0;
   size_t l = x.size();
   for (size_t i = 0; i < l; i++) {
+    //
+    // 这里要考虑x[i] - r 小于0的情况。
+    // 这种情况通常发生在x[i]为0时。
+    //
     if (x[i] - r >= y[i]) {
       c = x[i] - y[i] - r;
       r = 0;
     } else {
-      c = x[i] + 10 - y[i];
+      c = x[i] - r + 10 - y[i];
       r = 1; 
+    }
+    if (c == 10) {
+      std::cout << i << std::endl;
     }
     z.push_back(c);
   }
@@ -966,8 +973,12 @@ Numeric mul(const Numeric& num1, const Numeric& num2) {
   else sign = kNegative;
 
   bignum_t integer_park, decimal_park;
-  uinteger_t precision = num1.precision() + num2.precision();
-  //size_t digit = product.size() - precision;
+  uinteger_t precision = num1.precision() + num2.precision(), fill_zero = 0;
+  // 扩大几倍缩小几倍
+  if (precision > product.size()) {
+    fill_zero = precision - product.size();
+    while (fill_zero--) product.push_front(0);
+  }
   decimal_park.insert(decimal_park.end(), product.begin(), product.begin()+precision);
   integer_park.insert(integer_park.end(), product.begin()+precision, product.end());
   if (integer_park.empty()) integer_park.push_back(0);
@@ -1133,9 +1144,14 @@ static bignum_t __div(const bignum_t& a, const bignum_t& b,
           --dividend_remainder_digits;
         }
       }
-      // 如果被除数剩余全部是0。
+
+      //
+      // 如果被除数剩余全部是0，这里蕴含的一个条件就是 dividend_remainder_digits为0。
+      // quotient压入0比dividend少一个。
+      //
       if (__cmp(dividend, {0}) == 0) {
-        quotient.insert(quotient.begin(), dividend.begin(), dividend.end());
+        // quotient.insert(quotient.begin(), dividend.begin(), dividend.end());
+        quotient.push_front(0);
         break;
       }
 
@@ -1149,6 +1165,11 @@ static bignum_t __div(const bignum_t& a, const bignum_t& b,
         quotient.push_front(0);
         ++multiple;
       }
+      //
+      // 例如：10001 / 2 这种情况，可能造成 dividend = 0010
+      // 这里将前面两个0清除。
+      //
+      if (dividend.back() == 0) __shrink_zero(dividend, true);
     }
   }/* end while */
 
@@ -1744,22 +1765,22 @@ int sgn(const Numeric& num1) {
 Numeric sin(const Numeric& x) {
   Numeric res = "0";
   uinteger_t taylor_expansion = Numeric::config_.taylor_expansion;
-  
+  taylor_expansion = 5;
   Numeric numerator, denominator = "1", item;
-  while (taylor_expansion--) {
+  for (uinteger_t i = 1; i <= taylor_expansion; i++) {
     numerator = pow(x, denominator);
-    std::cout << taylor_expansion << std::endl;
-    std::cout << "numerator = " << numerator.str() << std::endl;
-    std::cout << "factorial(denominator) = " << factorial(denominator).str() << std::endl;
+    // std::cout << taylor_expansion << std::endl;
+    // std::cout << "numerator = " << numerator.str() << std::endl;
+    // std::cout << "factorial(denominator) = " << factorial(denominator).str() << std::endl;
     item = div(numerator, factorial(denominator));
-    std::cout << "item = " << item.str() << std::endl;
-    if (is_even(denominator)) {
+    // std::cout << "item = " << item.str() << std::endl;
+    if (i % 2 == 0) {
       res -= item;
     } else {
       res += item;
     }
-    std::cout << "res = " << res.str() << std::endl;
     denominator += "2";
+    std::cout << "res = " << res.str() << std::endl;
   }
   return res;
 }
