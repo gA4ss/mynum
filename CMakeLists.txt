@@ -66,6 +66,7 @@ endif(BUILD_TEST)
 add_library(${PROJECT_NAME} STATIC
   ${COMMON_DIRECTORY}/common.cc
   ${CORE_DIRECTORY}/numeric.cc
+  ${CORE_DIRECTORY}/constant.cc
   ${NUMBER_DIRECTORY}/number.cc
   ${NUMBER_DIRECTORY}/complex.cc
   ${NUMBER_DIRECTORY}/real.cc

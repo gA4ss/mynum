@@ -108,14 +108,32 @@ TEST(Numeric, Div) {
   m = "0";
   m /= "inf";
   EXPECT_TRUE(m == "0");
+}
 
-  // m = "0.14354756987763738687286";
-  // m /= "6.0";
-  // std::cout << m.str() << std::endl;
+TEST(Numeric, DecimalsDiv) {
+  // Numeric x = "0.1435475698776374";
+  Numeric x = "0.1", y = "6", z;
+  z = div(x, y);
+  EXPECT_TRUE(z - "0.016666666666666666" < "0.0001") << "z = " << z.str();
+  // std::cout << "0.1 / 6 = " << z.str() << std::endl;
 
-  // m = "0.143547569877637386872863141781742486069962962963";
-  // m /= "6.0";
-  // std::cout << m.str() << std::endl;
+  x = "1";
+  y = "0.6";
+  z = div(x, y);
+  EXPECT_TRUE(z - "1.6666666666666667" < "0.0001") << "z = " << z.str();
+  // std::cout << "1 / 0.6 = "  << z.str() << std::endl;
+
+  x = "0.1";
+  y = "0.6";
+  z = div(x, y);
+  EXPECT_TRUE(z - "0.16666666666666669" < "0.0001") << "z = " << z.str();
+  // std::cout << "0.1 / 0.6 = "  << z.str() << std::endl;
+
+  x = "1";
+  y = "6";
+  z = div(x, y);
+  EXPECT_TRUE(z - "0.16666666666666666" < "0.0001") << "z = " << z.str();
+  // std::cout << "1 / 6 = "  << z.str() << std::endl;
 }
 
 TEST(Numeric, IDiv) {
@@ -399,37 +417,28 @@ TEST(Numeric, Pow) {
   EXPECT_TRUE(n == "340282366920938463463374607431768211456") << "n = " << n.str();
 }
 
-TEST(Numeric, DecimalsDiv) {
-  // Numeric x = "0.1435475698776374";
-  Numeric x = "0.1", y = "6", z;
-  z = div(x, y);
-  EXPECT_TRUE(z - "0.016666666666666666" < "0.0001") << "z = " << z.str();
-  // std::cout << "0.1 / 6 = " << z.str() << std::endl;
-
-  x = "1";
-  y = "0.6";
-  z = div(x, y);
-  EXPECT_TRUE(z - "1.6666666666666667" < "0.0001") << "z = " << z.str();
-  // std::cout << "1 / 0.6 = "  << z.str() << std::endl;
-
-  x = "0.1";
-  y = "0.6";
-  z = div(x, y);
-  EXPECT_TRUE(z - "0.16666666666666669" < "0.0001") << "z = " << z.str();
-  // std::cout << "0.1 / 0.6 = "  << z.str() << std::endl;
-
-  x = "1";
-  y = "6";
-  z = div(x, y);
-  EXPECT_TRUE(z - "0.16666666666666666" < "0.0001") << "z = " << z.str();
-  // std::cout << "1 / 6 = "  << z.str() << std::endl;
-}
+// TEST(Numeric, BernoulliNumbers) {
+//   Numeric x = "0", y;
+//   for (int i = 0; i < 9; i++) {
+//     y = bernoulli_numbers(x);
+//     std::cout << "bernoulli(" << x.str() << ") = " << y.str() << std::endl;
+//     x++;
+//   }
+// }
 
 TEST(Numeric, Trigonometric) {
   Numeric x = "0.5235987666666667", y;
-  // Numeric x = "30", y;
   y = sin(x);
   EXPECT_TRUE(y - "0.5" < "0.0001") << "y = " << y.str();
+
+  y = cos(x);
+  EXPECT_TRUE(y - "0.8660254037844387" < "0.0001") << "y = " << y.str();
+
+  y = tan(x);
+  EXPECT_TRUE(y - "0.5773502691896257" < "0.0001") << "y = " << y.str();
+
+  y = cot(x);
+  EXPECT_TRUE(y - "0.5773502691896257" < "0.0001") << "y = " << y.str();
 }
 
 int main(int argc, char* argv[]) {

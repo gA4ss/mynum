@@ -20,11 +20,33 @@ def sin(x):
     denominator = denominator + 2
   return res
 
+def cos(x):
+  res = 1
+  denominator = 0
+  numerator = 1
+  item = 0
+  for taylor_expansion in range(1,5):
+    if taylor_expansion != 1:
+      numerator = x**denominator
+      item = numerator / np.math.factorial(denominator)
+      if taylor_expansion % 2 == 0:
+        res = res - item
+      else:
+        res = res + item
+    print("taylor_expansion = ", taylor_expansion,
+          " numerator = ", numerator,
+          " denominator = ", denominator,
+          " item = ", item,
+          " res = ", res)
+    denominator = denominator + 2
+  return res
+
 x = 0.5235987666666667
-y = sin(x)
+y = cos(x)
 print("y = ", y)
 
 """
+sin(pi/6)
 taylor_expansion =  1  numerator =  0.5235987666666667  denominator =  1  item =  0.5235987666666667  res =  0.5235987666666667
 taylor_expansion =  2  numerator =  0.1435475698776374  denominator =  3  item =  0.023924594979606233  res =  0.49967417168706046
 taylor_expansion =  3  numerator =  0.039354379974873614  denominator =  5  item =  0.0003279531664572801  res =  0.5000021248535177

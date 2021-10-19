@@ -140,6 +140,11 @@ public:
   friend Numeric arccoth(const Numeric& x);
 
   //
+  // 各种代数数
+  //
+  friend Numeric bernoulli_numbers(const Numeric& x);
+
+  //
   // 友元重载运算符
   //
 
@@ -379,6 +384,11 @@ Numeric arctanh(const Numeric& x);
 Numeric arccsch(const Numeric& x);
 Numeric arcsech(const Numeric& x);
 Numeric arccoth(const Numeric& x);
+
+//
+// 各种代数数
+//
+Numeric bernoulli_numbers(const Numeric& x);
 
 //
 // 友元重载运算符

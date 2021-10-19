@@ -1,4 +1,5 @@
 #include <mynum/core/numeric.h>
+#include <mynum/core/constant.h>
 
 #include <cstring>
 
@@ -39,8 +40,7 @@ static uinteger_t __shrink_zero(bignum_t& a, bool reverse=false) {
   return ret;
 }
 
-config_t Numeric::config_ = { 16, 32, 0.000000000001 };
-// config_t Numeric::config_ = { 8, 32, 0.000000000001 };
+config_t Numeric::config_ = { 32, 5, 0.000000000001 };
 
 Numeric::Numeric() { nan(); }
 
@@ -977,7 +977,7 @@ Numeric mul(const Numeric& num1, const Numeric& num2) {
   // 扩大几倍缩小几倍
   if (precision > product.size()) {
     fill_zero = precision - product.size();
-    while (fill_zero--) product.push_front(0);
+    while (fill_zero--) product.push_back(0);
   }
   decimal_park.insert(decimal_park.end(), product.begin(), product.begin()+precision);
   integer_park.insert(integer_park.end(), product.begin()+precision, product.end());
@@ -1223,11 +1223,9 @@ Numeric div(const Numeric& num1, const Numeric& num2) {
     decimal_park.insert(decimal_park.end(), quotient.begin(), quotient.begin()+precision);
     integer_park.insert(integer_park.end(), quotient.begin()+precision, quotient.end());
   } else if (num1.precision() < num2.precision()) {
-    precision = num2.precision() - num1.precision() + multiple;
-    if (precision > quotient.size()) {
-      fill_zero = precision - quotient.size();
-      while (fill_zero--) quotient.push_front(0);
-    }
+    precision = multiple;
+    fill_zero = num2.precision() - num1.precision();
+    while (fill_zero--) quotient.push_front(0);
     decimal_park.insert(decimal_park.end(), quotient.begin(), quotient.begin()+precision);
     integer_park.insert(integer_park.end(), quotient.begin()+precision, quotient.end());
     __shrink_zero(decimal_park, false); // 删除小数末尾的0
@@ -1765,7 +1763,6 @@ int sgn(const Numeric& num1) {
 Numeric sin(const Numeric& x) {
   Numeric res = "0";
   uinteger_t taylor_expansion = Numeric::config_.taylor_expansion;
-  taylor_expansion = 5;
   Numeric numerator, denominator = "1", item;
   for (uinteger_t i = 1; i <= taylor_expansion; i++) {
     numerator = pow(x, denominator);
@@ -1780,20 +1777,88 @@ Numeric sin(const Numeric& x) {
       res += item;
     }
     denominator += "2";
-    std::cout << "res = " << res.str() << std::endl;
+    // std::cout << "res = " << res.str() << std::endl;
   }
   return res;
 }
 
 Numeric cos(const Numeric& x) {
-  operation_is_not_implement_exception("%s", "cos");
-  Numeric res;
+  Numeric res = "1";
+  uinteger_t taylor_expansion = Numeric::config_.taylor_expansion;
+  Numeric numerator, denominator = "0", item = "1";
+  for (uinteger_t i = 1; i <= taylor_expansion; i++) {
+    if (i != 1) {
+      numerator = pow(x, denominator);
+      // std::cout << taylor_expansion << std::endl;
+      // std::cout << "numerator = " << numerator.str() << std::endl;
+      // std::cout << "factorial(denominator) = " << factorial(denominator).str() << std::endl;
+      item = div(numerator, factorial(denominator));
+      // std::cout << "item = " << item.str() << std::endl;
+      if (i % 2 == 0) {
+        res -= item;
+      } else {
+        res += item;
+      }
+    }
+    denominator += "2";
+    // std::cout << "res = " << res.str() << std::endl;
+  }
   return res;
 }
 
 Numeric tan(const Numeric& x) {
-  operation_is_not_implement_exception("%s", "tan");
-  Numeric res;
+  //
+  // 保证x < pi/2
+  //
+  if (abs(x) >= "1.5707963267948966") {
+    operand_value_is_invalid_exception("x >= PI/2, x = %s", x.str());
+  }
+  Numeric res = "0";
+  uinteger_t taylor_expansion = Numeric::config_.taylor_expansion;
+  Numeric numerator, denominator, item, exponent = "0";
+  Numeric n = "1", b;
+  for (uinteger_t i = 1; i <= taylor_expansion; i++) {
+    exponent = n * "2";
+    b = bernoulli_numbers(exponent);
+    numerator = pow("2", exponent) * (pow("2", exponent) - "1");
+    numerator *= b;
+    numerator *= pow("-1", sub(n, "1"));
+    denominator = factorial(exponent);
+    item = div(numerator, denominator);
+    item *= pow(x, sub(exponent, "1"));
+    // std::cout << "item = " << item.str() << std::endl;
+    res += item;
+    ++n;
+    // std::cout << "res = " << res.str() << std::endl;
+  }
+  return res;
+}
+
+Numeric cot(const Numeric& x) {
+  //
+  // 保证x < pi/2
+  //
+  if (abs(x) >= "1.5707963267948966") {
+    operand_value_is_invalid_exception("x >= PI/2, x = %s", x.str());
+  }
+  Numeric res = "0";
+  uinteger_t taylor_expansion = Numeric::config_.taylor_expansion;
+  Numeric numerator, denominator, item, exponent = "0";
+  Numeric n = "1", b;
+  for (uinteger_t i = 0; i < taylor_expansion; i++) {
+    exponent = n * "2";
+    b = bernoulli_numbers(exponent);
+    numerator = pow("2", exponent) * (pow("2", exponent) - "1");
+    numerator *= b;
+    numerator *= pow("-1", n);
+    denominator = factorial(exponent);
+    item = div(numerator, denominator);
+    item *= pow(x, sub(exponent, "1"));
+    // std::cout << "item = " << item.str() << std::endl;
+    res += item;
+    ++n;
+    // std::cout << "res = " << res.str() << std::endl;
+  }
   return res;
 }
 
@@ -1805,12 +1870,6 @@ Numeric csc(const Numeric& x) {
 
 Numeric sec(const Numeric& x) {
   operation_is_not_implement_exception("%s", "sec");
-  Numeric res;
-  return res;
-}
-
-Numeric cot(const Numeric& x) {
-  operation_is_not_implement_exception("%s", "cot");
   Numeric res;
   return res;
 }
@@ -1921,6 +1980,29 @@ Numeric arccoth(const Numeric& x) {
   operation_is_not_implement_exception("%s", "arccoth");
   Numeric res;
   return res;
+}
+
+/* 求伯努利数 */
+Numeric bernoulli_numbers(const Numeric& x) {
+  Numeric k = integer(x), _x = integer(x);
+  Numeric b = "0";
+  if (is_zero(_x)) {
+    return "1";
+  }
+
+  if ((_x > "1") && is_odd(_x)) {
+    return "0";
+  }
+
+  Numeric numerator = "0", denominator = "0", item = "0";
+  while(!is_zero(k)) {
+    k--;
+    numerator = factorial(_x) * bernoulli_numbers(k);
+    denominator = factorial(_x - k) * factorial(k) * (x - k + "1");
+    item = div(numerator, denominator);
+    b += (item * "-1");
+  }
+  return b;
 }
 
 void copy(Numeric& to, const Numeric& from) {
