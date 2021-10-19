@@ -982,6 +982,8 @@ Numeric mul(const Numeric& num1, const Numeric& num2) {
   decimal_park.insert(decimal_park.end(), product.begin(), product.begin()+precision);
   integer_park.insert(integer_park.end(), product.begin()+precision, product.end());
   if (integer_park.empty()) integer_park.push_back(0);
+  else if (integer_park.back() == 0) __shrink_zero(integer_park, true);
+  if (decimal_park.front() == 0) __shrink_zero(decimal_park, false);
 
   res.__set_integer_park(integer_park);
   res.__set_decimal_park(decimal_park);
@@ -1818,18 +1820,24 @@ Numeric tan(const Numeric& x) {
   Numeric numerator, denominator, item, exponent = "0";
   Numeric n = "1", b;
   for (uinteger_t i = 1; i <= taylor_expansion; i++) {
+    std::cout << "n = " << n.str() << std::endl;
     exponent = n * "2";
+    std::cout << "exponent = " << exponent.str() << std::endl;
     b = bernoulli_numbers(exponent);
+    std::cout << "b = " << b.str() << std::endl;
     numerator = pow("2", exponent) * (pow("2", exponent) - "1");
     numerator *= b;
     numerator *= pow("-1", sub(n, "1"));
+    std::cout << "numerator = " << numerator.str() << std::endl;
     denominator = factorial(exponent);
+    std::cout << "denominator = " << denominator.str() << std::endl;
     item = div(numerator, denominator);
-    item *= pow(x, sub(exponent, "1"));
-    // std::cout << "item = " << item.str() << std::endl;
+    --exponent;
+    item *= pow(x, exponent);
+    std::cout << "item = " << item.str() << std::endl;
     res += item;
     ++n;
-    // std::cout << "res = " << res.str() << std::endl;
+    std::cout << "res = " << res.str() << std::endl << std::endl;
   }
   return res;
 }
@@ -1838,17 +1846,17 @@ Numeric cot(const Numeric& x) {
   //
   // 保证x < pi/2
   //
-  if (abs(x) >= "1.5707963267948966") {
-    operand_value_is_invalid_exception("x >= PI/2, x = %s", x.str());
-  }
+  // if ((x < "0") || (x >= __pi)) {
+  //   operand_value_is_invalid_exception("x should in , x = %s", x.str());
+  // }
   Numeric res = "0";
   uinteger_t taylor_expansion = Numeric::config_.taylor_expansion;
   Numeric numerator, denominator, item, exponent = "0";
-  Numeric n = "1", b;
+  Numeric n = "0", b;
   for (uinteger_t i = 0; i < taylor_expansion; i++) {
     exponent = n * "2";
     b = bernoulli_numbers(exponent);
-    numerator = pow("2", exponent) * (pow("2", exponent) - "1");
+    numerator = pow("2", exponent);
     numerator *= b;
     numerator *= pow("-1", n);
     denominator = factorial(exponent);

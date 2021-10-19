@@ -5,8 +5,11 @@
 namespace mynum {
 namespace core {
 
-extern Numeric constant_pi;
-extern Numeric constant_e;
+extern Numeric __pi;
+extern Numeric __e;
+
+// Numeric pi(uinteger precision);
+// Numeric e(uinteger precision);
 
 } // namespace core
 } // namespace mynum
