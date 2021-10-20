@@ -2006,7 +2006,7 @@ Numeric bernoulli_numbers(const Numeric& x) {
   while(!is_zero(k)) {
     k--;
     numerator = factorial(_x) * bernoulli_numbers(k);
-    denominator = factorial(_x - k) * factorial(k) * (x - k + "1");
+    denominator = factorial(_x - k) * factorial(k) * (_x - k + "1");
     item = div(numerator, denominator);
     b += (item * "-1");
   }

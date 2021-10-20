@@ -41,9 +41,33 @@ def cos(x):
     denominator = denominator + 2
   return res
 
-x = 0.5235987666666667
-y = cos(x)
-print("y = ", y)
+def bernoulli_numbers(x):
+  k = x
+  b = 0
+  if x == 0:
+    return 1
+
+  if ((x > 1) and (x % 2 == 1)):
+    return 0
+  numerator = 0
+  denominator = 0
+  item = 0
+
+  while k != 0:
+    k -= 1
+    numerator = np.math.factorial(x) * bernoulli_numbers(k)
+    denominator = np.math.factorial(x - k) * np.math.factorial(k) * (x - k + 1)
+    item = numerator / denominator
+    b += (item * -1)
+  return b
+
+for i in range(0, 10):
+  b = bernoulli_numbers(i)
+  print(i, ") ", b)
+
+# x = 0.5235987666666667
+# y = cos(x)
+# print("y = ", y)
 
 """
 sin(pi/6)
