@@ -5,7 +5,17 @@ namespace core {
 
 Numeric __pi = "3.141592653589793238462643383279502884197169399375105820974944";
 Numeric __half_pi = "1.570796326794896619231321691639751442098584699687552910487472";
-Numeric __e;
+Numeric __e = "2.7182818284590452353602874713527";
+
+Numeric approximate_pi(const Numeric& precision) {
+  Numeric res;
+  return res;
+}
+
+Numeric approximate_e(const Numeric& precision) {
+  Numeric res;
+  return res;
+}
 
 } // namespace core
 } // namespace mynum

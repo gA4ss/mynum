@@ -17,7 +17,7 @@ typedef std::pair<std::vector<Numeric>, std::vector<Numeric> > fraction_vector_t
 typedef struct Config {
   uinteger_t max_quotient_borrow;
   uinteger_t taylor_expansion;
-  Numeric epsilon;
+  std::string epsilon;
 } config_t;
 
 class Numeric {
@@ -145,6 +145,7 @@ public:
   // 各种代数数
   //
   friend fraction_vector_t bernoulli_numbers(uinteger_t n);
+  friend Numeric euler_numbers(uinteger_t n);
 
   //
   // 友元重载运算符
@@ -391,6 +392,7 @@ Numeric arccoth(const Numeric& x);
 // 各种代数数
 //
 fraction_vector_t bernoulli_numbers(uinteger_t n);
+Numeric euler_numbers(uinteger_t n);
 
 //
 // 友元重载运算符

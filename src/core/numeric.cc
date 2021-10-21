@@ -1231,6 +1231,7 @@ Numeric div(const Numeric& num1, const Numeric& num2) {
     decimal_park.insert(decimal_park.end(), quotient.begin(), quotient.begin()+precision);
     integer_park.insert(integer_park.end(), quotient.begin()+precision, quotient.end());
     __shrink_zero(decimal_park, false); // 删除小数末尾的0
+    __shrink_zero(integer_park, true); // 删除整数末尾的0
     // integer_park.insert(integer_park.end(), quotient.end()-precision-1, quotient.end());
     // decimal_park.insert(decimal_park.end(), quotient.begin(), quotient.end()-precision-1);
   } else {
@@ -1810,74 +1811,136 @@ Numeric cos(const Numeric& x) {
 
 Numeric tan(const Numeric& x) {
   //
-  // 保证x < pi/2
+  // 保证 |x| < pi/2
   //
-  if ((abs(x) > __half_pi) || ((abs(x) - __half_pi) <= config_.epsilon)) {
-    operand_value_is_invalid_exception("x >= PI/2, x = %s", x.str());
+  if ((abs(x) > __half_pi) || (__half_pi - (abs(x)) <= Numeric::config_.epsilon)) {
+    operand_value_is_invalid_exception("x >= PI/2, x = %s", x.str().c_str());
   }
-  Numeric res = "0";
+
+  //
+  // 计算贝努利数
+  // bernoulli_numbers返回的是从第一项开始的，而tan计算是从贝努利第二项目
+  // 当作第一项(1/6)，所以这里比泰勒展开多生成一次。
+  //
   uinteger_t taylor_expansion = Numeric::config_.taylor_expansion;
+  fraction_vector_t bs = bernoulli_numbers(taylor_expansion+1);
+
+  Numeric res = "0";
   Numeric numerator, denominator, item, exponent = "0";
-  Numeric n = "1", b;
+  Numeric n = "1", b; //, p;
   for (uinteger_t i = 1; i <= taylor_expansion; i++) {
-    std::cout << "n = " << n.str() << std::endl;
+    // std::cout << "n = " << n.str() << std::endl;
     exponent = n * "2";
-    std::cout << "exponent = " << exponent.str() << std::endl;
-    b = bernoulli_numbers(exponent);
-    std::cout << "b = " << b.str() << std::endl;
+    // std::cout << "exponent = " << exponent.str() << std::endl;
+    b = div(bs.first[i], bs.second[i]);
+    // std::cout << "b = " << b.str() << std::endl;
     numerator = pow("2", exponent) * (pow("2", exponent) - "1");
+    // std::cout << "constant = " << numerator.str() << std::endl;
     numerator *= b;
-    numerator *= pow("-1", sub(n, "1"));
-    std::cout << "numerator = " << numerator.str() << std::endl;
+    // numerator *= pow("-1", sub(n, "1"));
+    // std::cout << "numerator = " << numerator.str() << std::endl;
     denominator = factorial(exponent);
-    std::cout << "denominator = " << denominator.str() << std::endl;
+    // std::cout << "denominator = " << denominator.str() << std::endl;
     item = div(numerator, denominator);
+    // std::cout << "fraction = " << item.str() << std::endl;
     --exponent;
+    // p = pow(x, exponent);
+    // std::cout << "pow = " << p.str() << std::endl;
+    // item *= p;
     item *= pow(x, exponent);
-    std::cout << "item = " << item.str() << std::endl;
+    // std::cout << "item = " << item.str() << std::endl;
     res += item;
     ++n;
-    std::cout << "res = " << res.str() << std::endl << std::endl;
+    // std::cout << "res = " << res.str() << std::endl << std::endl;
   }
   return res;
 }
 
 Numeric cot(const Numeric& x) {
   //
-  // 保证x < pi/2
+  // 保证 0< |x| < pi
   //
-  // if ((x < "0") || (x >= __pi)) {
-  //   operand_value_is_invalid_exception("x should in , x = %s", x.str());
-  // }
-  Numeric res = "0";
-  // uinteger_t taylor_expansion = Numeric::config_.taylor_expansion;
-  // Numeric numerator, denominator, item, exponent = "0";
-  // Numeric n = "0", b;
+  if ((is_zero(x)) || 
+     (abs(x) > __pi) ||
+     (__pi - (abs(x)) <= Numeric::config_.epsilon)) {
+    operand_value_is_invalid_exception("0 < x < PI, x = %s", x.str().c_str());
+  }
+  uinteger_t taylor_expansion = Numeric::config_.taylor_expansion;
+  fraction_vector_t bs = bernoulli_numbers(taylor_expansion);
+
+  Numeric res = "1";
+  Numeric numerator, denominator, exponent, item;
+  Numeric n = "1", b;
+  for (uinteger_t i = 0; i < taylor_expansion; i++) {
+    if (i == 0) {
+      res /= x;
+      continue;
+    }
+    exponent = n * "2";
+    // std::cout << "exponent = " << exponent.str() << std::endl;
+    b = div(bs.first[i], bs.second[i]);
+    // std::cout << "b = " << b.str() << std::endl;
+    numerator = pow("2", exponent);
+    // std::cout << "p = " << numerator.str() << std::endl;
+    numerator *= b;
+    // std::cout << "numerator = " << numerator.str() << std::endl;
+    denominator = factorial(exponent);
+    // std::cout << "denominator = " << denominator.str() << std::endl;
+    item = div(numerator, denominator);
+    // std::cout << "fraction = " << item.str() << std::endl;
+    --exponent;
+    item *= pow(x, exponent);
+    // std::cout << "item = " << item.str() << std::endl;
+    res -= item;
+    ++n;
+    // std::cout << "res = " << res.str() << std::endl << std::endl;
+  }
+  return res;
+}
+
+Numeric sec(const Numeric& x) {
+  //
+  // 保证 |x| < pi/2
+  //
+  if ((abs(x) > __half_pi) || (__half_pi - (abs(x)) <= Numeric::config_.epsilon)) {
+    operand_value_is_invalid_exception("x >= PI/2, x = %s", x.str().c_str());
+  }
+
+  uinteger_t taylor_expansion = Numeric::config_.taylor_expansion;
+  fraction_vector_t bs = bernoulli_numbers(taylor_expansion);
+
+  Numeric res = "1";
+  Numeric numerator, denominator, exponent, item;
+  Numeric n = "1", b;
   // for (uinteger_t i = 0; i < taylor_expansion; i++) {
+  //   if (i == 0) {
+  //     res /= x;
+  //     continue;
+  //   }
   //   exponent = n * "2";
-  //   b = bernoulli_numbers(exponent);
+  //   // std::cout << "exponent = " << exponent.str() << std::endl;
+  //   b = div(bs.first[i], bs.second[i]);
+  //   // std::cout << "b = " << b.str() << std::endl;
   //   numerator = pow("2", exponent);
+  //   // std::cout << "p = " << numerator.str() << std::endl;
   //   numerator *= b;
-  //   numerator *= pow("-1", n);
+  //   // std::cout << "numerator = " << numerator.str() << std::endl;
   //   denominator = factorial(exponent);
+  //   // std::cout << "denominator = " << denominator.str() << std::endl;
   //   item = div(numerator, denominator);
-  //   item *= pow(x, sub(exponent, "1"));
+  //   // std::cout << "fraction = " << item.str() << std::endl;
+  //   --exponent;
+  //   item *= pow(x, exponent);
   //   // std::cout << "item = " << item.str() << std::endl;
-  //   res += item;
+  //   res -= item;
   //   ++n;
-  //   // std::cout << "res = " << res.str() << std::endl;
+  //   // std::cout << "res = " << res.str() << std::endl << std::endl;
   // }
   return res;
 }
 
 Numeric csc(const Numeric& x) {
   operation_is_not_implement_exception("%s", "csc");
-  Numeric res;
-  return res;
-}
-
-Numeric sec(const Numeric& x) {
-  operation_is_not_implement_exception("%s", "sec");
   Numeric res;
   return res;
 }
@@ -1996,7 +2059,7 @@ fraction_vector_t bernoulli_numbers(uinteger_t n) {
   uinteger_t h = 0, k, i, j = 1, tog = 1;
 
   if (n == 0) {
-    operand_value_is_invalid_exception("n is not equal 0 , n = %s", n.str());
+    operand_value_is_invalid_exception("n is not equal 0 , n = %ul", n);
   }
 
   std::vector<Numeric> T = std::vector<Numeric>(n, "0");
@@ -2029,6 +2092,12 @@ fraction_vector_t bernoulli_numbers(uinteger_t n) {
   }
 
   return fraction_vector_t(N, D);
+}
+
+Numeric euler_numbers(uinteger_t n) {
+  Numeric res;
+  
+  return res;
 }
 
 void copy(Numeric& to, const Numeric& from) {

@@ -134,6 +134,11 @@ TEST(Numeric, DecimalsDiv) {
   z = div(x, y);
   EXPECT_TRUE(z - "0.16666666666666666" < "0.0001") << "z = " << z.str();
   // std::cout << "1 / 6 = "  << z.str() << std::endl;
+
+  x = "1";
+  y = "6.0";
+  z = div(x, y);
+  EXPECT_TRUE(z - "0.16666666666666666" < "0.0001") << "z = " << z.str();
 }
 
 TEST(Numeric, IDiv) {
@@ -435,11 +440,12 @@ TEST(Numeric, Trigonometric) {
   EXPECT_TRUE(y - "0.8660254037844387" < "0.0001") << "y = " << y.str();
 
   y = tan(x);
-  std::cout << "tan(pi/6) = " << y.str() << std::endl;
-  // EXPECT_TRUE(y - "0.5773502691896257" < "0.0001") << "y = " << y.str();
+  // std::cout << "tan(pi/6) = " << y.str() << std::endl;
+  EXPECT_TRUE(y - "0.5773502691896257" < "0.0001") << "y = " << y.str();
 
-  // y = cot(x);
-  // std::cout << "y1 = " << y.str() << std::endl;
+  y = cot(x);
+  std::cout << "y1 = " << y.str() << std::endl;
+  EXPECT_TRUE(y - "1.7320508075688774" < "0.0001") << "y = " << y.str();
   // y = "1";
   // y /= tan(x);
   // std::cout << "y2 = " << y.str() << std::endl;

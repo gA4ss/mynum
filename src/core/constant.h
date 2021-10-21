@@ -9,8 +9,8 @@ extern Numeric __pi;
 extern Numeric __half_pi;
 extern Numeric __e;
 
-// Numeric pi(uinteger precision);
-// Numeric e(uinteger precision);
+Numeric approximate_pi(const Numeric& precision);
+Numeric approximate_e(const Numeric& precision);
 
 } // namespace core
 } // namespace mynum
