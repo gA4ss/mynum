@@ -5,7 +5,6 @@ using namespace mynum;
 using namespace mynum::core;
 
 typedef std::pair<std::vector<Numeric>, std::vector<Numeric> > fraction_vector_t;
-
 fraction_vector_t test_bernoulli_numbers(uinteger_t n) {
   Numeric g, den = "1", p = "1";
   uinteger_t h = 0, k, i, j = 1, tog = 1;

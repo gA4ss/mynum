@@ -56,8 +56,13 @@ set(BUILD_TEST TRUE)
 if(BUILD_TEST)
 add_executable(test_numeric ${CORE_DIRECTORY}/test/test_numeric.cc)
 target_link_libraries(test_numeric mynum gtest pthread)
+
 add_executable(test_bernoulli_numbers ${CORE_DIRECTORY}/test/test_bernoulli_numbers.cc)
 target_link_libraries(test_bernoulli_numbers mynum my uuid gtest pthread)
+
+add_executable(test_euler_numbers ${CORE_DIRECTORY}/test/test_euler_numbers.cc)
+target_link_libraries(test_euler_numbers mynum my uuid gtest pthread)
+
 add_executable(test_number ${NUMBER_DIRECTORY}/test/test_number.cc)
 target_link_libraries(test_number mynum my uuid gtest pthread)
 endif(BUILD_TEST)
