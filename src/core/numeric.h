@@ -9,13 +9,15 @@
 namespace mynum {
 namespace core {
 
+class Numeric;
 typedef int8_t unit_t;
 typedef std::deque<unit_t> bignum_t;
+typedef std::pair<std::vector<Numeric>, std::vector<Numeric> > fraction_vector_t;
 
 typedef struct Config {
   uinteger_t max_quotient_borrow;
   uinteger_t taylor_expansion;
-  float_t epsilon;
+  Numeric epsilon;
 } config_t;
 
 class Numeric {
@@ -142,7 +144,7 @@ public:
   //
   // 各种代数数
   //
-  friend Numeric bernoulli_numbers(const Numeric& x);
+  friend fraction_vector_t bernoulli_numbers(uinteger_t n);
 
   //
   // 友元重载运算符
@@ -388,7 +390,7 @@ Numeric arccoth(const Numeric& x);
 //
 // 各种代数数
 //
-Numeric bernoulli_numbers(const Numeric& x);
+fraction_vector_t bernoulli_numbers(uinteger_t n);
 
 //
 // 友元重载运算符

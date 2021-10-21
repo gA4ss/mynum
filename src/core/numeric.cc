@@ -40,7 +40,7 @@ static uinteger_t __shrink_zero(bignum_t& a, bool reverse=false) {
   return ret;
 }
 
-config_t Numeric::config_ = { 32, 5, 0.000000000001 };
+config_t Numeric::config_ = { 32, 5, "0.000000000001" };
 
 Numeric::Numeric() { nan(); }
 
@@ -1812,7 +1812,7 @@ Numeric tan(const Numeric& x) {
   //
   // 保证x < pi/2
   //
-  if (abs(x) >= "1.5707963267948966") {
+  if ((abs(x) > __half_pi) || ((abs(x) - __half_pi) <= config_.epsilon)) {
     operand_value_is_invalid_exception("x >= PI/2, x = %s", x.str());
   }
   Numeric res = "0";
@@ -1850,23 +1850,23 @@ Numeric cot(const Numeric& x) {
   //   operand_value_is_invalid_exception("x should in , x = %s", x.str());
   // }
   Numeric res = "0";
-  uinteger_t taylor_expansion = Numeric::config_.taylor_expansion;
-  Numeric numerator, denominator, item, exponent = "0";
-  Numeric n = "0", b;
-  for (uinteger_t i = 0; i < taylor_expansion; i++) {
-    exponent = n * "2";
-    b = bernoulli_numbers(exponent);
-    numerator = pow("2", exponent);
-    numerator *= b;
-    numerator *= pow("-1", n);
-    denominator = factorial(exponent);
-    item = div(numerator, denominator);
-    item *= pow(x, sub(exponent, "1"));
-    // std::cout << "item = " << item.str() << std::endl;
-    res += item;
-    ++n;
-    // std::cout << "res = " << res.str() << std::endl;
-  }
+  // uinteger_t taylor_expansion = Numeric::config_.taylor_expansion;
+  // Numeric numerator, denominator, item, exponent = "0";
+  // Numeric n = "0", b;
+  // for (uinteger_t i = 0; i < taylor_expansion; i++) {
+  //   exponent = n * "2";
+  //   b = bernoulli_numbers(exponent);
+  //   numerator = pow("2", exponent);
+  //   numerator *= b;
+  //   numerator *= pow("-1", n);
+  //   denominator = factorial(exponent);
+  //   item = div(numerator, denominator);
+  //   item *= pow(x, sub(exponent, "1"));
+  //   // std::cout << "item = " << item.str() << std::endl;
+  //   res += item;
+  //   ++n;
+  //   // std::cout << "res = " << res.str() << std::endl;
+  // }
   return res;
 }
 
@@ -1991,26 +1991,44 @@ Numeric arccoth(const Numeric& x) {
 }
 
 /* 求伯努利数 */
-Numeric bernoulli_numbers(const Numeric& x) {
-  Numeric k = integer(x), _x = integer(x);
-  Numeric b = "0";
-  if (is_zero(_x)) {
-    return "1";
+fraction_vector_t bernoulli_numbers(uinteger_t n) {
+  Numeric g, den = "1", p = "1";
+  uinteger_t h = 0, k, i, j = 1, tog = 1;
+
+  if (n == 0) {
+    operand_value_is_invalid_exception("n is not equal 0 , n = %s", n.str());
   }
 
-  if ((_x > "1") && is_odd(_x)) {
-    return "0";
+  std::vector<Numeric> T = std::vector<Numeric>(n, "0");
+  std::vector<Numeric> N = std::vector<Numeric>(n, "0");
+  std::vector<Numeric> D = std::vector<Numeric>(n, "0");
+
+  N[0] = "1";
+  D[0] = "1";
+
+  if (n == 1) return fraction_vector_t(N, D);
+
+  T[1] = "1";
+  for (i = 3; i <= 2 * n; i++) {
+    if (tog) {
+      p *= "4";
+      den = (p - "1") * "2";
+
+      for (k = h++; k > 0; k--)
+        T[k] += T[k + 1];
+    } else {
+      for (k = 1; k <= h; k++)
+        T[k] += T[k - 1];
+      
+      g = gcd(T[h], den);
+      N[j] = T[h] / g;
+      D[j] = den / g;
+      j++;
+    }
+    tog = 1 - tog;
   }
 
-  Numeric numerator = "0", denominator = "0", item = "0";
-  while(!is_zero(k)) {
-    k--;
-    numerator = factorial(_x) * bernoulli_numbers(k);
-    denominator = factorial(_x - k) * factorial(k) * (_x - k + "1");
-    item = div(numerator, denominator);
-    b += (item * "-1");
-  }
-  return b;
+  return fraction_vector_t(N, D);
 }
 
 void copy(Numeric& to, const Numeric& from) {

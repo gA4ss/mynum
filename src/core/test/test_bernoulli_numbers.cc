@@ -1,13 +1,14 @@
 #include <stdlib.h>
 #include <mynum/core/numeric.h>
 
+using namespace mynum;
 using namespace mynum::core;
 
 typedef std::pair<std::vector<Numeric>, std::vector<Numeric> > fraction_vector_t;
 
-fraction_vector_t test_bernoulli_numbers(int n) {
+fraction_vector_t test_bernoulli_numbers(uinteger_t n) {
   Numeric g, den = "1", p = "1";
-  long h = 0, k, i, j = 1, tog = 1;
+  uinteger_t h = 0, k, i, j = 1, tog = 1;
 
   if (n == 0) { ; }
 
@@ -50,3 +51,25 @@ int main(void) {
     std::cout << b.first[i].str() << " / " << b.second[i].str() << std::endl;
   return 0;
 }
+
+// Numeric bernoulli_numbers(const Numeric& x) {
+//   Numeric k = integer(x), _x = integer(x);
+//   Numeric b = "0";
+//   if (is_zero(_x)) {
+//     return "1";
+//   }
+
+//   if ((_x > "1") && is_odd(_x)) {
+//     return "0";
+//   }
+
+//   Numeric numerator = "0", denominator = "0", item = "0";
+//   while(!is_zero(k)) {
+//     k--;
+//     numerator = factorial(_x) * bernoulli_numbers(k);
+//     denominator = factorial(_x - k) * factorial(k) * (_x - k + "1");
+//     item = div(numerator, denominator);
+//     b += (item * "-1");
+//   }
+//   return b;
+// }

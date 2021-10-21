@@ -6,6 +6,7 @@ namespace mynum {
 namespace core {
 
 extern Numeric __pi;
+extern Numeric __half_pi;
 extern Numeric __e;
 
 // Numeric pi(uinteger precision);
