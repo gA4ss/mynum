@@ -4,46 +4,44 @@
 using namespace mynum;
 using namespace mynum::core;
 
-typedef std::vector<Numeric> array_t;
-
 // m : input maximal index requested. Must be a power of 2.
 array_t test_euler_numbers(uinteger_t m) {
-  array_t es = array_t(2*m+1, "0");
+  if (m == 0)
+    operand_value_is_invalid_exception("m should greater than 0, m = %ul", m);
+  if (m % 2 != 0)
+    m++;
+
+  array_t es = array_t(m+1, "0");
+  array_t buf = array_t(2*m+1, "0");
+  buf[0] = "1";
   es[0] = "1";
 
   // for (uinteger_t j = 1; j <= m; j += 2)
-  //   es[j] = "0";
+  //  es[j] = "0";
 
   Numeric sum = "0", binom = "1", item;
-  for (uinteger_t n = 1; n <= m/2; n++) {
+  for (uinteger_t n = 1; n <= m; n++) {
     sum = "0";
     binom = "1";
     for (uinteger_t r = 0; r < n; r++) {
-      item = es[2*r];
+      item = buf[2*r];
       item *= binom;
       sum += item;
 
       binom *= std::to_string((2*n-2*r-1)*(n-r)).c_str();
       binom /= std::to_string((r+1)*(2*r+1)).c_str();
     }
-    es[2*n] = -sum;
+    buf[2*n] = -sum;
+    es[n] = -sum;
   }
-
-  array_t res = array_t(m+1, "0");
-  for (uinteger_t i = 0, j = 0; i <= m; i+=2, j++) {
-    std::cout << "i = " << i << " " << "j = " << j << std::endl;
-    std::cout << es[i].str() << std::endl;
-    res[j] = es[i];
-    std::cout << res[j].str() << std::endl;
-  }
-  return res;
+  return es;
 }
 
 int main() {
-  array_t res = test_euler_numbers(8);
-  // for (int i = 0; i <= 8; i+=2) {
-  //   std::cout << res[i].str() << std::endl;
-  // }
+  array_t res = test_euler_numbers(20);
+  for (int i = 0; i < 20; i++) {
+    std::cout << res[i].str() << std::endl;
+  }
   return 0;
 }
 

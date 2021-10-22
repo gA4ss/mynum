@@ -1099,6 +1099,9 @@ static bignum_t __div(const bignum_t& a, const bignum_t& b,
     // 2.被除数没有多余的位。
     // 3.商的精度足够了。
     //
+    // FIXME : 这里存在一个BUG。当 1 / 小数位数很多超过 max_quotient_borrow
+    //         那么这里会因为借位耗禁而终止运算，造成误差过大。
+    //
     if ((__cmp(remainder, {0}) == 0) && (dividend_remainder_digits == 0))
       break;
     if (max_quotient_borrow != kNumericUnitMax) {
@@ -1814,7 +1817,7 @@ Numeric tan(const Numeric& x) {
   // 保证 |x| < pi/2
   //
   if ((abs(x) > __half_pi) || (__half_pi - (abs(x)) <= Numeric::config_.epsilon)) {
-    operand_value_is_invalid_exception("x >= PI/2, x = %s", x.str().c_str());
+    operand_value_is_invalid_exception("|x| < PI/2, x = %s", x.str().c_str());
   }
 
   //
@@ -1903,45 +1906,75 @@ Numeric sec(const Numeric& x) {
   // 保证 |x| < pi/2
   //
   if ((abs(x) > __half_pi) || (__half_pi - (abs(x)) <= Numeric::config_.epsilon)) {
-    operand_value_is_invalid_exception("x >= PI/2, x = %s", x.str().c_str());
+    operand_value_is_invalid_exception("|x| < PI/2, x = %s", x.str().c_str());
   }
 
   uinteger_t taylor_expansion = Numeric::config_.taylor_expansion;
-  fraction_vector_t bs = bernoulli_numbers(taylor_expansion);
+  array_t es = euler_numbers(taylor_expansion);
 
   Numeric res = "1";
   Numeric numerator, denominator, exponent, item;
-  Numeric n = "1", b;
-  // for (uinteger_t i = 0; i < taylor_expansion; i++) {
-  //   if (i == 0) {
-  //     res /= x;
-  //     continue;
-  //   }
-  //   exponent = n * "2";
-  //   // std::cout << "exponent = " << exponent.str() << std::endl;
-  //   b = div(bs.first[i], bs.second[i]);
-  //   // std::cout << "b = " << b.str() << std::endl;
-  //   numerator = pow("2", exponent);
-  //   // std::cout << "p = " << numerator.str() << std::endl;
-  //   numerator *= b;
-  //   // std::cout << "numerator = " << numerator.str() << std::endl;
-  //   denominator = factorial(exponent);
-  //   // std::cout << "denominator = " << denominator.str() << std::endl;
-  //   item = div(numerator, denominator);
-  //   // std::cout << "fraction = " << item.str() << std::endl;
-  //   --exponent;
-  //   item *= pow(x, exponent);
-  //   // std::cout << "item = " << item.str() << std::endl;
-  //   res -= item;
-  //   ++n;
-  //   // std::cout << "res = " << res.str() << std::endl << std::endl;
-  // }
+  Numeric n = "1";
+  for (uinteger_t i = 0; i < taylor_expansion; i++) {
+    if (i == 0) {
+      continue;
+    }
+    exponent = n * "2";
+    // std::cout << "exponent = " << exponent.str() << std::endl;
+    numerator = abs(es[i]);
+    // std::cout << "numerator = " << numerator.str() << std::endl;
+    denominator = factorial(exponent);
+    // std::cout << "denominator = " << denominator.str() << std::endl;
+    item = div(numerator, denominator);
+    // std::cout << "fraction = " << item.str() << std::endl;
+    item *= pow(x, exponent);
+    // std::cout << "item = " << item.str() << std::endl;
+    res += item;
+    ++n;
+    // std::cout << "res = " << res.str() << std::endl << std::endl;
+  }
   return res;
 }
 
 Numeric csc(const Numeric& x) {
-  operation_is_not_implement_exception("%s", "csc");
-  Numeric res;
+  //
+  // 保证 0< |x| < pi
+  //
+  if ((is_zero(x)) || 
+     (abs(x) > __pi) ||
+     (__pi - (abs(x)) <= Numeric::config_.epsilon)) {
+    operand_value_is_invalid_exception("0 < x < PI, x = %s", x.str().c_str());
+  }
+  uinteger_t taylor_expansion = Numeric::config_.taylor_expansion;
+  fraction_vector_t bs = bernoulli_numbers(taylor_expansion);
+
+  Numeric res = div("1", x);
+  Numeric numerator, denominator, item, exponent = "0";
+  Numeric n = "1", b; //, p;
+  for (uinteger_t i = 1; i < taylor_expansion; i++) {
+    // std::cout << "n = " << n.str() << std::endl;
+    exponent = n * "2";
+    // std::cout << "exponent = " << exponent.str() << std::endl;
+    denominator = factorial(exponent);
+    // std::cout << "denominator = " << denominator.str() << std::endl;
+    --exponent;   // 2n-1
+    b = div(bs.first[i], bs.second[i]);
+    // std::cout << "b = " << b.str() << std::endl;
+    numerator = "2" * sub(pow("2", exponent), "1");
+    // std::cout << "constant = " << numerator.str() << std::endl;
+    numerator *= b;
+    // std::cout << "numerator = " << numerator.str() << std::endl;
+    item = div(numerator, denominator);
+    // std::cout << "fraction = " << item.str() << std::endl;
+    // p = pow(x, exponent);
+    // std::cout << "pow = " << p.str() << std::endl;
+    // item *= p;
+    item *= pow(x, exponent);
+    // std::cout << "item = " << item.str() << std::endl;
+    res += item;
+    ++n;
+    // std::cout << "res = " << res.str() << std::endl << std::endl;
+  }
   return res;
 }
 
@@ -2094,10 +2127,36 @@ fraction_vector_t bernoulli_numbers(uinteger_t n) {
   return fraction_vector_t(N, D);
 }
 
-Numeric euler_numbers(uinteger_t n) {
-  Numeric res;
-  
-  return res;
+array_t euler_numbers(uinteger_t m) {
+  if (m == 0)
+    operand_value_is_invalid_exception("m should greater than 0, m = %ul", m);
+  if (m % 2 != 0)
+    m++;
+
+  array_t es = array_t(m+1, "0");
+  array_t buf = array_t(2*m+1, "0");
+  buf[0] = "1";
+  es[0] = "1";
+
+  // for (uinteger_t j = 1; j <= m; j += 2)
+  //  es[j] = "0";
+
+  Numeric sum = "0", binom = "1", item;
+  for (uinteger_t n = 1; n <= m; n++) {
+    sum = "0";
+    binom = "1";
+    for (uinteger_t r = 0; r < n; r++) {
+      item = buf[2*r];
+      item *= binom;
+      sum += item;
+
+      binom *= std::to_string((2*n-2*r-1)*(n-r)).c_str();
+      binom /= std::to_string((r+1)*(2*r+1)).c_str();
+    }
+    buf[2*n] = -sum;
+    es[n] = -sum;
+  }
+  return es;
 }
 
 void copy(Numeric& to, const Numeric& from) {

@@ -434,22 +434,34 @@ TEST(Numeric, Pow) {
 TEST(Numeric, Trigonometric) {
   Numeric x = "0.5235987666666667", y;
   y = sin(x);
-  EXPECT_TRUE(y - "0.5" < "0.0001") << "y = " << y.str();
+  EXPECT_TRUE(abs(y - "0.5") < "0.0001") << "y = " << y.str();
 
   y = cos(x);
-  EXPECT_TRUE(y - "0.8660254037844387" < "0.0001") << "y = " << y.str();
+  // std::cout << "cos(pi/6) = " << y.str() << std::endl;
+  EXPECT_TRUE(abs(y - "0.8660254037844387") < "0.0001") << "y = " << y.str();
 
   y = tan(x);
   // std::cout << "tan(pi/6) = " << y.str() << std::endl;
-  EXPECT_TRUE(y - "0.5773502691896257" < "0.0001") << "y = " << y.str();
+  EXPECT_TRUE(abs(y - "0.5773502691896257") < "0.0001") << "y = " << y.str();
 
   y = cot(x);
-  std::cout << "y1 = " << y.str() << std::endl;
-  EXPECT_TRUE(y - "1.7320508075688774" < "0.0001") << "y = " << y.str();
-  // y = "1";
-  // y /= tan(x);
-  // std::cout << "y2 = " << y.str() << std::endl;
-  // EXPECT_TRUE(y - "0.5773502691896257" < "0.0001") << "y = " << y.str();
+  // std::cout << "cot(pi/6) = " << y.str() << std::endl;
+  EXPECT_TRUE(abs(y - "1.7320508075688774") < "0.0001") << "y = " << y.str();
+
+  y = sec(x);
+  // std::cout << "sec(pi/6) = " << y.str() << std::endl;
+  // y = div("1", "0.8660254037844387");
+  // std::cout << "1/0.8660254037844387 = " << y.str() << std::endl;
+
+  // Numeric c = cos(x);
+  // std::cout << "c = " << c.str() << std::endl;
+  // y = div("1", c);
+  // std::cout << "1/cos(pi/6) = " << y.str() << std::endl;
+  EXPECT_TRUE(abs(y - "1.1547005383792515") < "0.0001") << "y = " << y.str();
+
+  y = csc(x);
+  EXPECT_TRUE(abs(y - "2.0000000000000004") < "0.0001") << "y = " << y.str();
+  // std::cout << "csc(pi/6) = " << y.str() << std::endl;
 }
 
 int main(int argc, char* argv[]) {

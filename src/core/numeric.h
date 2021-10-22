@@ -13,6 +13,7 @@ class Numeric;
 typedef int8_t unit_t;
 typedef std::deque<unit_t> bignum_t;
 typedef std::pair<std::vector<Numeric>, std::vector<Numeric> > fraction_vector_t;
+typedef std::vector<Numeric> array_t;
 
 typedef struct Config {
   uinteger_t max_quotient_borrow;
@@ -145,7 +146,7 @@ public:
   // 各种代数数
   //
   friend fraction_vector_t bernoulli_numbers(uinteger_t n);
-  friend Numeric euler_numbers(uinteger_t n);
+  friend array_t euler_numbers(uinteger_t m);
 
   //
   // 友元重载运算符
@@ -392,7 +393,7 @@ Numeric arccoth(const Numeric& x);
 // 各种代数数
 //
 fraction_vector_t bernoulli_numbers(uinteger_t n);
-Numeric euler_numbers(uinteger_t n);
+array_t euler_numbers(uinteger_t m);
 
 //
 // 友元重载运算符
