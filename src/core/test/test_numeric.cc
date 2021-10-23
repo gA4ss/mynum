@@ -464,6 +464,38 @@ TEST(Numeric, Trigonometric) {
   // std::cout << "csc(pi/6) = " << y.str() << std::endl;
 }
 
+TEST(Numeric, ArcTrigonometric) {
+  Numeric x = "0.5", y;
+  y = arcsin(x);
+  // std::cout << "arcsin(0.5) = " << y.str() << std::endl;
+  EXPECT_TRUE(abs(y - "0.5235987666666667") < "0.0001") << "y = " << y.str();
+
+  x = "0.8660254037844387";
+  y = arccos(x);
+  // std::cout << "arccos(0.8660254037844387) = " << y.str() << std::endl;
+  EXPECT_TRUE(abs(y - "0.5235987666666667") < "0.0001") << "y = " << y.str();
+
+  x = "0.5773502691896257";
+  y = arctan(x);
+  // std::cout << "arccos(0.5773502691896257) = " << y.str() << std::endl;
+  EXPECT_TRUE(abs(y - "0.5235987666666667") < "0.0001") << "y = " << y.str();
+
+  x = "1.1547005383792515";
+  y = arcsec(x);
+  // std::cout << "arcsec(1.1547005383792515) = " << y.str() << std::endl;
+  EXPECT_TRUE(abs(y - "0.5235987666666667") < "0.0001") << "y = " << y.str();
+
+  x = "2.0000000000000004";
+  y = arccsc(x);
+  // std::cout << "arccsc(2.0000000000000004) = " << y.str() << std::endl;
+  EXPECT_TRUE(abs(y - "0.5235987666666667") < "0.0001") << "y = " << y.str();
+
+  x = "1.7320508075688774";
+  y = arccot(x);
+  // std::cout << "arccot(1.7320508075688774) = " << y.str() << std::endl;
+  EXPECT_TRUE(abs(abs(y) - "0.5235987666666667") < "0.0001") << "y = " << y.str();
+}
+
 int main(int argc, char* argv[]) {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

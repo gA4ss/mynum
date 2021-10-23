@@ -40,7 +40,7 @@ static uinteger_t __shrink_zero(bignum_t& a, bool reverse=false) {
   return ret;
 }
 
-config_t Numeric::config_ = { 32, 5, "0.000000000001" };
+config_t Numeric::config_ = { 32, 25, "0.000000000001" };
 
 Numeric::Numeric() { nan(); }
 
@@ -1979,38 +1979,108 @@ Numeric csc(const Numeric& x) {
 }
 
 Numeric arcsin(const Numeric& x) {
-  operation_is_not_implement_exception("%s", "arcsin");
-  Numeric res;
+  //
+  // 保证 |x| < 1
+  //
+  if (abs(x) >= "1") {
+    operand_value_is_invalid_exception("|x| < 1, x = %s", x.str().c_str());
+  }
+
+  Numeric res = x, n = "3", item = "0", coeff = "1";
+  Numeric numerator = "-1", denominator = "0";
+  uinteger_t taylor_expansion = Numeric::config_.taylor_expansion;
+  for (uinteger_t i = 1; i <= taylor_expansion; i++) {
+    item = div(pow(x, n), n);
+    numerator += "2"; denominator += "2";
+    // std::cout << "numerator = " << numerator.str() << std::endl;
+    // std::cout << "denominator = " << denominator.str() << std::endl;
+    coeff *= div(numerator, denominator);
+    // std::cout << "coeff = " << coeff.str() << std::endl;
+    item *= coeff;
+    // std::cout << "item = " << item.str() << std::endl;
+    res += item;
+    // std::cout << "res = " << res.str() << std::endl << std::endl;
+    n += "2";
+  }
   return res;
 }
 
 Numeric arccos(const Numeric& x) {
-  operation_is_not_implement_exception("%s", "arccos");
-  Numeric res;
+  //
+  // 保证 |x| < 1
+  //
+  if (abs(x) >= "1") {
+    operand_value_is_invalid_exception("|x| < 1, x = %s", x.str().c_str());
+  }
+  Numeric res = __half_pi - arcsin(x);
+  return res;
+}
+
+static Numeric __arctan_1(const Numeric& x, uinteger_t taylor_expansion) { 
+  if (abs(x) >= "1") {
+    operand_value_is_invalid_exception("|x| < 1, x = %s", x.str().c_str());
+  }
+
+  Numeric res = "0", n = "1", item;
+  for (uinteger_t i = 1; i <= taylor_expansion; i++) {
+    item = div(pow(x, n), n);
+    if (i % 2 == 0)
+      res -= item;
+    else
+      res += item;
+    n += "2";
+  }
+  return res;
+}
+
+static Numeric __arctan_2(const Numeric& x, uinteger_t taylor_expansion) {
+  if (abs(x) < "1") {
+    operand_value_is_invalid_exception("x >= 1 or x <= -1, x = %s", x.str().c_str());
+  }
+
+  Numeric res = "0", n = "1", item;
+  for (uinteger_t i = 1; i <= taylor_expansion; i++) {
+    item = div("1", mul(n, pow(x, n)));
+    if (i % 2 == 0)
+      res -= item;
+    else
+      res += item;
+    n += "2";
+  }
+  res = __half_pi + res;
+  if (x <= "-1") res *= "-1";
   return res;
 }
 
 Numeric arctan(const Numeric& x) {
-  operation_is_not_implement_exception("%s", "arctan");
-  Numeric res;
-  return res;
-}
-
-Numeric arccsc(const Numeric& x) {
-  operation_is_not_implement_exception("%s", "arccsc");
-  Numeric res;
+  Numeric res = "0";
+  uinteger_t taylor_expansion = Numeric::config_.taylor_expansion;
+  if (abs(x) < "1") {
+    res = __arctan_1(x, taylor_expansion);
+  } else {
+    res = __arctan_2(x, taylor_expansion);
+  }
   return res;
 }
 
 Numeric arcsec(const Numeric& x) {
-  operation_is_not_implement_exception("%s", "arcsec");
-  Numeric res;
+  if (abs(x) <= "1") {
+    operand_value_is_invalid_exception("|x| > 1, x = %s", x.str().c_str());
+  }
+  Numeric res = arccos(div("1", x));
+  return res;
+}
+
+Numeric arccsc(const Numeric& x) {
+  if (abs(x) <= "1") {
+    operand_value_is_invalid_exception("|x| > 1, x = %s", x.str().c_str());
+  }
+  Numeric res = arcsin(div("1", x));
   return res;
 }
 
 Numeric arccot(const Numeric& x) {
-  operation_is_not_implement_exception("%s", "arccot");
-  Numeric res;
+  Numeric res = __half_pi - arctan(x);
   return res;
 }
 
