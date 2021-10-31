@@ -61,13 +61,32 @@ def bernoulli_numbers(x):
     b += (item * -1)
   return b
 
-for i in range(0, 10):
-  b = bernoulli_numbers(i)
-  print(i, ") ", b)
+# for i in range(0, 10):
+#   b = bernoulli_numbers(i)
+#   print(i, ") ", b)
+
+def arctan_2(x):
+  res = 0
+  n = 1
+  item = 0
+  for i in range(1, 25):
+    item = 1 / (n * x**n) # div("1", mul(n, pow(x, n)));
+    if i % 2 == 0:
+      res += item
+    else:
+      res -= item
+    n += 2
+
+  half_pi = np.pi/2;
+  if x <= -1:
+     half_pi = half_pi * -1
+  res = half_pi + res
+  return res
 
 # x = 0.5235987666666667
-# y = cos(x)
-# print("y = ", y)
+x = 1.7320508075688774
+y = arctan_2(x)
+print("y = ", y)
 
 """
 sin(pi/6)

@@ -41,7 +41,7 @@ build/
 data/
 #lib/
 tools/
-reference/
+# reference/
 
 # Special Files
 .DS_Store

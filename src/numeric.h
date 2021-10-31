@@ -1,5 +1,5 @@
-#ifndef MYNUM_CORE_NUMERIC_H_
-#define MYNUM_CORE_NUMERIC_H_
+#ifndef MYNUM_NUMERIC_H_
+#define MYNUM_NUMERIC_H_
 
 #include <ctype.h>
 #include <iostream>
@@ -7,7 +7,6 @@
 #include <mynum/common.h>
 
 namespace mynum {
-namespace core {
 
 class Numeric;
 typedef int8_t unit_t;
@@ -18,6 +17,7 @@ typedef std::vector<Numeric> array_t;
 typedef struct Config {
   uinteger_t max_quotient_borrow;
   uinteger_t taylor_expansion;
+  uinteger_t precision;
   std::string epsilon;
 } config_t;
 
@@ -477,7 +477,6 @@ Numeric operator>>(const char* num1, const Numeric& bits);
 void copy(Numeric& to, const Numeric& from);
 void same_digits(Numeric& num1, Numeric& num2);
 
-} // namespace core
 } // namespace mynum
 
-#endif // MYNUM_CORE_NUMERIC_H_
+#endif // MYNUM_NUMERIC_H_

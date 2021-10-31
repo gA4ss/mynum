@@ -2,4 +2,6 @@
 
 namespace mynum {
 
+config_t __config;
+
 } // namespace mynum

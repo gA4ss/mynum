@@ -1,8 +1,7 @@
 #include <stdlib.h>
-#include <mynum/core/numeric.h>
+#include <mynum/numeric.h>
 
 using namespace mynum;
-using namespace mynum::core;
 
 // m : input maximal index requested. Must be a power of 2.
 array_t test_euler_numbers(uinteger_t m) {

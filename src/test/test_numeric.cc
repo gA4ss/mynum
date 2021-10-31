@@ -3,9 +3,9 @@
 #include <string>
 #include <iostream>
 #include <gtest/gtest.h>
-#include <mynum/core/numeric.h>
+#include <mynum/numeric.h>
 
-using namespace mynum::core;
+using namespace mynum;
 
 TEST(Numeric, Create) {
   EXPECT_TRUE(is_nan(Numeric("nan")));
@@ -450,14 +450,7 @@ TEST(Numeric, Trigonometric) {
 
   y = sec(x);
   // std::cout << "sec(pi/6) = " << y.str() << std::endl;
-  // y = div("1", "0.8660254037844387");
-  // std::cout << "1/0.8660254037844387 = " << y.str() << std::endl;
-
-  // Numeric c = cos(x);
-  // std::cout << "c = " << c.str() << std::endl;
-  // y = div("1", c);
-  // std::cout << "1/cos(pi/6) = " << y.str() << std::endl;
-  EXPECT_TRUE(abs(y - "1.1547005383792515") < "0.0001") << "y = " << y.str();
+  EXPECT_TRUE(abs(y - "1.154700538379252") < "0.0001") << "y = " << y.str();
 
   y = csc(x);
   EXPECT_TRUE(abs(y - "2.0000000000000004") < "0.0001") << "y = " << y.str();
@@ -479,6 +472,11 @@ TEST(Numeric, ArcTrigonometric) {
   y = arctan(x);
   // std::cout << "arccos(0.5773502691896257) = " << y.str() << std::endl;
   EXPECT_TRUE(abs(y - "0.5235987666666667") < "0.0001") << "y = " << y.str();
+
+  x = "1.7320508075688774";
+  y = arctan(x);
+  std::cout << "arctan(1.7320508075688774) = " << y.str() << std::endl;
+  EXPECT_TRUE(abs(y - "1.0472") < "0.0001") << "y = " << y.str();
 
   x = "1.1547005383792515";
   y = arcsec(x);

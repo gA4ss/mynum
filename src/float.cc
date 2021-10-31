@@ -1,10 +1,9 @@
-#include <mynum/core/numeric.h>
-#include <mynum/core/constant.h>
+#include <mynum/numeric.h>
+#include <mynum/constant.h>
 
 #include <cstring>
 
 namespace mynum {
-namespace core {
 
 static const unit_t kZeroCode = 48;
 
@@ -40,7 +39,7 @@ static uinteger_t __shrink_zero(bignum_t& a, bool reverse=false) {
   return ret;
 }
 
-config_t Numeric::config_ = { 32, 25, "0.000000000001" };
+config_t Numeric::config_ = { 32, 30, 16, "0.0000000000000001" };
 
 Numeric::Numeric() { nan(); }
 
@@ -1233,16 +1232,14 @@ Numeric div(const Numeric& num1, const Numeric& num2) {
     while (fill_zero--) quotient.push_front(0);
     decimal_park.insert(decimal_park.end(), quotient.begin(), quotient.begin()+precision);
     integer_park.insert(integer_park.end(), quotient.begin()+precision, quotient.end());
-    __shrink_zero(decimal_park, false); // 删除小数末尾的0
-    __shrink_zero(integer_park, true); // 删除整数末尾的0
-    // integer_park.insert(integer_park.end(), quotient.end()-precision-1, quotient.end());
-    // decimal_park.insert(decimal_park.end(), quotient.begin(), quotient.end()-precision-1);
   } else {
     precision = multiple;
     decimal_park.insert(decimal_park.end(), quotient.begin(), quotient.begin()+precision);
     integer_park.insert(integer_park.end(), quotient.begin()+precision, quotient.end());
   }
   if (integer_park.empty()) integer_park.push_back(0);  // 保证整数部分最少是0
+  __shrink_zero(decimal_park, false); // 删除小数末尾的0
+  __shrink_zero(integer_park, true); // 删除整数末尾的0
 
   int sign = kPositive;
   if (num1.sign() == num2.sign()) sign = kPositive;
@@ -1252,6 +1249,7 @@ Numeric div(const Numeric& num1, const Numeric& num2) {
   res.__set_decimal_park(decimal_park);
   res.__set_sign(sign);
 
+  // return round(res, Numeric::config_.precision);
   return res;
 }
 
@@ -1785,7 +1783,7 @@ Numeric sin(const Numeric& x) {
     denominator += "2";
     // std::cout << "res = " << res.str() << std::endl;
   }
-  return res;
+  return round(res, Numeric::config_.precision);
 }
 
 Numeric cos(const Numeric& x) {
@@ -1809,7 +1807,7 @@ Numeric cos(const Numeric& x) {
     denominator += "2";
     // std::cout << "res = " << res.str() << std::endl;
   }
-  return res;
+  return round(res, Numeric::config_.precision);
 }
 
 Numeric tan(const Numeric& x) {
@@ -1856,7 +1854,7 @@ Numeric tan(const Numeric& x) {
     ++n;
     // std::cout << "res = " << res.str() << std::endl << std::endl;
   }
-  return res;
+  return round(res, Numeric::config_.precision);
 }
 
 Numeric cot(const Numeric& x) {
@@ -1898,7 +1896,7 @@ Numeric cot(const Numeric& x) {
     ++n;
     // std::cout << "res = " << res.str() << std::endl << std::endl;
   }
-  return res;
+  return round(res, Numeric::config_.precision);
 }
 
 Numeric sec(const Numeric& x) {
@@ -1933,7 +1931,7 @@ Numeric sec(const Numeric& x) {
     ++n;
     // std::cout << "res = " << res.str() << std::endl << std::endl;
   }
-  return res;
+  return round(res, Numeric::config_.precision);
 }
 
 Numeric csc(const Numeric& x) {
@@ -1975,7 +1973,7 @@ Numeric csc(const Numeric& x) {
     ++n;
     // std::cout << "res = " << res.str() << std::endl << std::endl;
   }
-  return res;
+  return round(res, Numeric::config_.precision);
 }
 
 Numeric arcsin(const Numeric& x) {
@@ -2002,7 +2000,7 @@ Numeric arcsin(const Numeric& x) {
     // std::cout << "res = " << res.str() << std::endl << std::endl;
     n += "2";
   }
-  return res;
+  return round(res, Numeric::config_.precision);
 }
 
 Numeric arccos(const Numeric& x) {
@@ -2013,7 +2011,7 @@ Numeric arccos(const Numeric& x) {
     operand_value_is_invalid_exception("|x| < 1, x = %s", x.str().c_str());
   }
   Numeric res = __half_pi - arcsin(x);
-  return res;
+  return round(res, Numeric::config_.precision);
 }
 
 static Numeric __arctan_1(const Numeric& x, uinteger_t taylor_expansion) { 
@@ -2042,13 +2040,15 @@ static Numeric __arctan_2(const Numeric& x, uinteger_t taylor_expansion) {
   for (uinteger_t i = 1; i <= taylor_expansion; i++) {
     item = div("1", mul(n, pow(x, n)));
     if (i % 2 == 0)
-      res -= item;
-    else
       res += item;
+    else
+      res -= item;
     n += "2";
   }
-  res = __half_pi + res;
-  if (x <= "-1") res *= "-1";
+
+  Numeric half_pi = __half_pi;
+  if (x <= "-1") half_pi = __half_pi * "-1";
+  res = half_pi + res;
   return res;
 }
 
@@ -2060,7 +2060,7 @@ Numeric arctan(const Numeric& x) {
   } else {
     res = __arctan_2(x, taylor_expansion);
   }
-  return res;
+  return round(res, Numeric::config_.precision);
 }
 
 Numeric arcsec(const Numeric& x) {
@@ -2068,7 +2068,7 @@ Numeric arcsec(const Numeric& x) {
     operand_value_is_invalid_exception("|x| > 1, x = %s", x.str().c_str());
   }
   Numeric res = arccos(div("1", x));
-  return res;
+  return round(res, Numeric::config_.precision);
 }
 
 Numeric arccsc(const Numeric& x) {
@@ -2076,36 +2076,37 @@ Numeric arccsc(const Numeric& x) {
     operand_value_is_invalid_exception("|x| > 1, x = %s", x.str().c_str());
   }
   Numeric res = arcsin(div("1", x));
-  return res;
+  return round(res, Numeric::config_.precision);
 }
 
 Numeric arccot(const Numeric& x) {
-  Numeric res = __half_pi - arctan(x);
-  return res;
+  Numeric at = arctan(x);
+  Numeric res = __half_pi - at;
+  return round(res, Numeric::config_.precision);
 }
 
 Numeric sinh(const Numeric& x) {
   operation_is_not_implement_exception("%s", "sinh");
   Numeric res;
-  return res;
+  return round(res, Numeric::config_.precision);
 }
 
 Numeric cosh(const Numeric& x) {
   operation_is_not_implement_exception("%s", "cosh");
   Numeric res;
-  return res;
+  return round(res, Numeric::config_.precision);
 }
 
 Numeric tanh(const Numeric& x) {
   operation_is_not_implement_exception("%s", "tanh");
   Numeric res;
-  return res;
+  return round(res, Numeric::config_.precision);
 }
 
 Numeric csch(const Numeric& x) {
   operation_is_not_implement_exception("%s", "csch");
   Numeric res;
-  return res;
+  return round(res, Numeric::config_.precision);
 }
 
 Numeric sech(const Numeric& x) {
@@ -2117,43 +2118,43 @@ Numeric sech(const Numeric& x) {
 Numeric coth(const Numeric& x) {
   operation_is_not_implement_exception("%s", "coth");
   Numeric res;
-  return res;
+  return round(res, Numeric::config_.precision);
 }
 
 Numeric arcsinh(const Numeric& x) {
   operation_is_not_implement_exception("%s", "arcsinh");
   Numeric res;
-  return res;
+  return round(res, Numeric::config_.precision);
 }
 
 Numeric arccosh(const Numeric& x) {
   operation_is_not_implement_exception("%s", "arccosh");
   Numeric res;
-  return res;
+  return round(res, Numeric::config_.precision);
 }
 
 Numeric arctanh(const Numeric& x) {
   operation_is_not_implement_exception("%s", "arctanh");
   Numeric res;
-  return res;
+  return round(res, Numeric::config_.precision);
 }
 
 Numeric arccsch(const Numeric& x) {
   operation_is_not_implement_exception("%s", "arccsch");
   Numeric res;
-  return res;
+  return round(res, Numeric::config_.precision);
 }
 
 Numeric arcsech(const Numeric& x) {
   operation_is_not_implement_exception("%s", "arcsech");
   Numeric res;
-  return res;
+  return round(res, Numeric::config_.precision);
 }
 
 Numeric arccoth(const Numeric& x) {
   operation_is_not_implement_exception("%s", "arccoth");
   Numeric res;
-  return res;
+  return round(res, Numeric::config_.precision);
 }
 
 /* 求伯努利数 */
@@ -2634,5 +2635,4 @@ char Numeric::operator[](uinteger_t i) {
   return res[i];
 }
 
-} // namespace core
 } // namespace mynum
