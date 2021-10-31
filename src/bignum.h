@@ -9,6 +9,7 @@ typedef uint8_t unit_t;
 typedef std::deque<unit_t> bignum_t;
 typedef bignum_t::iterator bignum_iter_t;
 typedef bignum_t::reverse_iterator bignum_riter_t;
+typedef std::pair<bignum_t, bignum_t> division_result_t;
 static const uint64_t kNumericUnitMax = 0xFFFFFFFFFFFFFFFF;
 
 uinteger_t shrink_zero(bignum_t& a, bool reverse=false);
@@ -19,6 +20,7 @@ bool is_zero(const bignum_t& a);
 int cmp(const bignum_t& a, const bignum_t& b);
 bignum_t add(const bignum_t& a, const bignum_t& b, unit_t o);
 bignum_t mul(const bignum_t& a, const bignum_t& b);
+division_result_t div(const bignum_t& a, const bignum_t& b);
 
 } // namespace mynum
 

@@ -2,6 +2,6 @@
 
 namespace mynum {
 
-config_t __config;
+config_t __config = { 16, "0.0000000000000001" };
 
 } // namespace mynum

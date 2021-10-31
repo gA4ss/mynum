@@ -254,39 +254,6 @@ bignum_t mul(const bignum_t& a, const bignum_t& b) {
   return z;
 }
 
-// bignum_t mul(const bignum_t& a, const bignum_t& b) {
-//   if (a.empty() || b.empty()) {
-//     bignum_t c = {0};
-//     return c;
-//   }
-//   bignum_t x, y, z;
-//   size_t m = 0, n = 0;
-
-//   // 保证 m >= n
-//   if (a.size() >= b.size()) {
-//     x = a; m = a.size();
-//     y = b; n = b.size();
-//   } else if (a.size() < b.size()) {
-//     y = a; n = a.size();
-//     x = b; m = b.size();
-//   }
-//   z.resize(m+n);
-
-//   unit_t q = 0, t = 0;
-//   for (size_t j = 0; j < n; j++) {
-//     q = 0;
-//     for (size_t i = 0; i < m; i++) {
-//       t = x[i] * y[j] + z[i+j] + q;
-//       z[i+j] = t % 10;
-//       q = t / 10;
-//     }
-//     z[j+m] = q;
-//   }
-
-//   __shrink_zero(z, true);
-//   return z;
-// }
-
 /*
  * a1表示a的首项系数，以此类推。B为某个进制。
  * 1.当a,b的位数一致，a1 >= b1，a > b。
@@ -298,183 +265,141 @@ bignum_t mul(const bignum_t& a, const bignum_t& b) {
  *        q <= q1
  * 证明见《计算机代数》【陈玉福，张智勇】 25-26页。
  */
-// static std::pair<unit_t, unit_t> __get_quotient_range(const bignum_t& a, const bignum_t& b) {
-//   const unit_t B = 10;
-//   unit_t a1 = *(a.end()-1), b1 = *(b.end()-1);
-//   unit_t a2 = 0, b2 = 0;
+static std::pair<unit_t, unit_t> __get_quotient_range(const bignum_t& a, const bignum_t& b) {
+  const unit_t B = 10;
+  unit_t a1 = *(a.end()-1), b1 = *(b.end()-1);
+  unit_t a2 = 0, b2 = 0;
 
-//   if (a.size() >= 2) a2 = *(a.end()-2);
-//   if (b.size() >= 2) b2 = *(b.end()-2);
+  if (a.size() >= 2) a2 = *(a.end()-2);
+  if (b.size() >= 2) b2 = *(b.end()-2);
 
-//   if (a.size() == b.size()) {
-//     //
-//     // 第一种情况
-//     //
-//     if (a1 == b1)
-//       return std::make_pair(1, 1);
-//     else { // 这里一定是 a1 > b1
-//       my_assert(a1 > b1, "a1(%d) < b1(%d)", a1, b1);
-//       unit_t q1 = a1 / b1, q2 = std::max((a1*B+a2-B+1)/(b1*B+b2), 1);
-//       return q1 < q2 ? std::make_pair(q1, q2) : std::make_pair(q2, q1);
-//     }
-//   } else {
-//     //
-//     // 第二种情况
-//     //
-//     unit_t q = std::min((a1*B+a2)/b1, B-1);
-//     return std::make_pair(1, q);
-//   }
-//   my_assert(false, "%s", "never go here!");
-//   return std::make_pair(0, 0);
-// }
+  if (a.size() == b.size()) {
+    //
+    // 第一种情况
+    //
+    if (a1 == b1)
+      return std::make_pair(1, 1);
+    else { // 这里一定是 a1 > b1
+      my_assert(a1 > b1, "a1(%d) < b1(%d)", a1, b1);
+      unit_t q1 = a1 / b1, q2 = std::max((a1*B+a2-B+1)/(b1*B+b2), 1);
+      return q1 < q2 ? std::make_pair(q1, q2) : std::make_pair(q2, q1);
+    }
+  } else {
+    //
+    // 第二种情况
+    //
+    unit_t q = std::min((a1*B+a2)/b1, B-1);
+    return std::make_pair(1, q);
+  }
+  my_assert(false, "%s", "never go here!");
+  return std::make_pair(0, 0);
+}
 
-// /* 不考虑符号，这里保证b不为0。 */
-// bignum_t div(const bignum_t& a, const bignum_t& b, 
-//               uinteger_t max_quotient_borrow, 
-//               uinteger_t* m=nullptr) {
-//   //const bignum_t ten = {0, 1};    // 表示10
-//   bignum_t x = a, y = b;
+/* 不考虑符号 */
+division_result_t div(const bignum_t& a, const bignum_t& b) {
+  //const bignum_t ten = {0, 1};    // 表示10
+  if (is_zero(b)) divisor_is_zero_exception("%s", "b is zero.");
 
-//   if (__cmp(x, y) == 0) {
-//     return {1};
-//   }
+  bignum_t x = a, y = b;
+  if (cmp(x, y) == 0)
+    return division_result_t({1}, {0});
+  else if (cmp(x, y) == -1)
+    return division_result_t({0}, {0});
 
-//   bignum_t quotient, product, dividend = x, divisor = y, remainder = {0};
-//   uinteger_t dividend_remainder_digits = dividend.size(), multiple = 0; // 这里扩大了多少倍，返回结果缩小多少倍。
+  bignum_t quotient, product, dividend = x, divisor = y, remainder = {0};
+  uinteger_t dividend_remainder_digits = dividend.size();
 
-//   //
-//   // 这里对被除数与除数做一些初始化工作
-//   //
-//   int cmp = __cmp(dividend, divisor);
-//   if (cmp == -1) {
-//     while (__cmp(dividend, divisor) == -1) {
-//       dividend.push_front(0); // dividend = __mul(dividend, ten);
-//       quotient.push_front(0);
-//       ++multiple;
-//     }
-//     dividend_remainder_digits = 0;
-//   } else { // cmp == 1
-//     //
-//     // 从末尾取a与b相同的位数 : a_n, b_n
-//     // 如果 a_n < b_n, 则取a_{n+1}
-//     //
-//     size_t n = divisor.size();
-//     dividend_remainder_digits -= n;
-//     dividend = bignum_t(x.begin()+dividend_remainder_digits, x.end());
-//     if (__cmp(dividend, divisor) == -1) {
-//       // 如果小于这里dividend必比divisor多一位。
-//       --dividend_remainder_digits;
-//       dividend = bignum_t(x.begin()+dividend_remainder_digits, x.end());
-//     }
-//   }
+  //
+  // 这里对被除数与除数做一些初始化工作，
+  // 从末尾取a与b相同的位数 : a_n, b_n
+  // 如果 a_n < b_n, 则取a_{n+1}。
+  //
+  size_t n = divisor.size();
+  dividend_remainder_digits -= n;
+  dividend = bignum_t(x.begin()+dividend_remainder_digits, x.end());
+  if (cmp(dividend, divisor) == -1) {
+    // 如果小于这里dividend必比divisor多一位。
+    --dividend_remainder_digits;
+    dividend = bignum_t(x.begin()+dividend_remainder_digits, x.end());
+  }
 
-//   // 第一次运行必须保证被除数大于除数。
-//   while (true) {
-//     // 尝试获取商的范围。
-//     std::pair<unit_t, unit_t> quo_range = __get_quotient_range(dividend, divisor);
-//     unit_t q = 0;
-//     for (q = quo_range.first; q <= quo_range.second; q++) {
-//       product = __mul(divisor, {q});
-//       //
-//       // product 必然小于等于 dividend
-//       //
-//       remainder = __sub_integer_park(dividend, product, false);
-//       int c = __cmp(divisor, remainder);
-//       if ((c == -1) || (c == 0)) {
-//         continue;
-//       } else {
-//         quotient.push_front(q);
-//         break;
-//       }
-//     }
+  // 第一次运行必须保证被除数大于除数。
+  while (true) {
+    // 尝试获取商的范围。
+    std::pair<unit_t, unit_t> quo_range = __get_quotient_range(dividend, divisor);
+    unit_t q = 0;
+    for (q = quo_range.first; q <= quo_range.second; q++) {
+      product = shrink_zero(mul(divisor, {q}), true); // 乘法可能产生多余的0。
+      //
+      // product 必然小于等于 dividend
+      //
+      remainder = sub(dividend, product, false);
+      int c = cmp(divisor, remainder);
+      if ((c == -1) || (c == 0)) {
+        continue;
+      } else {
+        quotient.push_front(q);
+        break;
+      }
+    }
 
-//     //
-//     // 算法结束条件： 1，2需要同时满足。3是单独满足即可。
-//     // 1.检查余数如果为0。
-//     // 2.被除数没有多余的位。
-//     // 3.商的精度足够了。
-//     //
-//     // FIXME : 这里存在一个BUG。当 1 / 小数位数很多超过 max_quotient_borrow
-//     //         那么这里会因为借位耗禁而终止运算，造成误差过大。
-//     //
-//     if ((__cmp(remainder, {0}) == 0) && (dividend_remainder_digits == 0))
-//       break;
-//     if (max_quotient_borrow != kNumericUnitMax) {
-//       if (multiple >= max_quotient_borrow) {
-//         break;
-//       }
-//     }
+    //
+    // 算法结束条件：被除数没有多余的位。
+    //
+    if (dividend_remainder_digits == 0)
+      break;
 
-//     //
-//     // 更新被除数
-//     //
-//     dividend = remainder;
-//     if (dividend_remainder_digits == 0) {
-//       //
-//       // 这里其实有个隐含条件就是余数不为0。因为到达这里余数肯定不为零。
-//       // 上面的退出条件已经判断了。 
-//       // my_assert(__cmp(remainder, {0}) != 0, "%s", "remainder is zero!");
-//       //
-//       while (__cmp(dividend, divisor) == -1) {
-//         dividend.push_front(0); // dividend = __mul(dividend, ten);
-//         quotient.push_front(0);
-//         ++multiple;
-//       }
-//       //
-//       // 这里不存在借用被除数的位。所以
-//       // 商的0要比被除数少一个
-//       //
-//       quotient.pop_front();
-//     } else {
-//       if (__cmp(dividend, {0}) == 0) dividend.clear();  // 余数为零。
-//       //
-//       // 这里首先借一位，如果大于则直接做运算。
-//       // 如果还是小于则商使用0补位。
-//       // 保证被除数大于除数。
-//       //
-//       if ((__cmp(dividend, divisor) == -1) && (dividend_remainder_digits != 0)) {
-//         dividend.push_front(x[dividend_remainder_digits-1]);
-//         --dividend_remainder_digits;
-//         //
-//         // 这里如果借了一位还是小于那么开始补位
-//         //
-//         while ((__cmp(dividend, divisor) == -1) && (dividend_remainder_digits != 0)) {
-//           dividend.push_front(x[dividend_remainder_digits-1]);
-//           quotient.push_front(0);
-//           --dividend_remainder_digits;
-//         }
-//       }
+    //
+    // 更新被除数
+    //
+    dividend = remainder;
+    if (cmp(dividend, {0}) == 0) dividend.clear();  // 余数为零，多见10000/2这种情况。
+    //
+    // 这里首先借一位，如果大于则直接做运算。
+    // 如果还是小于则商使用0补位。
+    // 保证被除数大于除数。
+    //
+    if ((cmp(dividend, divisor) == -1) && (dividend_remainder_digits != 0)) {
+      dividend.push_front(x[dividend_remainder_digits-1]);
+      --dividend_remainder_digits;
+      //
+      // 这里如果借了一位还是小于那么开始补位
+      //
+      while ((cmp(dividend, divisor) == -1) && (dividend_remainder_digits != 0)) {
+        dividend.push_front(x[dividend_remainder_digits-1]);
+        quotient.push_front(0);
+        --dividend_remainder_digits;
+      }
+    }
 
-//       //
-//       // 如果被除数剩余全部是0，这里蕴含的一个条件就是 dividend_remainder_digits为0。
-//       // quotient压入0比dividend少一个。
-//       //
-//       if (__cmp(dividend, {0}) == 0) {
-//         // quotient.insert(quotient.begin(), dividend.begin(), dividend.end());
-//         quotient.push_front(0);
-//         break;
-//       }
+    //
+    // 如果被除数剩余全部是0，这里蕴含的一个条件就是 dividend_remainder_digits为0。
+    // quotient压入0比dividend少一个。
+    //
+    if (cmp(dividend, {0}) == 0) {
+      // quotient.insert(quotient.begin(), dividend.begin(), dividend.end());
+      quotient.push_front(0);
+      break;
+    }
 
-//       //
-//       // 如果进入循环说明 dividend_remainder_digits == 0，
-//       // 这时候如果dividend仍然小于divisor则进行借位。
-//       // 因为这边是正常补位所以不进行弹出了。
-//       //
-//       while (__cmp(dividend, divisor) == -1) {
-//         dividend.push_front(0); // dividend = __mul(dividend, ten);
-//         quotient.push_front(0);
-//         ++multiple;
-//       }
-//       //
-//       // 例如：10001 / 2 这种情况，可能造成 dividend = 0010
-//       // 这里将前面两个0清除。
-//       //
-//       if (dividend.back() == 0) __shrink_zero(dividend, true);
-//     }
-//   }/* end while */
+    //
+    // 如果进入循环说明 dividend_remainder_digits == 0，
+    // 这时候如果dividend仍然小于divisor则进行借位。
+    // 因为这边是正常补位所以不进行弹出了。
+    //
+    while (cmp(dividend, divisor) == -1) {
+      dividend.push_front(0); // dividend = __mul(dividend, ten);
+      quotient.push_front(0);
+      ++multiple;
+    }
+    //
+    // 例如：10001 / 2 这种情况，可能造成 dividend = 0010
+    // 这里将前面两个0清除。
+    //
+    if (dividend.back() == 0) shrink_zero(dividend, true);
+  }/* end while */
 
-//   if(m) *m = multiple;
-//   return quotient;
-// }
+  return division_result_t(quotient, remainder);
+}
 
 } // namespace mynum

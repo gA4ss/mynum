@@ -10,8 +10,6 @@ namespace mynum {
 
 namespace mynum {
 
-config_t Integer::config_ = { 32, 30, 16, "0.0000000000000001" };
-
 Integer::Integer() { nan(); }
 
 Integer::Integer(const char* number, int base) {

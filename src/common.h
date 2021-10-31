@@ -28,7 +28,7 @@ typedef double float_t;
 //        全局配置结构        //
 //////////////////////////////
 typedef struct Config {
-  uinteger_t precision;
+  uinteger_t significant_digits;    // 0xFFFFFFFFFFFFFFFF 表示一直计算。
   std::string epsilon;
 } config_t;
 
