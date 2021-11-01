@@ -4,7 +4,7 @@
 #include <ctype.h>
 #include <iostream>
 
-#include <mynum/common.h>
+#include <mynum/numeric.h>
 
 namespace mynum {
 
@@ -15,20 +15,16 @@ public:
   Integer(const char* number, int base=10);
   Integer(Integer* number);
   Integer(const Integer& number);
+  Integer(const bignum_t& number);
   virtual ~Integer();
-
-  int sign() const { return sign_; }
-  void set_sign(bool negative=false) { sign_ = (negative == false) ? kPositive : kNegative; }
-  bignum_t integer_park() const { return integer_park_; }
-  bool infinite() const { return infinite_; }
 
   void assign(const Integer& n);
   void zero();
   void one(bool sign=true);
   void nan(bool sign=true);   // sign = false,为一种特殊的nan值，表示数值不确定。用于内部计算。为none值。
-  void infinite(bool sign);
   void none();
 
+  bignum_t integer_park() const { return integer_park_; }
   std::string str() const;
 
   // 单目运算符 *(指针)，&(取地址)
@@ -68,15 +64,11 @@ public:
 
 protected:
   void __create_from_string(const char* n, int base);
-  void __set_sign(bool sign) { sign_ = static_cast<int>(sign); }
   void __set_integer_park(const bignum_t& integer_park) { integer_park_ = integer_park; }
-  void __set_infinite(bool infinite) { infinite_ = infinite; }
   void __set_integer_park_zero();
 
 protected:
-  int sign_;
   bignum_t integer_park_;
-  bool infinite_;
 };
 
 //
@@ -91,14 +83,6 @@ bool le(const Integer& num1, const Integer& num2);
 //
 // 基础的运算
 //
-bool is_zero(const Integer& num1);
-bool is_one(const Integer& num1);
-bool is_nan(const Integer& num1);
-bool is_infinite(const Integer& num1);
-bool is_none(const Integer& num1);
-bool is_odd(const Integer& num1);
-bool is_even(const Integer& num1);
-
 Integer add(const Integer& num1, const Integer& num2);
 Integer sub(const Integer& num1, const Integer& num2);
 Integer mul(const Integer& num1, const Integer& num2);

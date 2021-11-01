@@ -59,6 +59,10 @@ endif(BUILD_TEST)
 add_library(${PROJECT_NAME} STATIC
   ${SRC_DIRECTORY}/common.cc
   ${SRC_DIRECTORY}/bignum.cc
+  ${SRC_DIRECTORY}/bignum_add.cc
+  ${SRC_DIRECTORY}/bignum_sub.cc
+  ${SRC_DIRECTORY}/bignum_mul.cc
+  ${SRC_DIRECTORY}/bignum_div.cc
 )
 target_link_libraries(${PROJECT_NAME} my)
 

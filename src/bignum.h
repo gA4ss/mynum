@@ -13,12 +13,13 @@ typedef std::pair<bignum_t, bignum_t> division_result_t;
 static const uint64_t kNumericUnitMax = 0xFFFFFFFFFFFFFFFF;
 
 uinteger_t shrink_zero(bignum_t& a, bool reverse=false);
-bignum_t string_to_bignum(const char* number=nullptr, int base=10);
+bignum_t string_to_bignum(const char* number=nullptr, int base=10, bool shrink_reverse=true);
 std::string bignum_to_string(bignum_t& a);
 void zero(bignum_t& a);
 bool is_zero(const bignum_t& a);
-int cmp(const bignum_t& a, const bignum_t& b);
-bignum_t add(const bignum_t& a, const bignum_t& b, unit_t o);
+int cmp(const bignum_t& a, const bignum_t& b, bool push_front=false);
+bignum_t add(const bignum_t& a, const bignum_t& b, unit_t o=0);
+bignum_t sub(bignum_t& a, bignum_t& b, bool t=false);
 bignum_t mul(const bignum_t& a, const bignum_t& b);
 division_result_t div(const bignum_t& a, const bignum_t& b);
 

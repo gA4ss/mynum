@@ -3,13 +3,6 @@
 
 namespace mynum {
 
-#include <mynum/numeric.h>
-#include <mynum/constant.h>
-
-#include <cstring>
-
-namespace mynum {
-
 Integer::Integer() { nan(); }
 
 Integer::Integer(const char* number, int base) {
@@ -207,28 +200,6 @@ static int __cmp(const Integer& num1, const Integer& num2) {
   // 整数相等，则比对小数。
   res = __cmp(num1.decimal_park(), num2.decimal_park(), true);
   return res;
-}
-
-/* 对比无穷，考虑符号。
- * 返回值:
- * 1 : num1 > num2
- * 0 : num1 == num2
- * -1 : num1 < num2
- * -2 : num1 与 num2 关系不确定
- */
-static int __cmp_infinite(const Integer& num1, const Integer& num2) {
-  if (is_infinite(num1) && is_infinite(num2)) {
-    if (num1.sign() == num2.sign()) return 0;
-    else if (num1.sign() > num2.sign()) return 1;
-    return -1;
-  } else if (is_infinite(num1) && !is_infinite(num2)) {
-    if (num1.sign() == kNegative) return -1;
-    return 1;
-  } else if (!is_infinite(num1) && is_infinite(num2)) {
-    if (num2.sign() == kNegative) return 1;
-    return -1;
-  }
-  return -2;
 }
 
 bool is_zero(const Integer& num1) {
