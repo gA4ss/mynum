@@ -87,7 +87,7 @@ std::string Numeric::str() const {
   return ret;
 }
 
-void Numeric::set_sign(bool negative=false) {
+void Numeric::set_sign(bool negative) {
   sign_ = (negative == true) ? kNegative : kPositive;
 }
 
@@ -133,7 +133,6 @@ void Numeric::__create_from_string(const char* number, int base) {
   }
 
   std::string number_str = number;
-  size_t length = number_str.size();
 
   // 首先判断符号
   sign_ = kPositive;
@@ -173,33 +172,13 @@ void Numeric::__create_from_string(const char* number, int base) {
 
   if (integer_str.empty()) integer_str = "0";
 
-  integer_park_ = string_to_bignum(integer_str.c_str(), true);
-  if (precision) decimal_park_ = string_to_bignum(decimal_str.c_str(), false);
+  integer_park_ = string_to_bignum(integer_str.c_str(), base, true);
+  if (precision) decimal_park_ = string_to_bignum(decimal_str.c_str(), base, false);
 }
 
-/* 对比无穷，考虑符号。
- * 返回值:
- * 1 : num1 > num2
- * 0 : num1 == num2
- * -1 : num1 < num2
- * -2 : num1 与 num2 关系不确定
- */
-int Numeric::__cmp_infinite(const Numeric& num1, const Numeric& num2) {
-  if (is_infinite(num1) && is_infinite(num2)) {
-    if (num1.sign() == num2.sign()) return 0;
-    else if (num1.sign() > num2.sign()) return 1;
-    return -1;
-  } else if (is_infinite(num1) && !is_infinite(num2)) {
-    if (num1.sign() == kNegative) return -1;
-    return 1;
-  } else if (!is_infinite(num1) && is_infinite(num2)) {
-    if (num2.sign() == kNegative) return 1;
-    return -1;
-  }
-  return -2;
-}
 
-int Numeric::__add_infinite(const Numeric& num1, const Numeric& num2) {
+
+int add_infinite(const Numeric& num1, const Numeric& num2) {
   int res = kOperandInfIndeterminacy;
   if (is_infinite(num1) && !is_infinite(num2)) {
     res = num1.sign();
@@ -217,7 +196,7 @@ int Numeric::__add_infinite(const Numeric& num1, const Numeric& num2) {
   return res;
 }
 
-int Numeric::__sub_infinite(const Numeric& num1, const Numeric& num2) {
+int sub_infinite(const Numeric& num1, const Numeric& num2) {
   int res = kOperandInfIndeterminacy;
   int num2_sign = num2.sign() == kPositive ? kNegative : kPositive;
   if (is_infinite(num1) && !is_infinite(num2)) {
@@ -236,7 +215,7 @@ int Numeric::__sub_infinite(const Numeric& num1, const Numeric& num2) {
   return res;
 }
 
-int Numeric::__mul_infinite(const Numeric& num1, const Numeric& num2) {
+int mul_infinite(const Numeric& num1, const Numeric& num2) {
   int sign = num1.sign() * num2.sign();
   int res = kOperandInfIndeterminacy;
   if (is_zero(num1) && is_infinite(num2)) {
@@ -256,7 +235,7 @@ int Numeric::__mul_infinite(const Numeric& num1, const Numeric& num2) {
 }
 
 /* 这里保证除数不为0 */
-int Numeric::__div_infinite(const Numeric& num1, const Numeric& num2) {
+int div_infinite(const Numeric& num1, const Numeric& num2) {
   int sign = num1.sign() * num2.sign();
   int res = kOperandInfIndeterminacy;
   if (is_zero(num2)) {
@@ -275,7 +254,7 @@ int Numeric::__div_infinite(const Numeric& num1, const Numeric& num2) {
   return res;
 }
 
-int Numeric::__mod_infinite(const Numeric& num1, const Numeric& num2) {
+int mod_infinite(const Numeric& num1, const Numeric& num2) {
   int res = kOperandInfIndeterminacy;
   if (is_zero(num2)) {
     divisor_is_zero_exception("num2 = %s", num2.str().c_str());
@@ -293,7 +272,7 @@ int Numeric::__mod_infinite(const Numeric& num1, const Numeric& num2) {
   return res;
 }
 
-Numeric Numeric::__infinite_operation_result(int inf) {
+Numeric infinite_operation_result(int inf) {
   Numeric res;
   if (inf == kOperandInfNegInfinity) {
     res.set_infinite(false);
@@ -329,7 +308,7 @@ bool equ(const Numeric& num1, const Numeric& num2) {
   if (is_nan(num1) || is_nan(num2)) return false;
   if (is_zero(num1) && is_zero(num2)) return true;
 
-  int c = __cmp_infinite(num1, num2);
+  int c = cmp_infinite(num1, num2);
   if (c == 0) return true;
   if (c != -2) return false;
 
@@ -344,7 +323,7 @@ bool gt(const Numeric& num1, const Numeric& num2) {
   if (is_nan(num1) || is_nan(num2)) return false;
   if (is_zero(num1) && is_zero(num2)) return false;
 
-  int c = __cmp_infinite(num1, num2);
+  int c = cmp_infinite(num1, num2);
   if (c == 1) return true;
   if (c != -2) return false;
 
@@ -375,7 +354,7 @@ bool lt(const Numeric& num1, const Numeric& num2) {
   if (is_nan(num1) || is_nan(num2)) return false;
   if (is_zero(num1) && is_zero(num2)) return false;
 
-  int c = __cmp_infinite(num1, num2);
+  int c = cmp_infinite(num1, num2);
   if (c == -1) return true;
   if (c != -2) return false;
 
@@ -414,108 +393,7 @@ bool le(const Numeric& num1, const Numeric& num2) {
 
 Numeric abs(const Numeric& num1) {
   Numeric res(num1);
-  res.__set_sign(kPositive);
-  return res;
-}
-
-Numeric floor(const Numeric& num1) {
-  if (is_nan(num1)) return Numeric();
-  if (is_infinite(num1)) return Numeric("inf");
-  if (is_integer(num1)) return num1;
-
-  Numeric res = num1;
-  res.__set_decimal_park_zero();
-  if (num1.sign() == kNegative) {
-    res.__set_sign(true);
-    res = add(res, Numeric("1"));
-    res.__set_sign(kNegative);
-  }
-  return res;
-}
-
-Numeric ceil(const Numeric& num1) {
-  if (is_nan(num1)) return Numeric();
-  if (is_infinite(num1)) return Numeric("inf");
-  if (is_integer(num1)) return num1;
-  
-  Numeric res = num1;
-  res.__set_decimal_park_zero();
-  if (num1.sign() == kPositive) {
-    res = add(res, Numeric("1"));
-  }
-  return res;
-}
-
-static bignum_t __effective_digit(const Numeric& num1, uinteger_t precision, unit_t& v) {
-  bignum_t new_decimal_park;
-  if (precision >= num1.precision()) {
-    v = 0;
-    return new_decimal_park;
-  }
-
-  bignum_t decimal_park = num1.decimal_park();
-  size_t diff = decimal_park.size() - precision;
-  new_decimal_park.insert(new_decimal_park.end(), decimal_park.begin()+diff, 
-                                                  decimal_park.end());
-  bignum_t::iterator iter = (decimal_park.end() - precision);
-  v = *(iter-1);
-  return new_decimal_park;
-}
-
-static bool __mantissa_is_5(const Numeric& num1) {
-  bignum_t decimal_park = num1.decimal_park();
-  if ((decimal_park.size() == 1) && (decimal_park[0] == 5))
-    return true;
-
-  //
-  // 首位为5，其余位为0。
-  //
-  if (*(decimal_park.end()-1) == 5) {
-    size_t length = decimal_park.size();
-    for (size_t i = length-1; i > 0; i++) {
-      if (decimal_park[i] != 0) return false;
-    }
-    return true;
-  }
-
-  return false;
-}
-
-/* 当尾数为5，而尾数后面的数字均为0时，应看尾数“5”的前一位：若前一位数字此时为奇数，
- * 就应向前进一位；若前一位数字此时为偶数，则应将尾数舍去。数字“0”在此时应被视为偶数。
- */
-Numeric round(const Numeric& num1, uinteger_t precision) {
-  if (is_nan(num1)) return Numeric();
-  if (is_zero(num1)) return Numeric("0");
-  if (is_infinite(num1)) operand_value_is_invalid_exception("%s", "num1 is infinite");
-  if (is_integer(num1)) return num1;
-  if (precision >= num1.precision()) return num1;
-
-  if (__mantissa_is_5(num1)) {
-    if (is_odd(integer(num1))) {
-      if (num1.sign() == kPositive)
-        return integer(num1 + "1");
-      else
-        return integer(num1 + "-1");
-    }
-    // 偶数舍去尾数
-    return integer(num1);
-  }
-
-  unit_t v = 0;
-  bignum_t effective_park = __effective_digit(num1, precision, v);
-  Numeric res = num1;
-  res.__set_decimal_park(effective_park);
-
-  if (v >= 5) {
-    bignum_t plus;
-    plus.resize(precision-1);
-    plus.push_front(1);
-    Numeric tmp("0");
-    tmp.__set_decimal_park(plus);
-    res += tmp;
-  }
-
+  res.set_sign(kPositive);
   return res;
 }
 

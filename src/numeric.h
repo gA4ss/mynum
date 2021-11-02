@@ -49,15 +49,14 @@ public:
   void set_integer_park_zero();
   void set_decimal_park_zero();
 
+  // 单目运算符 *(指针)，&(取地址)
+  Numeric& operator+();
+  Numeric& operator-();
+  // 迭代运算符
+  char operator[](uinteger_t i);
+
 protected:
   virtual void __create_from_string(const char* n, int base);
-  int __cmp_infinite(const Numeric& num1, const Numeric& num2);
-  int __add_infinite(const Numeric& num1, const Numeric& num2);
-  int __sub_infinite(const Numeric& num1, const Numeric& num2);
-  int __mul_infinite(const Numeric& num1, const Numeric& num2);
-  int __div_infinite(const Numeric& num1, const Numeric& num2);
-  int __mod_infinite(const Numeric& num1, const Numeric& num2);
-  Numeric __infinite_operation_result(int inf);
 
 protected:
   int sign_;
@@ -66,6 +65,17 @@ protected:
   bignum_t integer_park_;
   bignum_t decimal_park_;
 };
+
+//
+// 与无穷相关的运算
+//
+int cmp_infinite(const Numeric& num1, const Numeric& num2);
+int add_infinite(const Numeric& num1, const Numeric& num2);
+int sub_infinite(const Numeric& num1, const Numeric& num2);
+int mul_infinite(const Numeric& num1, const Numeric& num2);
+int div_infinite(const Numeric& num1, const Numeric& num2);
+int mod_infinite(const Numeric& num1, const Numeric& num2);
+Numeric infinite_operation_result(int inf);
 
 //
 // 比较运算
@@ -80,9 +90,6 @@ bool le(const Numeric& num1, const Numeric& num2);
 // 基础运算
 //
 Numeric abs(const Numeric& num1);
-Numeric floor(const Numeric& num1);
-Numeric ceil(const Numeric& num1);
-Numeric round(const Numeric& num1, uinteger_t precision);
 Numeric integer(const Numeric& num1);
 Numeric decimal(const Numeric& num1);
 int sgn(const Numeric& num1);
@@ -127,6 +134,17 @@ bool operator<(const char* num1, const Numeric& num2);
 bool operator>(const char* num1, const Numeric& num2);
 bool operator<=(const char* num1, const Numeric& num2);
 bool operator>=(const char* num1, const Numeric& num2);
+
+// 逻辑运算符
+bool operator||(const Numeric& num1, const Numeric& num2);
+bool operator&&(const Numeric& num1, const Numeric& num2);
+bool operator!(const Numeric& num1);
+
+bool operator||(const Numeric& num1, const char* num2);
+bool operator&&(const Numeric& num1, const char* num2);
+
+bool operator||(const char* num1, const Numeric& num2);
+bool operator&&(const char* num1, const Numeric& num2);
 
 } // namespace mynum
 

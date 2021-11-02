@@ -33,6 +33,7 @@ set(MYNUM_HEADERS
   ${SRC_DIRECTORY}/common.h
   ${SRC_DIRECTORY}}/exception.h
   ${SRC_DIRECTORY}}/bignum.h
+  ${SRC_DIRECTORY}}/numeric.h
 )
 
 #
@@ -43,8 +44,8 @@ if(BUILD_TEST)
 add_executable(test_bignum ${SRC_DIRECTORY}/test/test_bignum.cc)
 target_link_libraries(test_bignum mynum gtest pthread)
 
-# add_executable(test_numeric ${SRC_DIRECTORY}/test/test_numeric.cc)
-# target_link_libraries(test_numeric mynum gtest pthread)
+add_executable(test_numeric ${SRC_DIRECTORY}/test/test_numeric.cc)
+target_link_libraries(test_numeric mynum gtest pthread)
 
 # add_executable(test_bernoulli_numbers ${SRC_DIRECTORY}/test/test_bernoulli_numbers.cc)
 # target_link_libraries(test_bernoulli_numbers mynum my uuid gtest pthread)
@@ -58,11 +59,13 @@ endif(BUILD_TEST)
 #
 add_library(${PROJECT_NAME} STATIC
   ${SRC_DIRECTORY}/common.cc
-  ${SRC_DIRECTORY}/bignum.cc
-  ${SRC_DIRECTORY}/bignum_add.cc
-  ${SRC_DIRECTORY}/bignum_sub.cc
-  ${SRC_DIRECTORY}/bignum_mul.cc
-  ${SRC_DIRECTORY}/bignum_div.cc
+  ${SRC_DIRECTORY}/bignum/bignum.cc
+  ${SRC_DIRECTORY}/bignum/bignum_add.cc
+  ${SRC_DIRECTORY}/bignum/bignum_sub.cc
+  ${SRC_DIRECTORY}/bignum/bignum_mul.cc
+  ${SRC_DIRECTORY}/bignum/bignum_div.cc
+  ${SRC_DIRECTORY}/numeric.cc
+  ${SRC_DIRECTORY}/numeric_operator.cc
 )
 target_link_libraries(${PROJECT_NAME} my)
 
@@ -72,8 +75,8 @@ target_link_libraries(${PROJECT_NAME} my)
 enable_testing()
 add_test(NAME test_bignum COMMAND test_bignum)
 set_tests_properties(test_bignum PROPERTIES FAIL_REGULAR_EXPRESSION "FAILED")
-# add_test(NAME test_numeric COMMAND test_numeric)
-# set_tests_properties(test_numeric PROPERTIES FAIL_REGULAR_EXPRESSION "FAILED")
+add_test(NAME test_numeric COMMAND test_numeric)
+set_tests_properties(test_numeric PROPERTIES FAIL_REGULAR_EXPRESSION "FAILED")
 
 #
 # Install Set
