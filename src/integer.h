@@ -8,24 +8,13 @@
 
 namespace mynum {
 
-class Integer {
+class Integer : public Numeric {
 public:
   Integer();
-  Integer(uinteger_t number, bool negative=false);
-  Integer(const char* number, int base=10);
-  Integer(Integer* number);
-  Integer(const Integer& number);
   Integer(const bignum_t& number);
   virtual ~Integer();
 
-  void assign(const Integer& n);
-  void zero();
-  void one(bool sign=true);
-  void nan(bool sign=true);   // sign = false,为一种特殊的nan值，表示数值不确定。用于内部计算。为none值。
-  void none();
-
-  bignum_t integer_park() const { return integer_park_; }
-  std::string str() const;
+  virtual std::string str() const;
 
   // 单目运算符 *(指针)，&(取地址)
   Integer& operator+();
@@ -63,22 +52,8 @@ public:
   char operator[](uinteger_t i);
 
 protected:
-  void __create_from_string(const char* n, int base);
-  void __set_integer_park(const bignum_t& integer_park) { integer_park_ = integer_park; }
-  void __set_integer_park_zero();
-
-protected:
-  bignum_t integer_park_;
+  virtual void __create_from_string(const char* n, int base);
 };
-
-//
-// 比较运算
-//
-bool equ(const Integer& num1, const Integer& num2);
-bool gt(const Integer& num1, const Integer& num2);
-bool lt(const Integer& num1, const Integer& num2);
-bool ge(const Integer& num1, const Integer& num2);
-bool le(const Integer& num1, const Integer& num2);
 
 //
 // 基础的运算

@@ -78,18 +78,10 @@ std::string Numeric::str() const {
     return ret;
   }
 
-  for (int i = integer_park_.size()-1; i >= 0; i--) {
-    char c = static_cast<char>(integer_park_[i] + kZeroCode);
-    ret.push_back(c);
-  }
-
+  ret = bignum_to_string(integer_park_);
   if (!decimal_park_.empty()) {
     ret.push_back('.');
-    integer_t precision = static_cast<integer_t>(decimal_park_.size());
-    for (integer_t i = precision-1; i >= 0; i--) {
-      char c = static_cast<char>(decimal_park_[i] + kZeroCode);
-      ret.push_back(c);
-    }
+    ret += bignum_to_string(decimal_park_);
   }
 
   return ret;
@@ -215,12 +207,9 @@ int Numeric::__add_infinite(const Numeric& num1, const Numeric& num2) {
     res = num2.sign();
   } else if (is_infinite(num1) && is_infinite(num2)) {
     if (num1.sign() == num2.sign()) {
-      if (num1.sign() == kNegative) 
-        res = kOperandInfNegInfinity;
-      else 
-        res = kOperandInfPosInfinity;
+      res = num1.sign();
     } else {
-      res = kOperandInfNan;
+      res = kOperandInfNan;   // 正负无穷相加 = NAN
     }
   } else {  // !is_infinite(num1) && !is_infinite(num2)
     res = kOperandInfIndeterminacy;
@@ -237,12 +226,9 @@ int Numeric::__sub_infinite(const Numeric& num1, const Numeric& num2) {
     res = num2_sign;
   } else if (is_infinite(num1) && is_infinite(num2)) {
     if (num1.sign() == num2_sign) {
-      if (num1.sign() == kNegative)
-        res = kOperandInfNegInfinity;
-      else 
-        res = kOperandInfPosInfinity;
+      res = num1.sign();
     } else {
-      res = kOperandInfNan;
+      res = kOperandInfNan;   // 正负无穷相减 = NAN
     }
   } else { // (!is_infinite(num1) && !is_infinite(num2))
     res = kOperandInfIndeterminacy;
@@ -252,23 +238,17 @@ int Numeric::__sub_infinite(const Numeric& num1, const Numeric& num2) {
 
 int Numeric::__mul_infinite(const Numeric& num1, const Numeric& num2) {
   int sign = num1.sign() * num2.sign();
-  if ((num1.sign() == kNegative) && (num2.sign() == kNegative))
-    sign = kPositive;
-
   int res = kOperandInfIndeterminacy;
   if (is_zero(num1) && is_infinite(num2)) {
-    res = kOperandInfNan;
+    res = kOperandInfNan;     // 0与正负无穷相乘法 = NAN
   } else if (is_infinite(num1) && is_zero(num2)) {
-    res = kOperandInfNan;
+    res = kOperandInfNan;     // 0与正负无穷相乘法 = NAN
   } else if (is_infinite(num1) && !is_infinite(num2)) {
     res = sign;
   } else if (!is_infinite(num1) && is_infinite(num2)) {
     res = sign;
   } else if (is_infinite(num1) && is_infinite(num2)) {
-    if (num1.sign() != num2.sign())
-      res = kOperandInfNegInfinity;
-    else
-      res = kOperandInfPosInfinity;
+    res = sign;
   } else { // !is_infinite(num1) && !is_infinite(num2)
     res = kOperandInfIndeterminacy;
   }
@@ -278,9 +258,6 @@ int Numeric::__mul_infinite(const Numeric& num1, const Numeric& num2) {
 /* 这里保证除数不为0 */
 int Numeric::__div_infinite(const Numeric& num1, const Numeric& num2) {
   int sign = num1.sign() * num2.sign();
-  if ((num1.sign() == kNegative) && (num2.sign() == kNegative))
-    sign = kPositive;
-
   int res = kOperandInfIndeterminacy;
   if (is_zero(num2)) {
     divisor_is_zero_exception("num2 = %s", num2.str().c_str());
@@ -291,7 +268,7 @@ int Numeric::__div_infinite(const Numeric& num1, const Numeric& num2) {
   } else if (!is_infinite(num1) && is_infinite(num2)) {
     res = kOperandInfZero;
   } else if (is_infinite(num1) && is_infinite(num2)) {
-    res = kOperandInfNan;
+    res = kOperandInfNan;       // 正负无穷相除 = NAN
   } else { // !is_infinite(num1) && !is_infinite(num2)
     res = kOperandInfIndeterminacy;
   }
@@ -319,9 +296,9 @@ int Numeric::__mod_infinite(const Numeric& num1, const Numeric& num2) {
 Numeric Numeric::__infinite_operation_result(int inf) {
   Numeric res;
   if (inf == kOperandInfNegInfinity) {
-    res.infinite(false);
+    res.set_infinite(false);
   } else if (inf == kOperandInfPosInfinity) {
-    res.infinite(true);
+    res.set_infinite(true);
   } else if (inf == kOperandInfZero) {
     res.zero();
   } else if (inf == kOperandInfOne) {
@@ -433,6 +410,138 @@ bool ge(const Numeric& num1, const Numeric& num2) {
 bool le(const Numeric& num1, const Numeric& num2) {
   if (is_nan(num1) || is_nan(num2)) return false;
   return lt(num1, num2) || equ(num1, num2);
+}
+
+Numeric abs(const Numeric& num1) {
+  Numeric res(num1);
+  res.__set_sign(kPositive);
+  return res;
+}
+
+Numeric floor(const Numeric& num1) {
+  if (is_nan(num1)) return Numeric();
+  if (is_infinite(num1)) return Numeric("inf");
+  if (is_integer(num1)) return num1;
+
+  Numeric res = num1;
+  res.__set_decimal_park_zero();
+  if (num1.sign() == kNegative) {
+    res.__set_sign(true);
+    res = add(res, Numeric("1"));
+    res.__set_sign(kNegative);
+  }
+  return res;
+}
+
+Numeric ceil(const Numeric& num1) {
+  if (is_nan(num1)) return Numeric();
+  if (is_infinite(num1)) return Numeric("inf");
+  if (is_integer(num1)) return num1;
+  
+  Numeric res = num1;
+  res.__set_decimal_park_zero();
+  if (num1.sign() == kPositive) {
+    res = add(res, Numeric("1"));
+  }
+  return res;
+}
+
+static bignum_t __effective_digit(const Numeric& num1, uinteger_t precision, unit_t& v) {
+  bignum_t new_decimal_park;
+  if (precision >= num1.precision()) {
+    v = 0;
+    return new_decimal_park;
+  }
+
+  bignum_t decimal_park = num1.decimal_park();
+  size_t diff = decimal_park.size() - precision;
+  new_decimal_park.insert(new_decimal_park.end(), decimal_park.begin()+diff, 
+                                                  decimal_park.end());
+  bignum_t::iterator iter = (decimal_park.end() - precision);
+  v = *(iter-1);
+  return new_decimal_park;
+}
+
+static bool __mantissa_is_5(const Numeric& num1) {
+  bignum_t decimal_park = num1.decimal_park();
+  if ((decimal_park.size() == 1) && (decimal_park[0] == 5))
+    return true;
+
+  //
+  // 首位为5，其余位为0。
+  //
+  if (*(decimal_park.end()-1) == 5) {
+    size_t length = decimal_park.size();
+    for (size_t i = length-1; i > 0; i++) {
+      if (decimal_park[i] != 0) return false;
+    }
+    return true;
+  }
+
+  return false;
+}
+
+/* 当尾数为5，而尾数后面的数字均为0时，应看尾数“5”的前一位：若前一位数字此时为奇数，
+ * 就应向前进一位；若前一位数字此时为偶数，则应将尾数舍去。数字“0”在此时应被视为偶数。
+ */
+Numeric round(const Numeric& num1, uinteger_t precision) {
+  if (is_nan(num1)) return Numeric();
+  if (is_zero(num1)) return Numeric("0");
+  if (is_infinite(num1)) operand_value_is_invalid_exception("%s", "num1 is infinite");
+  if (is_integer(num1)) return num1;
+  if (precision >= num1.precision()) return num1;
+
+  if (__mantissa_is_5(num1)) {
+    if (is_odd(integer(num1))) {
+      if (num1.sign() == kPositive)
+        return integer(num1 + "1");
+      else
+        return integer(num1 + "-1");
+    }
+    // 偶数舍去尾数
+    return integer(num1);
+  }
+
+  unit_t v = 0;
+  bignum_t effective_park = __effective_digit(num1, precision, v);
+  Numeric res = num1;
+  res.__set_decimal_park(effective_park);
+
+  if (v >= 5) {
+    bignum_t plus;
+    plus.resize(precision-1);
+    plus.push_front(1);
+    Numeric tmp("0");
+    tmp.__set_decimal_park(plus);
+    res += tmp;
+  }
+
+  return res;
+}
+
+Numeric integer(const Numeric& num1) {
+  if (is_nan(num1)) return Numeric();
+  if (is_infinite(num1)) 
+    operand_value_is_invalid_exception("%s", "num1 is infinite");
+
+  Numeric res = num1;
+  res.set_decimal_park_zero();
+  return res;
+}
+
+Numeric decimal(const Numeric& num1) {
+  if (is_nan(num1)) return Numeric();
+  if (is_infinite(num1)) 
+    operand_value_is_invalid_exception("%s", "num1 is infinite");
+
+  Numeric res = num1;
+  res.set_integer_park_zero();
+  return res;
+}
+
+int sgn(const Numeric& num1) {
+  if (is_zero(num1)) return 0;
+  return num1.sign();
 }
 
 bool is_zero(const Numeric& num1) {

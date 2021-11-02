@@ -77,6 +77,17 @@ bool ge(const Numeric& num1, const Numeric& num2);
 bool le(const Numeric& num1, const Numeric& num2);
 
 //
+// 基础运算
+//
+Numeric abs(const Numeric& num1);
+Numeric floor(const Numeric& num1);
+Numeric ceil(const Numeric& num1);
+Numeric round(const Numeric& num1, uinteger_t precision);
+Numeric integer(const Numeric& num1);
+Numeric decimal(const Numeric& num1);
+int sgn(const Numeric& num1);
+
+//
 // 判断类型
 //
 bool is_zero(const Numeric& num1);

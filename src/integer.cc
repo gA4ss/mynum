@@ -3,69 +3,13 @@
 
 namespace mynum {
 
-Integer::Integer() { nan(); }
+Integer::Integer() { zero(); }
 
-Integer::Integer(const char* number, int base) {
-  zero();
-  __create_from_string(number, base);
-}
-
-Integer::Integer(std::string& number, int base) {
-  zero();
-  __create_from_string(number.c_str(), base);
-}
-
-Integer::Integer(Integer* number) {
-  assign(*number);
-}
-
-Integer::Integer(const Integer& number) {
-  assign(number);
+Integer::Integer(const bignum_t& number) {
+  integer_park_ = number;
 }
 
 Integer::~Integer() {}
-
-void Integer::nan(bool sign) {
-  sign_ = static_cast<int>(sign);
-  infinite_ = false;
-  integer_park_.clear();
-  decimal_park_.clear();
-}
-
-void Integer::none() {
-  nan(false);
-}
-
-void Integer::zero() {
-  sign_ = kPositive;
-  infinite_ = false;
-
-  integer_park_.clear();
-  decimal_park_.clear();
-  integer_park_.push_back(0);
-}
-
-void Integer::infinite(bool sign) {
-  nan();
-  sign_ = static_cast<int>(sign);
-  infinite_ = true;
-}
-
-void Integer::one(bool sign) {
-  sign_ = sign;
-  infinite_ = false;
-
-  integer_park_.clear();
-  decimal_park_.clear();
-  integer_park_.push_back(1);
-}
-
-void Integer::assign(const Integer& number) {
-  sign_ = number.sign();
-  integer_park_ = number.integer_park();
-  decimal_park_ = number.decimal_park();
-  infinite_ = number.infinite();
-}
 
 std::string Integer::str() const {
   std::string ret="";
@@ -84,31 +28,25 @@ std::string Integer::str() const {
     return ret;
   }
 
-  for (int i = integer_park_.size()-1; i >= 0; i--) {
-    char c = static_cast<char>(integer_park_[i] + kZeroCode);
-    ret.push_back(c);
-  }
-
-  if (!decimal_park_.empty()) {
-    ret.push_back('.');
-    integer_t precision = static_cast<integer_t>(decimal_park_.size());
-    for (integer_t i = precision-1; i >= 0; i--) {
-      char c = static_cast<char>(decimal_park_[i] + kZeroCode);
-      ret.push_back(c);
-    }
-  }
-
+  ret = bignum_to_string(integer_park_);
   return ret;
+}
+
+static void __invalid_base(int base) {
+  if (base != 10 && base != 2 && base != 8 && base != 16) {
+    invalid_arguments_exception("base = %d", base);
+  }
+}
+
+static bool __check_number_format(const char* number) {
+  // 暂时无实现
+  return true;
 }
 
 void Integer::__create_from_string(const char* number, int base) {
   my_assert(number, "%s", "number ptr is null.");
   __invalid_base(base);   // FIXME: 目前只支持10进制构造。
-
-  // 检查number字符串的格式
-  if (!__check_number_format(number)) {
-    invalid_arguments_exception("number = %s", number);
-  }
+  __check_number_format(number));
 
   //
   // FIXME: 这里存在溢出风险。
@@ -124,14 +62,12 @@ void Integer::__create_from_string(const char* number, int base) {
   size_t length = number_str.size();
 
   // 首先判断符号
+  sign_ = kPositive;
   if (number_str[0] == '-') {
     sign_ = kNegative;
     number_str.erase(0, 1);
   } else if (number_str[0] == '+') {
-    sign_ = kPositive;
     number_str.erase(0, 1);
-  } else {
-    sign_ = kPositive;
   }
 
   // nan
@@ -142,110 +78,11 @@ void Integer::__create_from_string(const char* number, int base) {
 
   // inf
   if (number_str == "inf") {
-    infinite(sign_);
+    set_infinite(sign_);
     return;
   }
 
-  //
-  // 这里分为两部分处理,整数部分与小数部分
-  //
-  std::string integer_str = "", decimal_str = "";
-  uinteger_t precision = 0;
-  std::size_t found = number_str.find('.');
-  if (found != std::string::npos) {
-    integer_str = number_str.substr(0, found);
-    decimal_str = number_str.substr(found + 1);
-    precision = decimal_str.size();
-  } else {
-    integer_str = number_str;
-    precision = 0;
-  }
-
-  if (integer_str.empty()) integer_str = "0";
-
-  integer_park_.clear();
-  decimal_park_.clear();
-  length = integer_str.size();
-  for (size_t i = 0; i < length; i++) {
-    unit_t j = static_cast<unit_t>(integer_str[i]) - kZeroCode;
-    integer_park_.push_front(j);
-  }
-
-  if (precision) {
-    length = decimal_str.size();
-    for (size_t i = 0; i < length; i++) {
-      unit_t j = static_cast<unit_t>(decimal_str[i]) - kZeroCode;
-      decimal_park_.push_front(j);
-    }
-  }
-
-  __shrink_zero(integer_park_, true);
-  __shrink_zero(decimal_park_, false);
-}
-
-void Integer::__set_integer_park_zero() {
-  integer_park_.clear();
-  integer_park_.push_back(0);
-}
-
-void Integer::__set_decimal_park_zero() {
-  decimal_park_.clear();
-  decimal_park_.push_back(0);
-}
-
-/* 此函数只对比值的情况，不考虑符号情况。*/
-static int __cmp(const Integer& num1, const Integer& num2) {
-  int res = __cmp(num1.integer_park(), num2.integer_park());
-  if (res != 0) return res;
-  // 整数相等，则比对小数。
-  res = __cmp(num1.decimal_park(), num2.decimal_park(), true);
-  return res;
-}
-
-bool is_zero(const Integer& num1) {
-  if (is_infinite(num1)) return false;
-
-  bignum_t integer_park = num1.integer_park();
-  bignum_t decimal_park = num1.decimal_park();
-  // 两个队列没有值就是0。
-  if (integer_park.empty() && decimal_park.empty())
-    return true;
-  
-  for (size_t i = 0; i < integer_park.size(); i++) {
-    if (integer_park[i] != 0)
-      return false;
-  }
-
-  if (num1.precision()) {
-    for (size_t i = 0; i < decimal_park.size(); i++)
-      if (decimal_park[i] != 0)
-        return false;
-  }
-
-  return true;
-}
-
-bool is_one(const Integer& num1) {
-  Integer o("1");
-  return equ(num1, o);
-}
-
-bool is_nan(const Integer& num1) {
-  if (num1.infinite()) return false;
-  if (num1.integer_park().size() == 0 && \
-      num1.decimal_park().size() == 0)
-    return true;
-  return false;
-}
-
-bool is_infinite(const Integer& num1) {
-  return num1.infinite();
-}
-
-bool is_none(const Integer& num1) {
-  if ((is_nan(num1)) && (num1.sign() == kNegative))
-    return true;
-  return false;
+  integer_park_ = string_to_bignum(number_str.c_str(), true);
 }
 
 bool is_odd(const Integer& num1) {
