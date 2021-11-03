@@ -90,8 +90,10 @@ std::string Integer::str() const {
   return ret;
 }
 
-void Integer::set_sign(bool negative) {
-  sign_ = (negative == true) ? kNegative : kPositive;
+void Integer::set_sign(int sign) {
+  if (sign != kNegative && sign != kPositive)
+    invalid_arguments_exception("sign should be -1 or 1. sign = %d.", sign);
+  sign_ = sign;
 }
 
 void Integer::set_infinite(bool infinite) {
@@ -120,7 +122,7 @@ static bool __check_number_format(const char* number) {
 void Integer::__create_from_string(const char* number, int base) {
   my_assert(number, "%s", "number ptr is null.");
   __invalid_base(base);   // FIXME: 目前只支持10进制构造。
-  __check_number_format(number));
+  __check_number_format(number);
 
   //
   // FIXME: 这里存在溢出风险。
@@ -133,7 +135,6 @@ void Integer::__create_from_string(const char* number, int base) {
   }
 
   std::string number_str = number;
-  size_t length = number_str.size();
 
   // 首先判断符号
   sign_ = kPositive;

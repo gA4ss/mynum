@@ -3,88 +3,88 @@
 #include <string>
 #include <iostream>
 #include <gtest/gtest.h>
-#include <mynum/numeric.h>
+#include <mynum/integer.h>
 
 using namespace mynum;
 
-TEST(Numeric, Create) {
-  EXPECT_TRUE(is_nan(Numeric("nan")));
-  EXPECT_TRUE(Numeric("inf") == "inf");
-  EXPECT_TRUE(Numeric("-inf") == "-inf");
-  EXPECT_TRUE("0" == Numeric("0"));
-  EXPECT_TRUE(Numeric(".3414") == "0.3414");
-  EXPECT_TRUE("123456789.123456789" == Numeric("123456789.123456789"));
-  EXPECT_TRUE(Numeric("1844674407370955161518446744073709551615") == "1844674407370955161518446744073709551615");
+TEST(Integer, Create) {
+  EXPECT_TRUE(is_nan(Integer("nan")));
+  EXPECT_TRUE(Integer("inf") == "inf");
+  EXPECT_TRUE(Integer("-inf") == "-inf");
+  EXPECT_TRUE("0" == Integer("0"));
+  EXPECT_TRUE(Integer("3414") == "3414");
+  EXPECT_TRUE("123456789123456789" == Integer("123456789123456789"));
+  EXPECT_TRUE(Integer("-1844674407370955161518446744073709551615") == "-1844674407370955161518446744073709551615");
 }
 
-TEST(Numeric, Add) {
-  Numeric m,n,z;
-  m = Numeric("3.1415926");
-  n = Numeric("2.1532");
+TEST(Integer, Add) {
+  Integer m,n,z;
+  m = Integer("31415926");
+  n = Integer("21532");
   z = m + n;
-  EXPECT_TRUE(z == "5.2947926");
+  EXPECT_TRUE(z == "52947926");
 
-  m = Numeric("3.1415926");
-  n = Numeric("-3.1415926");
+  m = Integer("31415926");
+  n = Integer("-31415926");
   z = m + n;
   EXPECT_TRUE(z == "0") << " z == " << z.str();
 }
 
-TEST(Numeric, Sub) {
-  Numeric m,n,z;
-  m = Numeric("3.1415926");
-  n = Numeric("-3.1415926");
+TEST(Integer, Sub) {
+  Integer m,n,z;
+  m = Integer("3");
+  n = Integer("-3");
   z = m - n;
-  EXPECT_TRUE(z == "6.2831852");
+  EXPECT_TRUE(z == "6");
 
-  m = Numeric("0");
-  n = Numeric("3.1415926");
+  m = Integer("0");
+  n = Integer("3");
   z = m - n;
-  EXPECT_TRUE(z == "-3.1415926");
+  EXPECT_TRUE(z == "-3");
 
-  m = Numeric("inf");
-  n = Numeric("3.1415926");
+  m = Integer("inf");
+  n = Integer("3");
   z = m - n;
   EXPECT_TRUE(z == "inf");
 
-  m = Numeric("3.1415926");
-  n = Numeric("inf");
+  m = Integer("3");
+  n = Integer("inf");
   z = m - n;
   EXPECT_TRUE(z == "-inf");
 
-  m = Numeric("3.1415926");
-  n = Numeric("0");
+  m = Integer("3");
+  n = Integer("0");
   z = m - n;
-  EXPECT_TRUE(z == "3.1415926");
+  EXPECT_TRUE(z == "3");
 }
 
-TEST(Numeric, Mul) {
-  Numeric m,n,z;
-  m = Numeric("3.1415926");
-  n = Numeric("-3.1415926");
+TEST(Integer, Mul) {
+  Integer m,n,z;
+  m = Integer("5423784936157847197483457940000098767832678959109111454289");
+  n = Integer("-1348958468509017847609193957884909470190843754909375849290843957498298");
   z = m * n;
-  EXPECT_TRUE(z == "-9.86960406437476");
+  EXPECT_TRUE(z == "-7316460621001770695793615722677532697558991811020278508862006264244333162263112086398009291368646551477107496446589401022300122");
 
-  m = Numeric("0");
-  n = Numeric("3.1415926");
+  m = Integer("0");
+  n = Integer("3");
   z = m * n;
   EXPECT_TRUE(z == "0");
 
-  m = Numeric("inf");
+  m = Integer("inf");
   z = m * "0";
   EXPECT_TRUE(is_nan(z)) << "z = " << z.str();
 
-  m = Numeric("-inf");
+  m = Integer("-inf");
   z = "0" * m;
   EXPECT_TRUE(is_nan(z)) << "z = " << z.str();
 
-  m = Numeric("1844674407370955161518446744073709551615");
+  m = Integer("1844674407370955161518446744073709551615");
   m *= "1844674407370955161518446744073709551615"; 
   EXPECT_TRUE(m == "3402823669209384634332867666227678774935636506223790760108426481119284349108225");
 }
 
-TEST(Numeric, Div) {
-  Numeric m;
+TEST(Integer, Div) {
+  Integer m;
   m = "7";
   m /= "inf";
   EXPECT_TRUE(m == "0.0");
@@ -110,191 +110,110 @@ TEST(Numeric, Div) {
   EXPECT_TRUE(m == "0");
 }
 
-TEST(Numeric, DecimalsDiv) {
-  // Numeric x = "0.1435475698776374";
-  Numeric x = "0.1", y = "6", z;
-  z = div(x, y);
-  EXPECT_TRUE(z - "0.016666666666666666" < "0.0001") << "z = " << z.str();
-  // std::cout << "0.1 / 6 = " << z.str() << std::endl;
-
-  x = "1";
-  y = "0.6";
-  z = div(x, y);
-  EXPECT_TRUE(z - "1.6666666666666667" < "0.0001") << "z = " << z.str();
-  // std::cout << "1 / 0.6 = "  << z.str() << std::endl;
-
-  x = "0.1";
-  y = "0.6";
-  z = div(x, y);
-  EXPECT_TRUE(z - "0.16666666666666669" < "0.0001") << "z = " << z.str();
-  // std::cout << "0.1 / 0.6 = "  << z.str() << std::endl;
-
-  x = "1";
-  y = "6";
-  z = div(x, y);
-  EXPECT_TRUE(z - "0.16666666666666666" < "0.0001") << "z = " << z.str();
-  // std::cout << "1 / 6 = "  << z.str() << std::endl;
-
-  x = "1";
-  y = "6.0";
-  z = div(x, y);
-  EXPECT_TRUE(z - "0.16666666666666666" < "0.0001") << "z = " << z.str();
-}
-
-TEST(Numeric, IDiv) {
-  Numeric m,n,z;
+TEST(Integer, Div2) {
+  Integer m,n,z;
   m = "1000";
   n = "2";
   z = m / n;
   EXPECT_TRUE(z == "500") << "z = " << z.str();
 
-  m = Numeric("7");
-  n = Numeric("3");
+  m = Integer("7");
+  n = Integer("3");
   z = m / n;
   EXPECT_TRUE(z == "2");
 
-  m = Numeric("-7");
-  n = Numeric("3");
+  m = Integer("-7");
+  n = Integer("3");
   z = m / n;
   EXPECT_TRUE(z == "-3");
 
-  m = Numeric("7");
-  n = Numeric("-3");
+  m = Integer("7");
+  n = Integer("-3");
   z = m / n;
   EXPECT_TRUE(z == "-3");
 
-  m = Numeric("-7");
-  n = Numeric("-3");
+  m = Integer("-7");
+  n = Integer("-3");
   z = m / n;
   EXPECT_TRUE(z == "2");
 
-  m = Numeric("5");
-  n = Numeric("11");
+  m = Integer("5");
+  n = Integer("11");
   z = m / n;
   EXPECT_TRUE(z == "0");
 
-  m = Numeric("-5");
-  n = Numeric("11");
+  m = Integer("-5");
+  n = Integer("11");
   z = m / n;
   EXPECT_TRUE(z == "-1");
 
-  m = Numeric("5");
-  n = Numeric("-11");
+  m = Integer("5");
+  n = Integer("-11");
   z = m / n;
   EXPECT_TRUE(z == "-1");
 
-  m = Numeric("-5");
-  n = Numeric("-11");
+  m = Integer("-5");
+  n = Integer("-11");
   z = m / n;
   EXPECT_TRUE(z == "0");
 }
 
-TEST(Numeric, Mod) {
-  Numeric m,n,z;
+TEST(Integer, Mod) {
+  Integer m,n,z;
 
-  m = Numeric("inf");
-  n = Numeric("3");
+  m = Integer("inf");
+  n = Integer("3");
   z = m % n;
   EXPECT_TRUE(is_nan(z));
 
-  m = Numeric("3");
-  n = Numeric("inf");
+  m = Integer("3");
+  n = Integer("inf");
   z = m % n;
   EXPECT_TRUE(z == "3");
 
-  m = Numeric("7");
-  n = Numeric("3");
+  m = Integer("7");
+  n = Integer("3");
   z = m % n;
   EXPECT_TRUE(z == "1");
 
-  m = Numeric("-7");
-  n = Numeric("3");
+  m = Integer("-7");
+  n = Integer("3");
   z = m % n;
   EXPECT_TRUE(z == "2");
 
-  m = Numeric("7");
-  n = Numeric("-3");
+  m = Integer("7");
+  n = Integer("-3");
   z = m % n;
   EXPECT_TRUE(z == "-2");
 
-  m = Numeric("-7");
-  n = Numeric("-3");
+  m = Integer("-7");
+  n = Integer("-3");
   z = m % n;
   EXPECT_TRUE(z == "-1");
 
-  m = Numeric("5");
-  n = Numeric("11");
+  m = Integer("5");
+  n = Integer("11");
   z = m % n;
   EXPECT_TRUE(z == "5");
 
-  m = Numeric("-5");
-  n = Numeric("11");
+  m = Integer("-5");
+  n = Integer("11");
   z = m % n;
   EXPECT_TRUE(z == "6");
 
-  m = Numeric("5");
-  n = Numeric("-11");
+  m = Integer("5");
+  n = Integer("-11");
   z = m % n;
   EXPECT_TRUE(z == "-6");
 
-  m = Numeric("-5");
-  n = Numeric("-11");
+  m = Integer("-5");
+  n = Integer("-11");
   z = m % n;
   EXPECT_TRUE(z == "-5");
 }
 
-TEST(Numeric, Round) {
-  Numeric m, n;
-
-  m = "4.5";
-  n = round(m);
-  EXPECT_TRUE(n == "4");
-
-  m = "5.5";
-  n = round(m);
-  EXPECT_TRUE(n == "6");
-
-  m = "-6.5";
-  n = round(m);
-  EXPECT_TRUE(n == "-6");
-
-  m = "-3.5";
-  n = round(m);
-  EXPECT_TRUE(n == "-4") << "n = " << n.str();
-
-  // ------------------------------------
-
-  m = "3.1415926";
-  n = round(m, 0);
-  EXPECT_TRUE(n == "3") << "n = " << n.str();
-
-  n = round(m, 1);
-  EXPECT_TRUE(n == "3.1") << "n = " << n.str();
-
-  n = round(m, 2);
-  EXPECT_TRUE(n == "3.14") << "n = " << n.str();
-
-  n = round(m, 3);
-  EXPECT_TRUE(n == "3.142") << "n = " << n.str();
-
-  n = round(m, 4);
-  EXPECT_TRUE(n == "3.1416") << "n = " << n.str();
-
-  n = round(m, 5);
-  EXPECT_TRUE(n == "3.14159") << "n = " << n.str();
-
-  n = round(m, 6);
-  EXPECT_TRUE(n == "3.141593") << "n = " << n.str();
-
-  n = round(m, 7);
-  EXPECT_TRUE(n == "3.1415926") << "n = " << n.str();
-
-  n = round(m, 8);
-  EXPECT_TRUE(n == "3.1415926") << "n = " << n.str();
-}
-
-TEST(Numeric, Shift) {
-  Numeric m, n, b;
+TEST(Integer, Shift) {
+  Integer m, n, b;
 
   m = "4";
   b = "5";
@@ -310,11 +229,11 @@ TEST(Numeric, Shift) {
   EXPECT_TRUE(n == "0") << "n = " << n.str();
 }
 
-TEST(Numeric, Compare) {
-  Numeric m, n;
+TEST(Integer, Compare) {
+  Integer m, n;
 
-  m = "4.134";
-  n = "5.02";
+  m = "4";
+  n = "5";
   EXPECT_TRUE(m != n);
   EXPECT_TRUE(m < n);
 
@@ -323,7 +242,7 @@ TEST(Numeric, Compare) {
   EXPECT_TRUE(m > n);
 
   m = "5";
-  n = "5.0";
+  n = "5";
   EXPECT_TRUE(m == n);
 
   m = "5";
@@ -331,9 +250,9 @@ TEST(Numeric, Compare) {
   EXPECT_TRUE(m < n);
 }
 
-TEST(Numeric, Euclid) {
-  Numeric m, n, z;
-  std::pair<Numeric, Numeric> st;
+TEST(Integer, Euclid) {
+  Integer m, n, z;
+  std::pair<Integer, Integer> st;
 
   m = "10";
   n = "20";
@@ -382,8 +301,8 @@ TEST(Numeric, Euclid) {
                                                  << "s = " << st.first.str() << " " << "t = " << st.second.str();
 }
 
-TEST(Numeric, Factorial) {
-  Numeric m, n;
+TEST(Integer, Factorial) {
+  Integer m, n;
 
   m = "5";
   n = factorial(m);
@@ -398,8 +317,8 @@ TEST(Numeric, Factorial) {
   EXPECT_TRUE(n == "15511210043330985984000000") << "n = " << n.str();
 }
 
-TEST(Numeric, Pow) {
-  Numeric m, n, exp;
+TEST(Integer, Pow) {
+  Integer m, n, exp;
 
   m = "5";
   exp = "3";
@@ -420,78 +339,6 @@ TEST(Numeric, Pow) {
   exp = "128";
   n = pow(m, exp);
   EXPECT_TRUE(n == "340282366920938463463374607431768211456") << "n = " << n.str();
-}
-
-// TEST(Numeric, BernoulliNumbers) {
-//   Numeric x = "0", y;
-//   for (int i = 0; i < 9; i++) {
-//     y = bernoulli_numbers(x);
-//     std::cout << "bernoulli(" << x.str() << ") = " << y.str() << std::endl;
-//     x++;
-//   }
-// }
-
-TEST(Numeric, Trigonometric) {
-  Numeric x = "0.5235987666666667", y;
-  y = sin(x);
-  EXPECT_TRUE(abs(y - "0.5") < "0.0001") << "y = " << y.str();
-
-  y = cos(x);
-  // std::cout << "cos(pi/6) = " << y.str() << std::endl;
-  EXPECT_TRUE(abs(y - "0.8660254037844387") < "0.0001") << "y = " << y.str();
-
-  y = tan(x);
-  // std::cout << "tan(pi/6) = " << y.str() << std::endl;
-  EXPECT_TRUE(abs(y - "0.5773502691896257") < "0.0001") << "y = " << y.str();
-
-  y = cot(x);
-  // std::cout << "cot(pi/6) = " << y.str() << std::endl;
-  EXPECT_TRUE(abs(y - "1.7320508075688774") < "0.0001") << "y = " << y.str();
-
-  y = sec(x);
-  // std::cout << "sec(pi/6) = " << y.str() << std::endl;
-  EXPECT_TRUE(abs(y - "1.154700538379252") < "0.0001") << "y = " << y.str();
-
-  y = csc(x);
-  EXPECT_TRUE(abs(y - "2.0000000000000004") < "0.0001") << "y = " << y.str();
-  // std::cout << "csc(pi/6) = " << y.str() << std::endl;
-}
-
-TEST(Numeric, ArcTrigonometric) {
-  Numeric x = "0.5", y;
-  y = arcsin(x);
-  // std::cout << "arcsin(0.5) = " << y.str() << std::endl;
-  EXPECT_TRUE(abs(y - "0.5235987666666667") < "0.0001") << "y = " << y.str();
-
-  x = "0.8660254037844387";
-  y = arccos(x);
-  // std::cout << "arccos(0.8660254037844387) = " << y.str() << std::endl;
-  EXPECT_TRUE(abs(y - "0.5235987666666667") < "0.0001") << "y = " << y.str();
-
-  x = "0.5773502691896257";
-  y = arctan(x);
-  // std::cout << "arccos(0.5773502691896257) = " << y.str() << std::endl;
-  EXPECT_TRUE(abs(y - "0.5235987666666667") < "0.0001") << "y = " << y.str();
-
-  x = "1.7320508075688774";
-  y = arctan(x);
-  std::cout << "arctan(1.7320508075688774) = " << y.str() << std::endl;
-  EXPECT_TRUE(abs(y - "1.0472") < "0.0001") << "y = " << y.str();
-
-  x = "1.1547005383792515";
-  y = arcsec(x);
-  // std::cout << "arcsec(1.1547005383792515) = " << y.str() << std::endl;
-  EXPECT_TRUE(abs(y - "0.5235987666666667") < "0.0001") << "y = " << y.str();
-
-  x = "2.0000000000000004";
-  y = arccsc(x);
-  // std::cout << "arccsc(2.0000000000000004) = " << y.str() << std::endl;
-  EXPECT_TRUE(abs(y - "0.5235987666666667") < "0.0001") << "y = " << y.str();
-
-  x = "1.7320508075688774";
-  y = arccot(x);
-  // std::cout << "arccot(1.7320508075688774) = " << y.str() << std::endl;
-  EXPECT_TRUE(abs(abs(y) - "0.5235987666666667") < "0.0001") << "y = " << y.str();
 }
 
 int main(int argc, char* argv[]) {

@@ -312,11 +312,11 @@ void Integer::operator*=(const char* num2) {
 }
 
 void Integer::operator/=(const Integer& num2) {
-  *this = div(*this, num2);
+  *this = quo(*this, num2);
 }
 
 void Integer::operator/=(const char* num2) {
-  *this = div(*this, Integer(num2));
+  *this = quo(*this, Integer(num2));
 }
 
 void Integer::operator%=(const Integer& num2) {

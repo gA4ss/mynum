@@ -16,17 +16,12 @@ Integer or_bits(const Integer& num1, const Integer& num2) {
   bignum_t integer_park_1 = a.integer_park();
   bignum_t integer_park_2 = b.integer_park();
   size_t n = integer_park_1.size();
-  for (size_t i = 0; i < n; i++) {
+  for (size_t i = 0; i < n; i++)
     integer_park_3.push_front(integer_park_1[i] | integer_park_2[i]);
-  }
 
-  n = decimal_park_1.size();
-  for (size_t i = 0; i < n; i++) {
-    decimal_park_3.push_front(decimal_park_1[i] | decimal_park_2[i]);
-  }
   Integer c;
   c.set_integer_park(integer_park_3);
-  c.set_sign(a.sign() | b.sign());
+  c.set_sign(num1.sign() * num2.sign());
   return c;
 }
 

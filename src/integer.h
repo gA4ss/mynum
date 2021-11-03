@@ -28,7 +28,7 @@ public:
   bignum_t integer_park() const;
   std::string str() const;
 
-  void set_sign(bool sign);
+  void set_sign(int sign);
   void set_infinite(bool infinite);
   void set_integer_park(const bignum_t& integer_park);
   void set_integer_park_zero();
@@ -80,13 +80,13 @@ protected:
 //
 // 与无穷相关的运算
 //
-int cmp_infinite(const Numeric& num1, const Numeric& num2);
-int add_infinite(const Numeric& num1, const Numeric& num2);
-int sub_infinite(const Numeric& num1, const Numeric& num2);
-int mul_infinite(const Numeric& num1, const Numeric& num2);
-int div_infinite(const Numeric& num1, const Numeric& num2);
-int mod_infinite(const Numeric& num1, const Numeric& num2);
-Numeric infinite_operation_result(int inf);
+int __cmp_infinite(const Integer& num1, const Integer& num2);
+int __add_infinite(const Integer& num1, const Integer& num2);
+int __sub_infinite(const Integer& num1, const Integer& num2);
+int __mul_infinite(const Integer& num1, const Integer& num2);
+int __div_infinite(const Integer& num1, const Integer& num2);
+int __mod_infinite(const Integer& num1, const Integer& num2);
+Integer __infinite_operation_result(int inf);
 
 //
 // 比较运算
@@ -111,7 +111,6 @@ bool is_even(const Integer& num1);
 Integer add(const Integer& num1, const Integer& num2);
 Integer sub(const Integer& num1, const Integer& num2);
 Integer mul(const Integer& num1, const Integer& num2);
-Integer div(const Integer& num1, const Integer& num2);
 std::pair<Integer, Integer> div(const Integer& num1, const Integer& num2);
 Integer quo(const Integer& num1, const Integer& num2);
 Integer mod(const Integer& num1, const Integer& num2);
@@ -145,44 +144,54 @@ Integer operator-(const Integer& num1, const Integer& num2);
 Integer operator*(const Integer& num1, const Integer& num2);
 Integer operator/(const Integer& num1, const Integer& num2);
 Integer operator%(const Integer& num1, const Integer& num2);
-
 Integer operator+(const Integer& num1, const char* num2);
 Integer operator-(const Integer& num1, const char* num2);
 Integer operator*(const Integer& num1, const char* num2);
 Integer operator/(const Integer& num1, const char* num2);
 Integer operator%(const Integer& num1, const char* num2);
-
 Integer operator+(const char* num1, const Integer& num2);
 Integer operator-(const char* num1, const Integer& num2);
 Integer operator*(const char* num1, const Integer& num2);
 Integer operator/(const char* num1, const Integer& num2);
 Integer operator%(const char* num1, const Integer& num2);
 
-// 逻辑运算符
+bool operator==(const Integer& num1, const Integer& num2);
+bool operator!=(const Integer& num1, const Integer& num2);
+bool operator<(const Integer& num1, const Integer& num2);
+bool operator>(const Integer& num1, const Integer& num2);
+bool operator<=(const Integer& num1, const Integer& num2);
+bool operator>=(const Integer& num1, const Integer& num2);
+bool operator==(const Integer& num1, const char* num2);
+bool operator!=(const Integer& num1, const char* num2);
+bool operator<(const Integer& num1, const char* num2);
+bool operator>(const Integer& num1, const char* num2);
+bool operator<=(const Integer& num1, const char* num2);
+bool operator>=(const Integer& num1, const char* num2);
+bool operator==(const char* num1, const Integer& num2);
+bool operator!=(const char* num1, const Integer& num2);
+bool operator<(const char* num1, const Integer& num2);
+bool operator>(const char* num1, const Integer& num2);
+bool operator<=(const char* num1, const Integer& num2);
+bool operator>=(const char* num1, const Integer& num2);
 bool operator||(const Integer& num1, const Integer& num2);
 bool operator&&(const Integer& num1, const Integer& num2);
-bool operator!(const Integer& num1);
-
 bool operator||(const Integer& num1, const char* num2);
 bool operator&&(const Integer& num1, const char* num2);
-
 bool operator||(const char* num1, const Integer& num2);
 bool operator&&(const char* num1, const Integer& num2);
+bool operator!(const Integer& num1);
 
-// 位运算符
 Integer operator~(const Integer& num1);
 Integer operator|(const Integer& num1, const Integer& num2);
 Integer operator&(const Integer& num1, const Integer& num2);
 Integer operator^(const Integer& num1, const Integer& num2);
 Integer operator<<(const Integer& num1, const Integer& bits);
 Integer operator>>(const Integer& num1, const Integer& bits);
-
 Integer operator|(const Integer& num1, const char* num2);
 Integer operator&(const Integer& num1, const char* num2);
 Integer operator^(const Integer& num1, const char* num2);
 Integer operator<<(const Integer& num1, const char* bits);
 Integer operator>>(const Integer& num1, const char* bits);
-
 Integer operator|(const char* num1, const Integer& num2);
 Integer operator&(const char* num1, const Integer& num2);
 Integer operator^(const char* num1, const Integer& num2);

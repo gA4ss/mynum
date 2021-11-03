@@ -44,8 +44,8 @@ if(BUILD_TEST)
 add_executable(test_bignum ${SRC_DIRECTORY}/test/test_bignum.cc)
 target_link_libraries(test_bignum mynum gtest pthread)
 
-add_executable(test_numeric ${SRC_DIRECTORY}/test/test_numeric.cc)
-target_link_libraries(test_numeric mynum gtest pthread)
+add_executable(test_integer ${SRC_DIRECTORY}/test/test_integer.cc)
+target_link_libraries(test_integer mynum gtest pthread)
 
 # add_executable(test_bernoulli_numbers ${SRC_DIRECTORY}/test/test_bernoulli_numbers.cc)
 # target_link_libraries(test_bernoulli_numbers mynum my uuid gtest pthread)
@@ -64,8 +64,42 @@ add_library(${PROJECT_NAME} STATIC
   ${SRC_DIRECTORY}/bignum/bignum_sub.cc
   ${SRC_DIRECTORY}/bignum/bignum_mul.cc
   ${SRC_DIRECTORY}/bignum/bignum_div.cc
-  ${SRC_DIRECTORY}/numeric.cc
-  ${SRC_DIRECTORY}/numeric_operator.cc
+  ${SRC_DIRECTORY}/integer/integer.cc
+  ${SRC_DIRECTORY}/integer/__xxx_infinite.cc
+  ${SRC_DIRECTORY}/integer/equ.cc
+  ${SRC_DIRECTORY}/integer/gt.cc
+  ${SRC_DIRECTORY}/integer/lt.cc
+  ${SRC_DIRECTORY}/integer/ge.cc
+  ${SRC_DIRECTORY}/integer/le.cc
+  ${SRC_DIRECTORY}/integer/is_zero.cc
+  ${SRC_DIRECTORY}/integer/is_one.cc
+  ${SRC_DIRECTORY}/integer/is_nan.cc
+  ${SRC_DIRECTORY}/integer/is_infinite.cc
+  ${SRC_DIRECTORY}/integer/is_none.cc
+  ${SRC_DIRECTORY}/integer/is_odd.cc
+  ${SRC_DIRECTORY}/integer/is_even.cc
+  ${SRC_DIRECTORY}/integer/add.cc
+  ${SRC_DIRECTORY}/integer/sub.cc
+  ${SRC_DIRECTORY}/integer/mul.cc
+  ${SRC_DIRECTORY}/integer/div.cc
+  ${SRC_DIRECTORY}/integer/quo.cc
+  ${SRC_DIRECTORY}/integer/mod.cc
+  ${SRC_DIRECTORY}/integer/abs.cc
+  ${SRC_DIRECTORY}/integer/pow.cc
+  ${SRC_DIRECTORY}/integer/factorial.cc
+  ${SRC_DIRECTORY}/integer/extended_euclidean.cc
+  ${SRC_DIRECTORY}/integer/gcd.cc
+  ${SRC_DIRECTORY}/integer/lcm.cc
+  ${SRC_DIRECTORY}/integer/sgn.cc
+  ${SRC_DIRECTORY}/integer/or_bits.cc
+  ${SRC_DIRECTORY}/integer/and_bits.cc
+  ${SRC_DIRECTORY}/integer/xor_bits.cc
+  ${SRC_DIRECTORY}/integer/not_bits.cc
+  ${SRC_DIRECTORY}/integer/lshift_bits.cc
+  ${SRC_DIRECTORY}/integer/rshift_bits.cc
+  ${SRC_DIRECTORY}/integer/copy.cc
+  ${SRC_DIRECTORY}/integer/same_digits.cc
+  ${SRC_DIRECTORY}/integer/operator.cc
 )
 target_link_libraries(${PROJECT_NAME} my)
 
@@ -75,8 +109,8 @@ target_link_libraries(${PROJECT_NAME} my)
 enable_testing()
 add_test(NAME test_bignum COMMAND test_bignum)
 set_tests_properties(test_bignum PROPERTIES FAIL_REGULAR_EXPRESSION "FAILED")
-add_test(NAME test_numeric COMMAND test_numeric)
-set_tests_properties(test_numeric PROPERTIES FAIL_REGULAR_EXPRESSION "FAILED")
+add_test(NAME test_integer COMMAND test_integer)
+set_tests_properties(test_integer PROPERTIES FAIL_REGULAR_EXPRESSION "FAILED")
 
 #
 # Install Set
