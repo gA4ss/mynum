@@ -27,8 +27,7 @@ Integer mul(const Integer& num1, const Integer& num2) {
   shrink_zero(product, false);
 
   int sign = kPositive;
-  if (num1.sign() == num2.sign()) sign = kPositive;
-  else sign = kNegative;
+  if (num1.sign() != num2.sign()) sign = kNegative;
 
   res.set_integer_park(product);
   res.set_sign(sign);

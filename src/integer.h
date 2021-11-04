@@ -19,8 +19,8 @@ public:
 
   void assign(const Integer& n);
   void zero();
-  void one(bool sign=true);
-  void nan(bool sign=true);   // sign = false,为一种特殊的nan值，表示数值不确定。用于内部计算。为none值。
+  void one(int sign=kPositive);
+  void nan(int sign=kPositive);   // sign = false,为一种特殊的nan值，表示数值不确定。用于内部计算。为none值。
   void none();
 
   int sign() const;

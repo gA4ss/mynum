@@ -3,6 +3,23 @@
 
 namespace mynum {
 
+/* 这里认定num1是数字而num2是无穷。 */
+static Integer __mod_infinite_operation(const Integer& num1, const Integer& num2) {
+  my_assert(is_infinite(num2), "%s", "num2 is not infinite.");
+
+  Integer res;
+  if (is_zero(num1)) {
+    res.zero();
+  } else if (!is_infinite(num1)) {
+    if (num1.sign() == num2.sign()) {
+      res = num1;
+    } else {
+      res = num2;
+    }
+  }
+  return res;
+}
+
 /* 余数在数学中的定义是始终大于等于0的。
  * 这里的整除运算都是在取floor后进行运算。
  */
@@ -58,12 +75,12 @@ std::pair<Integer, Integer> div(const Integer& num1, const Integer& num2) {
   } else if (lt(abs(num1), abs(num2))) {
     if (num1.sign() == num2.sign()) {
       q = "0";
-      if (num1.sign() == kPositive) r = floor(num1);
-      else r = ceil(num1);
+      if (num1.sign() == kPositive) r = num1;
+      else r = num1;
       return std::pair<Integer, Integer>(q, r);
     } else {
       q = "-1";
-      r = sub(floor(abs(num2)), floor(abs(num1)));
+      r = sub(abs(num2), abs(num1));
       r.set_sign(num2.sign());
       return std::pair<Integer, Integer>(q, r);
     }
@@ -72,9 +89,8 @@ std::pair<Integer, Integer> div(const Integer& num1, const Integer& num2) {
   //
   // 这里必然 abs(num1) > abs(num2)
   //
-  q = quo(floor(num1), floor(num2));
-  q = floor(q);
-  r = sub(floor(num1), mul(floor(num2), q));
+  q = quo(num1, num2);
+  r = sub(num1, mul(num2, q));
   return std::pair<Integer, Integer>(q, r);
 }
 

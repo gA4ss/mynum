@@ -18,35 +18,35 @@ Integer sub(const Integer& num1, const Integer& num2) {
   int sign = kPositive;
   bool t = false;
 
-  int cmp = cmp(num1.integer_park(), num2.integer_park());
+  int cmp_result = cmp(integer_park_1, integer_park_2);
   if ((num1.sign() == kPositive) && (num2.sign() == kPositive)) {
     // a - b
-    if ((cmp == 1) || (cmp == 0)) {
+    if ((cmp_result == 1) || (cmp_result == 0)) {
       // a >= b
-      integer_park = __sub_integer_park(integer_park_1, integer_park_2, t);
+      integer_park = sub(integer_park_1, integer_park_2, t);
       sign = kPositive;
     } else {
       // a < b
-      integer_park = __sub_integer_park(integer_park_2, integer_park_1, t);
+      integer_park = sub(integer_park_2, integer_park_1, t);
       sign = kNegative;
     }
   } else if ((num1.sign() == kPositive) && (num2.sign() == kNegative)) {
     // a - (-b)
-    integer_park = __add_integer_park(integer_park_1, integer_park_2, t);
+    integer_park = add(integer_park_1, integer_park_2, t);
     sign = kPositive;
   } else if ((num1.sign() == kNegative) && (num2.sign() == kPositive)) {
     // -a - b
-    integer_park = __add_integer_park(integer_park_1, integer_park_2, t);
+    integer_park = add(integer_park_1, integer_park_2, t);
     sign = kNegative;
   } else if ((num1.sign() == kNegative) && (num2.sign() == kNegative)) {
     // -a - (-b)
-    if (cmp == 1) {
+    if (cmp_result == 1) {
       // a > b
-      integer_park = __sub_integer_park(integer_park_1, integer_park_2, t);
+      integer_park = sub(integer_park_1, integer_park_2, t);
       sign = kNegative;
-    } else { // cmp == -1 || cmp == 0
+    } else { // cmp_result == -1 || cmp_result == 0
       // a <= b
-      integer_park = __sub_integer_park(integer_park_2, integer_park_1, t);
+      integer_park = sub(integer_park_2, integer_park_1, t);
       sign = kPositive;
     }
   }/* end if */

@@ -27,8 +27,8 @@ Integer::~Integer() {}
 
 void Integer::assign(const Integer& n) {
   sign_ = n.sign();
-  integer_park_ = n.integer_park();
   infinite_ = n.infinite();
+  integer_park_ = n.integer_park();
 }
 
 void Integer::zero() {
@@ -39,16 +39,16 @@ void Integer::zero() {
   integer_park_.push_back(0);
 }
 
-void Integer::one(bool sign) {
-  sign_ = sign;
+void Integer::one(int sign) {
+  set_sign(sign);
   infinite_ = false;
 
   integer_park_.clear();
   integer_park_.push_back(1);
 }
 
-void Integer::nan(bool sign) {
-  sign_ = static_cast<int>(sign);
+void Integer::nan(int sign) {
+  set_sign(sign);
   infinite_ = false;
   integer_park_.clear();
 }

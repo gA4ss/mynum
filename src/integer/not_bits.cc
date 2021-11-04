@@ -15,7 +15,7 @@ Integer not_bits(const Integer& num1) {
     integer_park[i] = ~integer_park[i];
 
   res.set_integer_park(integer_park);
-  if (res.sign() == kPositive) res.__set_sign(kNegative);
+  if (res.sign() == kPositive) res.set_sign(kNegative);
   else res.set_sign(kPositive);
   return res;
 }

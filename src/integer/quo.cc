@@ -21,15 +21,14 @@ Integer quo(const Integer& num1, const Integer& num2) {
   //
   // 真正的运算
   //
-  uinteger_t multiple = 0;
-  division_result_t div_result = div(bignum1, bignum2);
+  division_result_t div_result = div(integer_park_1, integer_park_2);
   shrink_zero(div_result.first, true);
   bignum_t quotient = div_result.first;
 
   int sign = kPositive;
-  if (num1.sign() == num2.sign()) sign = kPositive;
-  else sign = kNegative;
+  if (num1.sign() != num2.sign()) sign = kNegative;
 
+  bignum_t integer_park = div_result.first;
   res.set_integer_park(integer_park);
   res.set_sign(sign);
   return res;
