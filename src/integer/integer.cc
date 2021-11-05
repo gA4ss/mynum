@@ -54,7 +54,7 @@ void Integer::nan(int sign) {
 }
 
 void Integer::none() {
-  nan(false);
+  nan(kNegative);
 }
 
 int Integer::sign() const {
@@ -91,9 +91,8 @@ std::string Integer::str() const {
 }
 
 void Integer::set_sign(int sign) {
-  if (sign != kNegative && sign != kPositive)
-    invalid_arguments_exception("sign should be -1 or 1. sign = %d.", sign);
-  sign_ = sign;
+  if (sign <= 0) sign_ = kNegative;
+  else sign_ = kPositive;
 }
 
 void Integer::set_infinite(bool infinite) {

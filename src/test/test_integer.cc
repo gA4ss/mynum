@@ -22,7 +22,7 @@ TEST(Integer, Add) {
   m = Integer("31415926");
   n = Integer("21532");
   z = m + n;
-  EXPECT_TRUE(z == "52947926");
+  EXPECT_TRUE(z == "31437458");
 
   m = Integer("31415926");
   n = Integer("-31415926");
