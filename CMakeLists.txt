@@ -106,6 +106,8 @@ add_library(${PROJECT_NAME} STATIC
   ${SRC_DIRECTORY}/integer/rshift_bits.cc
   ${SRC_DIRECTORY}/integer/copy.cc
   ${SRC_DIRECTORY}/integer/same_digits.cc
+  ${SRC_DIRECTORY}/integer/bernoulli_numbers.cc
+  ${SRC_DIRECTORY}/integer/euler_numbers.cc
   ${SRC_DIRECTORY}/integer/operator.cc
 )
 target_link_libraries(${PROJECT_NAME} my)

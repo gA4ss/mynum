@@ -1,0 +1,272 @@
+#include <mynum/integer.h>
+#include <cstring>
+
+namespace mynum {
+
+Float operator+(const Float& num1, const Float& num2) {
+  return add(num1, num2);
+}
+
+Float operator-(const Float& num1, const Float& num2) {
+  return sub(num1, num2);
+}
+
+Float operator*(const Float& num1, const Float& num2) {
+  return mul(num1, num2);
+}
+
+Float operator/(const Float& num1, const Float& num2) {
+  return div(num1, num2);
+}
+
+Float operator%(const Float& num1, const Float& num2) {
+  return mod(num1, num2);
+}
+
+Float operator+(const Float& num1, const char* num2) {
+  return add(num1, Float(num2));
+}
+
+Float operator-(const Float& num1, const char* num2) {
+  return sub(num1, Float(num2));
+}
+
+Float operator*(const Float& num1, const char* num2) {
+  return mul(num1, Float(num2));
+}
+
+Float operator/(const Float& num1, const char* num2) {
+  return div(num1, Float(num2));
+}
+
+Float operator%(const Float& num1, const char* num2) {
+  return mod(num1, Float(num2));
+}
+
+Float operator+(const char* num1, const Float& num2) {
+  return add(Float(num1), num2);
+}
+
+Float operator-(const char* num1, const Float& num2) {
+  return sub(Float(num1), num2);
+}
+
+Float operator*(const char* num1, const Float& num2) {
+  return mul(Float(num1), num2);
+}
+
+Float operator/(const char* num1, const Float& num2) {
+  return div(Float(num1), num2);
+}
+
+Float operator%(const char* num1, const Float& num2) {
+  return mod(Float(num1), num2);
+}
+
+bool operator==(const Float& num1, const Float& num2) {
+  return equ(num1, num2);
+}
+
+bool operator!=(const Float& num1, const Float& num2) {
+  return !equ(num1, num2);
+}
+
+bool operator<(const Float& num1, const Float& num2) {
+  return lt(num1, num2);
+}
+
+bool operator>(const Float& num1, const Float& num2) {
+  return gt(num1, num2);
+}
+
+bool operator<=(const Float& num1, const Float& num2) {
+  return le(num1, num2);
+}
+
+bool operator>=(const Float& num1, const Float& num2) {
+  return ge(num1, num2);
+}
+
+bool operator==(const Float& num1, const char* num2) {
+  return equ(num1, Float(num2));
+}
+
+bool operator!=(const Float& num1, const char* num2) {
+  return !equ(num1, Float(num2));
+}
+
+bool operator<(const Float& num1, const char* num2) {
+  return lt(num1, Float(num2));
+}
+
+bool operator>(const Float& num1, const char* num2) {
+  return gt(num1, Float(num2));
+}
+
+bool operator<=(const Float& num1, const char* num2) {
+  return le(num1, Float(num2));
+}
+
+bool operator>=(const Float& num1, const char* num2) {
+  return ge(num1, Float(num2));
+}
+
+bool operator==(const char* num1, const Float& num2) {
+  return equ(Float(num1), num2);
+}
+
+bool operator!=(const char* num1, const Float& num2) {
+  return !equ(Float(num1), num2);
+}
+
+bool operator<(const char* num1, const Float& num2) {
+  return lt(Float(num1), num2);
+}
+
+bool operator>(const char* num1, const Float& num2) {
+  return gt(Float(num1), num2);
+}
+
+bool operator<=(const char* num1, const Float& num2) {
+  return le(Float(num1), num2);
+}
+
+bool operator>=(const char* num1, const Float& num2) {
+  return ge(Float(num1), num2);
+}
+
+bool operator||(const Float& num1, const Float& num2) {
+  if (is_nan(num1) || is_nan(num2)) return false;
+  if (!is_zero(num1) || !is_zero(num2)) return true;
+  return false;
+}
+
+bool operator&&(const Float& num1, const Float& num2) {
+  if (is_nan(num1) || is_nan(num2)) return false;
+  if (!is_zero(num1) && !is_zero(num2)) return true;
+  return false;
+}
+
+bool operator||(const Float& num1, const char* num2) {
+  Float num2_(num2);
+  if (is_nan(num1) || is_nan(num2_)) return false;
+  if (!is_zero(num1) || !is_zero(num2_)) return true;
+  return false;
+}
+
+bool operator&&(const Float& num1, const char* num2) {
+  Float num2_(num2);
+  if (is_nan(num1) || is_nan(num2_)) return false;
+  if (!is_zero(num1) && !is_zero(num2_)) return true;
+  return false;
+}
+
+bool operator||(const char* num1, const Float& num2) {
+  Float num1_(num1);
+  if (is_nan(num1_) || is_nan(num2)) return false;
+  if (!is_zero(num1_) || !is_zero(num2)) return true;
+  return false;
+}
+
+bool operator&&(const char* num1, const Float& num2) {
+  Float num1_(num1);
+  if (is_nan(num1_) || is_nan(num2)) return false;
+  if (!is_zero(num1_) && !is_zero(num2)) return true;
+  return false;
+}
+
+bool operator!(const Float& num1) {
+  if (is_nan(num1)) return false;
+  return is_zero(num1);
+}
+
+// ----------------------------------------------------------------------
+Float& Float::operator+() {
+  return *this;
+}
+
+Float& Float::operator-() {
+  if (sign_ == kNegative) sign_ = kPositive;
+  else sign_ = kNegative;
+  return *this;
+}
+
+Float& Float::operator++() {
+  *this = add(*this, Float("1"));
+  return *this;
+}
+
+Float Float::operator++(int) {
+  Float res;
+  copy(res, *this);
+  *this = add(*this, Float("1"));
+  return res;
+}
+
+Float& Float::operator--() {
+  *this = sub(*this, Float("1"));
+  return *this;
+}
+
+Float Float::operator--(int) {
+  Float res;
+  copy(res, *this);
+  *this = sub(*this, Float("1"));
+  return res;
+}
+
+void Float::operator=(const Float& num2) {
+  assign(num2);
+}
+
+void Float::operator=(const char* num2) {
+  assign(Float(num2));
+}
+
+void Float::operator+=(const Float& num2) {
+  *this = add(*this, num2);
+}
+
+void Float::operator+=(const char* num2) {
+  *this = add(*this, Float(num2));
+}
+
+void Float::operator-=(const Float& num2) {
+  *this = sub(*this, num2);
+}
+
+void Float::operator-=(const char* num2) {
+  *this = sub(*this, Float(num2));
+}
+
+void Float::operator*=(const Float& num2) {
+  *this = mul(*this, num2);
+}
+
+void Float::operator*=(const char* num2) {
+  *this = mul(*this, Float(num2));
+}
+
+void Float::operator/=(const Float& num2) {
+  *this = quo(*this, num2);
+}
+
+void Float::operator/=(const char* num2) {
+  *this = quo(*this, Float(num2));
+}
+
+void Float::operator%=(const Float& num2) {
+  *this = mod(*this, num2);
+}
+
+void Float::operator%=(const char* num2) {
+  *this = mod(*this, Float(num2));
+}
+
+char Float::operator[](uinteger_t i) {
+  std::string res = str();
+  if (i >= res.size()) out_of_range_exception("i = %d", i);
+  return res[i];
+}
+
+} // namespace mynum

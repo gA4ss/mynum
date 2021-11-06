@@ -8,6 +8,10 @@
 
 namespace mynum {
 
+class Integer;
+typedef std::pair<std::vector<Integer>, std::vector<Integer> > fraction_vector_t;
+typedef std::vector<Integer> int_array_t;
+
 class Integer {
 public:
   Integer();
@@ -129,6 +133,12 @@ Integer xor_bits(const Integer& num1, const Integer& num2);
 Integer not_bits(const Integer& num1);
 Integer lshift_bits(const Integer& num1, const Integer& bits);
 Integer rshift_bits(const Integer& num1, const Integer& bits);
+
+//
+// 各种代数数
+//
+fraction_vector_t bernoulli_numbers(uinteger_t n);
+int_array_t euler_numbers(uinteger_t m);
 
 //
 // 功能函数
