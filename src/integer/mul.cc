@@ -4,7 +4,6 @@ namespace mynum {
 
 /* 提取整数与小数部分合成一个大数，然后两个大数相乘最后
  * 结果取两个大数精度相加。
- * FIXME: 使用 Karatsuba 算法改写增加速度。
  */
 Integer mul(const Integer& num1, const Integer& num2) {
   Integer res;
@@ -24,7 +23,7 @@ Integer mul(const Integer& num1, const Integer& num2) {
   bignum_t integer_park_1 = num1.integer_park();
   bignum_t integer_park_2 = num2.integer_park();
   bignum_t product = mul(integer_park_1, integer_park_2);
-  shrink_zero(product, false);
+  shrink_zero(product, true);
 
   int sign = kPositive;
   if (num1.sign() != num2.sign()) sign = kNegative;

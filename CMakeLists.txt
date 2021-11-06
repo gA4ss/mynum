@@ -59,11 +59,18 @@ endif(BUILD_TEST)
 #
 add_library(${PROJECT_NAME} STATIC
   ${SRC_DIRECTORY}/common.cc
-  ${SRC_DIRECTORY}/bignum/bignum.cc
-  ${SRC_DIRECTORY}/bignum/bignum_add.cc
-  ${SRC_DIRECTORY}/bignum/bignum_sub.cc
-  ${SRC_DIRECTORY}/bignum/bignum_mul.cc
-  ${SRC_DIRECTORY}/bignum/bignum_div.cc
+  ${SRC_DIRECTORY}/bignum/shrink_zero.cc
+  ${SRC_DIRECTORY}/bignum/string_to_bignum.cc
+  ${SRC_DIRECTORY}/bignum/bignum_to_string.cc
+  ${SRC_DIRECTORY}/bignum/nan.cc
+  ${SRC_DIRECTORY}/bignum/zero.cc
+  ${SRC_DIRECTORY}/bignum/is_nan.cc
+  ${SRC_DIRECTORY}/bignum/is_zero.cc
+  ${SRC_DIRECTORY}/bignum/cmp.cc
+  ${SRC_DIRECTORY}/bignum/add.cc
+  ${SRC_DIRECTORY}/bignum/sub.cc
+  ${SRC_DIRECTORY}/bignum/mul.cc
+  ${SRC_DIRECTORY}/bignum/div.cc
   ${SRC_DIRECTORY}/integer/integer.cc
   ${SRC_DIRECTORY}/integer/__xxx_infinite.cc
   ${SRC_DIRECTORY}/integer/equ.cc

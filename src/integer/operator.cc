@@ -246,12 +246,12 @@ Integer operator>>(const char* num1, const Integer& bits) {
 
 // ----------------------------------------------------------------------
 Integer& Integer::operator+() {
-  sign_ = kPositive;
   return *this;
 }
 
 Integer& Integer::operator-() {
-  sign_ = kNegative;
+  if (sign_ == kNegative) sign_ = kPositive;
+  else sign_ = kNegative;
   return *this;
 }
 

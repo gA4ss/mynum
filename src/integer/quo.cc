@@ -22,14 +22,22 @@ Integer quo(const Integer& num1, const Integer& num2) {
   // 真正的运算
   //
   division_result_t div_result = div(integer_park_1, integer_park_2);
-  shrink_zero(div_result.first, true);
   bignum_t quotient = div_result.first;
 
+  //
+  // 如果是异号，并且没有整除的情况下，存在向下取整的问题。
+  //
   int sign = kPositive;
-  if (num1.sign() != num2.sign()) sign = kNegative;
+  if (num1.sign() != num2.sign()) {
+    sign = kNegative;
+    if (!is_zero(div_result.second)) {
+      bignum_t b = {1};
+      quotient = add(quotient, b);
+    }
+  }
 
-  bignum_t integer_park = div_result.first;
-  res.set_integer_park(integer_park);
+  shrink_zero(quotient, true);
+  res.set_integer_park(quotient);
   res.set_sign(sign);
   return res;
 }

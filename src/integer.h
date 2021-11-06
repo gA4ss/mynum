@@ -19,8 +19,8 @@ public:
 
   void assign(const Integer& n);
   void zero();
-  void one(int sign=kPositive);
-  void nan(int sign=kPositive);   // sign = false,为一种特殊的nan值，表示数值不确定。用于内部计算。为none值。
+  void one();
+  void nan();
   void none();
 
   int sign() const;
@@ -28,8 +28,8 @@ public:
   bignum_t integer_park() const;
   std::string str() const;
 
-  void set_sign(int sign);
-  void set_infinite(bool infinite);
+  void set_sign(int sign=kPositive);
+  void set_infinite(bool infinite=true);
   void set_integer_park(const bignum_t& integer_park);
   void set_integer_park_zero();
 

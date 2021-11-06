@@ -39,22 +39,24 @@ void Integer::zero() {
   integer_park_.push_back(0);
 }
 
-void Integer::one(int sign) {
-  set_sign(sign);
+void Integer::one() {
+  sign_ = kPositive;
   infinite_ = false;
 
   integer_park_.clear();
   integer_park_.push_back(1);
 }
 
-void Integer::nan(int sign) {
-  set_sign(sign);
+void Integer::nan() {
+  sign_ = kPositive;
   infinite_ = false;
   integer_park_.clear();
 }
 
 void Integer::none() {
-  nan(kNegative);
+  sign_ = kNegative;
+  infinite_ = false;
+  integer_park_.clear();
 }
 
 int Integer::sign() const {
@@ -152,7 +154,7 @@ void Integer::__create_from_string(const char* number, int base) {
 
   // inf
   if (number_str == "inf") {
-    set_infinite(sign_);
+    infinite_ = true;
     return;
   }
 

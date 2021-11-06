@@ -18,6 +18,7 @@ Integer add(const Integer& num1, const Integer& num2) {
     bool o = false;
     bignum_t integer_park_1 = num1.integer_park(), integer_park_2 = num2.integer_park();
     bignum_t integer_park = add(integer_park_1, integer_park_2, o);
+    shrink_zero(integer_park, true);
     res.set_integer_park(integer_park);
     res.set_sign(num1.sign());
   } else { // 异号

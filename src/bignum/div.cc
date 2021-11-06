@@ -45,8 +45,13 @@ static std::pair<unit_t, unit_t> __get_quotient_range(const bignum_t& a, const b
 
 /* 不考虑符号 */
 division_result_t div(const bignum_t& a, const bignum_t& b) {
-  //const bignum_t ten = {0, 1};    // 表示10
+  if (a.empty() || b.empty()) {
+    operand_value_is_invalid_exception(
+      "%s", "operand a or b is nan."
+    );
+  }
   if (is_zero(b)) divisor_is_zero_exception("%s", "b is zero.");
+  //const bignum_t ten = {0, 1};    // 表示10
 
   bignum_t x = a, y = b;
   if (cmp(x, y) == 0)
@@ -102,15 +107,17 @@ division_result_t div(const bignum_t& a, const bignum_t& b) {
     // 更新被除数
     //
     dividend = remainder;
-    if (cmp(dividend, {0}) == 0) dividend.clear();  // 余数为零，多见10000/2这种情况。
+
     //
     // 这里首先借一位，如果大于则直接做运算。
     // 如果还是小于则商使用0补位。
     // 保证被除数大于除数。
     //
     if ((cmp(dividend, divisor) == -1) && (dividend_remainder_digits != 0)) {
+      if (cmp(dividend, {0}) == 0) dividend.clear();  // 余数为零，多见10000/2这种情况。
       dividend.push_front(x[dividend_remainder_digits-1]);
       --dividend_remainder_digits;
+
       //
       // 这里如果借了一位还是小于那么开始补位
       //
@@ -138,6 +145,7 @@ division_result_t div(const bignum_t& a, const bignum_t& b) {
     if (dividend.back() == 0) shrink_zero(dividend, true);
   }/* end while */
 
+  shrink_zero(remainder, true);
   return division_result_t(quotient, remainder);
 }
 

@@ -87,7 +87,7 @@ TEST(Integer, Div) {
   Integer m;
   m = "7";
   m /= "inf";
-  EXPECT_TRUE(m == "0.0");
+  EXPECT_TRUE(m == "0") << "m = " << m.str();
 
   m = "inf";
   m /= "7";

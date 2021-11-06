@@ -51,6 +51,7 @@ Integer sub(const Integer& num1, const Integer& num2) {
     }
   }/* end if */
 
+  shrink_zero(integer_park, true);
   res.set_sign(sign);
   res.set_integer_park(integer_park);
   return res;

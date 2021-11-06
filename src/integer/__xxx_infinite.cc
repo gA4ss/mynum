@@ -122,15 +122,15 @@ int __mod_infinite(const Integer& num1, const Integer& num2) {
 Integer __infinite_operation_result(int inf) {
   Integer res;
   if (inf == kOperandInfNegInfinity) {
-    res.set_infinite(false);
+    res.set_sign(kNegative); res.set_infinite(true);
   } else if (inf == kOperandInfPosInfinity) {
-    res.set_infinite(true);
+    res.set_sign(kPositive); res.set_infinite(true);
   } else if (inf == kOperandInfZero) {
     res.zero();
   } else if (inf == kOperandInfOne) {
-    res.one(true);
+    res.set_sign(kPositive); res.one();
   } else if (inf == kOperandInfNegOne) {
-    res.one(false);
+    res.set_sign(kNegative); res.one();
   } else if (inf == kOperandInfNan) {
     res.nan();
   } else if (inf == kOperandInfIndeterminacy) {

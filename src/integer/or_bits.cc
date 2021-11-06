@@ -20,6 +20,7 @@ Integer or_bits(const Integer& num1, const Integer& num2) {
     integer_park_3.push_front(integer_park_1[i] | integer_park_2[i]);
 
   Integer c;
+  shrink_zero(integer_park_3, true);
   c.set_integer_park(integer_park_3);
   c.set_sign(num1.sign() * num2.sign());
   return c;
