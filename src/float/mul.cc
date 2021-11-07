@@ -16,7 +16,7 @@ Float mul(const Float& num1, const Float& num2) {
   if (is_one(num2)) return num1;
 
   int inf = __mul_infinite(num1, num2);
-  res = __infinite_operation_result(inf);
+  res = __infinite_operation_result(inf, 0);
   if (!is_none(res))
     return res;
 

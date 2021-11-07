@@ -1,4 +1,4 @@
-#include <mynum/integer.h>
+#include <mynum/float.h>
 
 namespace mynum {
 

@@ -1,15 +1,15 @@
 #ifndef MYNUM_CONSTANT_H_
 #define MYNUM_CONSTANT_H_
-#include <mynum/numeric.h>
+#include <mynum/float.h>
 
 namespace mynum {
 
-extern Numeric __pi;
-extern Numeric __half_pi;
-extern Numeric __e;
+extern Float __pi;
+extern Float __half_pi;
+extern Float __e;
 
-Numeric approximate_pi(const Numeric& precision);
-Numeric approximate_e(const Numeric& precision);
+Float approximate_pi(const Float& precision);
+Float approximate_e(const Float& precision);
 
 } // namespace mynum
 

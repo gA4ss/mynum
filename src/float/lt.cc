@@ -2,7 +2,7 @@
 
 namespace mynum {
 
-bool lt(const Integer& num1, const Integer& num2) {
+bool lt(const Float& num1, const Float& num2) {
   if (is_nan(num1) || is_nan(num2)) return false;
   if (is_zero(num1) && is_zero(num2)) return false;
 

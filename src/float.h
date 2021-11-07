@@ -85,7 +85,7 @@ int __sub_infinite(const Float& num1, const Float& num2);
 int __mul_infinite(const Float& num1, const Float& num2);
 int __div_infinite(const Float& num1, const Float& num2);
 int __mod_infinite(const Float& num1, const Float& num2);
-Float __infinite_operation_result(int inf);
+Float __infinite_operation_result(int inf, int unused=0);
 
 //
 // 比较运算
@@ -192,6 +192,25 @@ Float operator-(const char* num1, const Float& num2);
 Float operator*(const char* num1, const Float& num2);
 Float operator/(const char* num1, const Float& num2);
 Float operator%(const char* num1, const Float& num2);
+
+bool operator==(const Float& num1, const Float& num2);
+bool operator!=(const Float& num1, const Float& num2);
+bool operator<(const Float& num1, const Float& num2);
+bool operator>(const Float& num1, const Float& num2);
+bool operator<=(const Float& num1, const Float& num2);
+bool operator>=(const Float& num1, const Float& num2);
+bool operator==(const Float& num1, const char* num2);
+bool operator!=(const Float& num1, const char* num2);
+bool operator<(const Float& num1, const char* num2);
+bool operator>(const Float& num1, const char* num2);
+bool operator<=(const Float& num1, const char* num2);
+bool operator>=(const Float& num1, const char* num2);
+bool operator==(const char* num1, const Float& num2);
+bool operator!=(const char* num1, const Float& num2);
+bool operator<(const char* num1, const Float& num2);
+bool operator>(const char* num1, const Float& num2);
+bool operator<=(const char* num1, const Float& num2);
+bool operator>=(const char* num1, const Float& num2);
 
 bool operator||(const Float& num1, const Float& num2);
 bool operator&&(const Float& num1, const Float& num2);

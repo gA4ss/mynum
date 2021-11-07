@@ -32,8 +32,11 @@ link_directories(/usr/local/lib)
 set(MYNUM_HEADERS
   ${SRC_DIRECTORY}/common.h
   ${SRC_DIRECTORY}}/exception.h
+  ${SRC_DIRECTORY}}/constant.h
   ${SRC_DIRECTORY}}/bignum.h
-  ${SRC_DIRECTORY}}/numeric.h
+  ${SRC_DIRECTORY}}/integer.h
+  ${SRC_DIRECTORY}}/float.h
+  ${SRC_DIRECTORY}}/convert.h
 )
 
 #
@@ -47,6 +50,9 @@ target_link_libraries(test_bignum mynum gtest pthread)
 add_executable(test_integer ${SRC_DIRECTORY}/test/test_integer.cc)
 target_link_libraries(test_integer mynum gtest pthread)
 
+add_executable(test_float ${SRC_DIRECTORY}/test/test_float.cc)
+target_link_libraries(test_float mynum gtest pthread)
+
 # add_executable(test_bernoulli_numbers ${SRC_DIRECTORY}/test/test_bernoulli_numbers.cc)
 # target_link_libraries(test_bernoulli_numbers mynum my uuid gtest pthread)
 
@@ -59,6 +65,8 @@ endif(BUILD_TEST)
 #
 add_library(${PROJECT_NAME} STATIC
   ${SRC_DIRECTORY}/common.cc
+  ${SRC_DIRECTORY}/constant.cc
+  ${SRC_DIRECTORY}/convert.cc
   ${SRC_DIRECTORY}/bignum/shrink_zero.cc
   ${SRC_DIRECTORY}/bignum/string_to_bignum.cc
   ${SRC_DIRECTORY}/bignum/bignum_to_string.cc
@@ -112,6 +120,66 @@ add_library(${PROJECT_NAME} STATIC
   ${SRC_DIRECTORY}/integer/bernoulli_numbers.cc
   ${SRC_DIRECTORY}/integer/euler_numbers.cc
   ${SRC_DIRECTORY}/integer/operator.cc
+  ${SRC_DIRECTORY}/float/float.cc
+  ${SRC_DIRECTORY}/float/__xxx_infinite.cc
+  ${SRC_DIRECTORY}/float/__cmp.cc
+  ${SRC_DIRECTORY}/float/equ.cc
+  ${SRC_DIRECTORY}/float/gt.cc
+  ${SRC_DIRECTORY}/float/lt.cc
+  ${SRC_DIRECTORY}/float/ge.cc
+  ${SRC_DIRECTORY}/float/le.cc
+  ${SRC_DIRECTORY}/float/is_zero.cc
+  ${SRC_DIRECTORY}/float/is_one.cc
+  ${SRC_DIRECTORY}/float/is_nan.cc
+  ${SRC_DIRECTORY}/float/is_infinite.cc
+  ${SRC_DIRECTORY}/float/is_none.cc
+  ${SRC_DIRECTORY}/float/is_integer.cc
+  ${SRC_DIRECTORY}/float/is_float.cc
+  ${SRC_DIRECTORY}/float/add.cc
+  ${SRC_DIRECTORY}/float/sub.cc
+  ${SRC_DIRECTORY}/float/mul.cc
+  ${SRC_DIRECTORY}/float/div.cc
+  ${SRC_DIRECTORY}/float/div2.cc
+  ${SRC_DIRECTORY}/float/mod.cc
+  ${SRC_DIRECTORY}/float/abs.cc
+  ${SRC_DIRECTORY}/float/floor.cc
+  ${SRC_DIRECTORY}/float/ceil.cc
+  ${SRC_DIRECTORY}/float/round.cc
+  ${SRC_DIRECTORY}/float/integer.cc
+  ${SRC_DIRECTORY}/float/pow.cc
+  ${SRC_DIRECTORY}/float/rooting.cc
+  ${SRC_DIRECTORY}/float/log.cc
+  ${SRC_DIRECTORY}/float/log2.cc
+  ${SRC_DIRECTORY}/float/log10.cc
+  ${SRC_DIRECTORY}/float/ln.cc
+  ${SRC_DIRECTORY}/float/sgn.cc
+  ${SRC_DIRECTORY}/float/sin.cc
+  ${SRC_DIRECTORY}/float/cos.cc
+  ${SRC_DIRECTORY}/float/tan.cc
+  ${SRC_DIRECTORY}/float/csc.cc
+  ${SRC_DIRECTORY}/float/sec.cc
+  ${SRC_DIRECTORY}/float/cot.cc
+  ${SRC_DIRECTORY}/float/arcsin.cc
+  ${SRC_DIRECTORY}/float/arccos.cc
+  ${SRC_DIRECTORY}/float/arctan.cc
+  ${SRC_DIRECTORY}/float/arccsc.cc
+  ${SRC_DIRECTORY}/float/arcsec.cc
+  ${SRC_DIRECTORY}/float/arccot.cc
+  ${SRC_DIRECTORY}/float/sinh.cc
+  ${SRC_DIRECTORY}/float/cosh.cc
+  ${SRC_DIRECTORY}/float/tanh.cc
+  ${SRC_DIRECTORY}/float/csch.cc
+  ${SRC_DIRECTORY}/float/sech.cc
+  ${SRC_DIRECTORY}/float/coth.cc
+  ${SRC_DIRECTORY}/float/arcsinh.cc
+  ${SRC_DIRECTORY}/float/arccosh.cc
+  ${SRC_DIRECTORY}/float/arctanh.cc
+  ${SRC_DIRECTORY}/float/arccsch.cc
+  ${SRC_DIRECTORY}/float/arcsech.cc
+  ${SRC_DIRECTORY}/float/arccoth.cc
+  ${SRC_DIRECTORY}/float/copy.cc
+  ${SRC_DIRECTORY}/float/same_digits.cc
+  ${SRC_DIRECTORY}/float/operator.cc
 )
 target_link_libraries(${PROJECT_NAME} my)
 
@@ -123,6 +191,8 @@ add_test(NAME test_bignum COMMAND test_bignum)
 set_tests_properties(test_bignum PROPERTIES FAIL_REGULAR_EXPRESSION "FAILED")
 add_test(NAME test_integer COMMAND test_integer)
 set_tests_properties(test_integer PROPERTIES FAIL_REGULAR_EXPRESSION "FAILED")
+add_test(NAME test_float COMMAND test_float)
+set_tests_properties(test_float PROPERTIES FAIL_REGULAR_EXPRESSION "FAILED")
 
 #
 # Install Set

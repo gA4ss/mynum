@@ -1,4 +1,4 @@
-#include <mynum/integer.h>
+#include <mynum/float.h>
 #include <cstring>
 
 namespace mynum {
@@ -248,11 +248,11 @@ void Float::operator*=(const char* num2) {
 }
 
 void Float::operator/=(const Float& num2) {
-  *this = quo(*this, num2);
+  *this = div(*this, num2);
 }
 
 void Float::operator/=(const char* num2) {
-  *this = quo(*this, Float(num2));
+  *this = div(*this, Float(num2));
 }
 
 void Float::operator%=(const Float& num2) {

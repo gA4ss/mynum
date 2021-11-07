@@ -119,7 +119,7 @@ int __mod_infinite(const Float& num1, const Float& num2) {
   return res;
 }
 
-Float __infinite_operation_result(int inf) {
+Float __infinite_operation_result(int inf, int unused) {
   Float res;
   if (inf == kOperandInfNegInfinity) {
     res.set_sign(kNegative); res.set_infinite(true);
