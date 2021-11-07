@@ -68,9 +68,12 @@ add_library(${PROJECT_NAME} STATIC
   ${SRC_DIRECTORY}/bignum/is_zero.cc
   ${SRC_DIRECTORY}/bignum/cmp.cc
   ${SRC_DIRECTORY}/bignum/add.cc
+  ${SRC_DIRECTORY}/bignum/add2.cc
   ${SRC_DIRECTORY}/bignum/sub.cc
+  ${SRC_DIRECTORY}/bignum/sub2.cc
   ${SRC_DIRECTORY}/bignum/mul.cc
   ${SRC_DIRECTORY}/bignum/div.cc
+  ${SRC_DIRECTORY}/bignum/div2.cc
   ${SRC_DIRECTORY}/integer/integer.cc
   ${SRC_DIRECTORY}/integer/__xxx_infinite.cc
   ${SRC_DIRECTORY}/integer/equ.cc

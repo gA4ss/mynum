@@ -17,6 +17,7 @@ public:
   Integer();
   Integer(const char* number, int base=10);
   Integer(std::string& number, int base=10);
+  Integer(const bignum_t& number);
   Integer(Integer* number);
   Integer(const Integer& number);
   virtual ~Integer();

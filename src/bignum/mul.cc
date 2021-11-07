@@ -2,10 +2,10 @@
 
 namespace mynum {
 
-static bignum_t karatsuba_mul(const bignum_t& a, const bignum_t& b) {
-  bignum_t c;
-  return c; 
-}
+// static bignum_t karatsuba_mul(const bignum_t& a, const bignum_t& b) {
+//   bignum_t c;
+//   return c; 
+// }
 
 // FIXME: 使用 Karatsuba 算法改写增加速度。
 bignum_t mul(const bignum_t& a, const bignum_t& b) {

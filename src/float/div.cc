@@ -46,53 +46,29 @@ Float div(const Float& num1, const Float& num2) {
   bignum2.insert(bignum2.end(), integer_park_2.begin(), integer_park_2.end());
 
   // __div除法，前边不能存在0。
-  __shrink_zero(bignum1, true); __shrink_zero(bignum2, true);
+  shrink_zero(bignum1, true); shrink_zero(bignum2, true);
 
   //
   // 真正的运算，这里将小数部分也当作整数运算。完后一并
-  // 计算精度。
+  // 计算精度，多算一位四舍五入。
   //
   uinteger_t multiple = 0;
-  bignum_t quotient = __div(bignum1, bignum2, Float::config_.max_quotient_borrow, &multiple);
+  division_result_t div_result = div2(bignum1, bignum2, __config.significant_digits+1);
   
   //
   // 分割整数部分与小数部分
   //
-  bignum_t integer_park, decimal_park;
-  uinteger_t precision = 0, fill_zero = 0;
-  if (num1.precision() > num2.precision()) {
-    precision = num1.precision() - num2.precision() + multiple;
-    if (precision > quotient.size()) {
-      fill_zero = precision - quotient.size();
-      while (fill_zero--) quotient.push_back(0);
-    }
-    decimal_park.insert(decimal_park.end(), quotient.begin(), quotient.begin()+precision);
-    integer_park.insert(integer_park.end(), quotient.begin()+precision, quotient.end());
-  } else if (num1.precision() < num2.precision()) {
-    precision = multiple;
-    fill_zero = num2.precision() - num1.precision();
-    while (fill_zero--) quotient.push_front(0);
-    decimal_park.insert(decimal_park.end(), quotient.begin(), quotient.begin()+precision);
-    integer_park.insert(integer_park.end(), quotient.begin()+precision, quotient.end());
-  } else {
-    precision = multiple;
-    decimal_park.insert(decimal_park.end(), quotient.begin(), quotient.begin()+precision);
-    integer_park.insert(integer_park.end(), quotient.begin()+precision, quotient.end());
-  }
-  if (integer_park.empty()) integer_park.push_back(0);  // 保证整数部分最少是0
-  __shrink_zero(decimal_park, false); // 删除小数末尾的0
-  __shrink_zero(integer_park, true); // 删除整数末尾的0
+  bignum_t integer_park = div_result.first, decimal_park = div_result.second;
 
   int sign = kPositive;
   if (num1.sign() == num2.sign()) sign = kPositive;
   else sign = kNegative;
 
-  res.__set_integer_park(integer_park);
-  res.__set_decimal_park(decimal_park);
-  res.__set_sign(sign);
+  res.set_integer_park(integer_park);
+  res.set_decimal_park(decimal_park);
+  res.set_sign(sign);
 
-  // return round(res, Float::config_.precision);
-  return res;
+  return round(res, __config.significant_digits);
 }
 
 } // namespace mynum

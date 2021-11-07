@@ -21,9 +21,12 @@ bool is_nan(const bignum_t& a);
 bool is_zero(const bignum_t& a);
 int cmp(const bignum_t& a, const bignum_t& b, bool push_front=false);
 bignum_t add(const bignum_t& a, const bignum_t& b, bool o=false);
+bignum_t add2(const bignum_t& a, const bignum_t& b, bool* o=nullptr);
 bignum_t sub(bignum_t& a, bignum_t& b, bool t=false);
+bignum_t sub2(const bignum_t& a, const bignum_t& b, bool* t=nullptr);
 bignum_t mul(const bignum_t& a, const bignum_t& b);
 division_result_t div(const bignum_t& a, const bignum_t& b);
+division_result_t div2(const bignum_t& a, const bignum_t& b, uinteger_t precision=16);
 
 } // namespace mynum
 

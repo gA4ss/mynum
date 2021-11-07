@@ -13,6 +13,8 @@ public:
   Float();
   Float(const char* number, int base=10);
   Float(std::string& number, int base=10);
+  Float(const bignum_t& integer_park, const bignum_t& decimal_park);
+  Float(const Integer& integer_park, const Integer& decimal_park);
   Float(Float* number);
   Float(const Float& number);
   virtual ~Float();
@@ -110,6 +112,7 @@ Float add(const Float& num1, const Float& num2);
 Float sub(const Float& num1, const Float& num2);
 Float mul(const Float& num1, const Float& num2);
 Float div(const Float& num1, const Float& num2);
+void div2(const Float& num1, const Float& num2, Float& quo, Float& rem);
 Float mod(const Float& num1, const Float& num2);
 
 Float abs(const Float& num1);

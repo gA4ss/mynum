@@ -28,7 +28,7 @@ Float mul(const Float& num1, const Float& num2) {
   bignum1.insert(bignum1.end(), integer_park_1.begin(), integer_park_1.end());
   bignum2.insert(bignum2.end(), decimal_park_2.begin(), decimal_park_2.end());
   bignum2.insert(bignum2.end(), integer_park_2.begin(), integer_park_2.end());
-  bignum_t product = __mul(bignum1, bignum2);
+  bignum_t product = mul(bignum1, bignum2);
 
   int sign = kPositive;
   if (num1.sign() == num2.sign()) sign = kPositive;
@@ -44,12 +44,12 @@ Float mul(const Float& num1, const Float& num2) {
   decimal_park.insert(decimal_park.end(), product.begin(), product.begin()+precision);
   integer_park.insert(integer_park.end(), product.begin()+precision, product.end());
   if (integer_park.empty()) integer_park.push_back(0);
-  else if (integer_park.back() == 0) __shrink_zero(integer_park, true);
-  if (decimal_park.front() == 0) __shrink_zero(decimal_park, false);
+  else if (integer_park.back() == 0) shrink_zero(integer_park, true);
+  if (decimal_park.front() == 0) shrink_zero(decimal_park, false);
 
-  res.__set_integer_park(integer_park);
-  res.__set_decimal_park(decimal_park);
-  res.__set_sign(sign);
+  res.set_integer_park(integer_park);
+  res.set_decimal_park(decimal_park);
+  res.set_sign(sign);
 
   return res;
 }
