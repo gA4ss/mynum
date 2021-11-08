@@ -111,14 +111,14 @@ bool is_float(const Float& num1);
 Float add(const Float& num1, const Float& num2);
 Float sub(const Float& num1, const Float& num2);
 Float mul(const Float& num1, const Float& num2);
-Float div(const Float& num1, const Float& num2);
-void div2(const Float& num1, const Float& num2, Float& quo, Float& rem);
-Float mod(const Float& num1, const Float& num2);
+Float div(const Float& num1, const Float& num2, uinteger_t significant_digits=16);
+void div2(const Float& num1, const Float& num2, Float& quo, Float& rem, uinteger_t significant_digits=16);
+Float mod(const Float& num1, const Float& num2, uinteger_t significant_digits=16);
 
 Float abs(const Float& num1);
 Float floor(const Float& num1);
 Float ceil(const Float& num1);
-Float round(const Float& num1, uinteger_t precision);
+Float round(const Float& num1, uinteger_t significant_digits=16);
 Float integer(const Float& num1);
 Float pow(const Float& num1, const Float& exp);
 Float rooting(const Float& num1, const Float& exp);

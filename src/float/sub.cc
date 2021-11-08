@@ -36,13 +36,13 @@ Float sub(const Float& num1, const Float& num2) {
     }
   } else if ((num1.sign() == kPositive) && (num2.sign() == kNegative)) {
     // a - (-b)
-    decimal_park = sub2(decimal_park_1, decimal_park_2, &t);
-    integer_park = sub(integer_park_1, integer_park_2, t);
+    decimal_park = add2(decimal_park_1, decimal_park_2, &t);
+    integer_park = add(integer_park_1, integer_park_2, t);
     sign = kPositive;
   } else if ((num1.sign() == kNegative) && (num2.sign() == kPositive)) {
     // -a - b
-    decimal_park = sub2(decimal_park_1, decimal_park_2, &t);
-    integer_park = sub(integer_park_1, integer_park_2, t);
+    decimal_park = add2(decimal_park_1, decimal_park_2, &t);
+    integer_park = add(integer_park_1, integer_park_2, t);
     sign = kNegative;
   } else if ((num1.sign() == kNegative) && (num2.sign() == kNegative)) {
     // -a - (-b)

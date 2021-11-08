@@ -46,12 +46,12 @@ static bool __is_odd(const Float& num1) {
 /* 当尾数为5，而尾数后面的数字均为0时，应看尾数“5”的前一位：若前一位数字此时为奇数，
  * 就应向前进一位；若前一位数字此时为偶数，则应将尾数舍去。数字“0”在此时应被视为偶数。
  */
-Float round(const Float& num1, uinteger_t precision) {
+Float round(const Float& num1, uinteger_t significant_digits) {
   if (is_nan(num1)) return Float();
   if (is_zero(num1)) return Float("0");
   if (is_infinite(num1)) operand_value_is_invalid_exception("%s", "num1 is infinite");
   if (is_integer(num1)) return num1;
-  if (precision >= num1.precision()) return num1;
+  if (significant_digits >= num1.precision()) return num1;
 
   if (__mantissa_is_5(num1)) {
     if (__is_odd(integer(num1))) {
@@ -65,13 +65,13 @@ Float round(const Float& num1, uinteger_t precision) {
   }
 
   unit_t v = 0;
-  bignum_t effective_park = __effective_digit(num1, precision, v);
+  bignum_t effective_park = __effective_digit(num1, significant_digits, v);
   Float res = num1;
   res.set_decimal_park(effective_park);
 
   if (v >= 5) {
     bignum_t plus;
-    plus.resize(precision-1);
+    plus.resize(significant_digits-1);
     plus.push_front(1);
     Float tmp("0");
     tmp.set_decimal_park(plus);

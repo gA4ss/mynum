@@ -27,6 +27,7 @@ bignum_t sub2(const bignum_t& a, const bignum_t& b, bool* t=nullptr);
 bignum_t mul(const bignum_t& a, const bignum_t& b);
 division_result_t div(const bignum_t& a, const bignum_t& b);
 division_result_t div2(const bignum_t& a, const bignum_t& b, uinteger_t precision=16);
+bignum_t mod(const bignum_t& a, const bignum_t& b);
 
 } // namespace mynum
 

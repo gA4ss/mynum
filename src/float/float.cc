@@ -1,4 +1,4 @@
-#include <mynum/numeric.h>
+#include <mynum/float.h>
 #include <mynum/constant.h>
 
 #include <cstring>

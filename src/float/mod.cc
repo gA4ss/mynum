@@ -2,7 +2,9 @@
 
 namespace mynum {
 
-Float mod(const Float& num1, const Float& num2) {
+Float mod(const Float& num1, const Float& num2, uinteger_t significant_digits) {
+  operation_is_not_implement_exception("%s", "mod");
+
   Float res("0");
   if (num1 < num2) return num1;
   if (num1 == num2) return res;

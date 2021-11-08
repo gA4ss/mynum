@@ -29,6 +29,7 @@ Float mul(const Float& num1, const Float& num2) {
   bignum2.insert(bignum2.end(), decimal_park_2.begin(), decimal_park_2.end());
   bignum2.insert(bignum2.end(), integer_park_2.begin(), integer_park_2.end());
   bignum_t product = mul(bignum1, bignum2);
+  shrink_zero(product, true);
 
   int sign = kPositive;
   if (num1.sign() == num2.sign()) sign = kPositive;
@@ -36,7 +37,10 @@ Float mul(const Float& num1, const Float& num2) {
 
   bignum_t integer_park, decimal_park;
   uinteger_t precision = num1.precision() + num2.precision(), fill_zero = 0;
+
+  //
   // 扩大几倍缩小几倍
+  //
   if (precision > product.size()) {
     fill_zero = precision - product.size();
     while (fill_zero--) product.push_back(0);
@@ -46,6 +50,7 @@ Float mul(const Float& num1, const Float& num2) {
   if (integer_park.empty()) integer_park.push_back(0);
   else if (integer_park.back() == 0) shrink_zero(integer_park, true);
   if (decimal_park.front() == 0) shrink_zero(decimal_park, false);
+  if (decimal_park.empty()) decimal_park.push_front(0);
 
   res.set_integer_park(integer_park);
   res.set_decimal_park(decimal_park);
