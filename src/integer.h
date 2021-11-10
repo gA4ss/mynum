@@ -121,6 +121,8 @@ Integer quo(const Integer& num1, const Integer& num2);
 Integer mod(const Integer& num1, const Integer& num2);
 
 Integer abs(const Integer& num1);
+Integer floor(const Integer& num1);
+Integer ceil(const Integer& num1);
 Integer pow(const Integer& num1, const Integer& exp);
 Integer factorial(const Integer& num1);
 std::pair<Integer, Integer> extended_euclidean(const Integer& num1, const Integer& num2);

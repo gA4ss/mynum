@@ -1,24 +1,24 @@
 #include <stdlib.h>
-#include <mynum/numeric.h>
+#include <mynum/integer.h>
 
 using namespace mynum;
 
 // m : input maximal index requested. Must be a power of 2.
-array_t test_euler_numbers(uinteger_t m) {
+int_array_t test_euler_numbers(uinteger_t m) {
   if (m == 0)
     operand_value_is_invalid_exception("m should greater than 0, m = %ul", m);
   if (m % 2 != 0)
     m++;
 
-  array_t es = array_t(m+1, "0");
-  array_t buf = array_t(2*m+1, "0");
+  int_array_t es = int_array_t(m+1, "0");
+  int_array_t buf = int_array_t(2*m+1, "0");
   buf[0] = "1";
   es[0] = "1";
 
   // for (uinteger_t j = 1; j <= m; j += 2)
   //  es[j] = "0";
 
-  Numeric sum = "0", binom = "1", item;
+  Integer sum = "0", binom = "1", item;
   for (uinteger_t n = 1; n <= m; n++) {
     sum = "0";
     binom = "1";
@@ -37,7 +37,7 @@ array_t test_euler_numbers(uinteger_t m) {
 }
 
 int main() {
-  array_t res = test_euler_numbers(20);
+  int_array_t res = test_euler_numbers(20);
   for (int i = 0; i < 20; i++) {
     std::cout << res[i].str() << std::endl;
   }

@@ -17,6 +17,12 @@ Float::Float(std::string& number, int base) {
   __create_from_string(number.c_str(), base);
 }
 
+Float::Float(const bignum_t& integer_park) {
+  zero();
+  integer_park_ = integer_park;
+  decimal_park_ = {0};
+}
+
 Float::Float(const bignum_t& integer_park, const bignum_t& decimal_park) {
   zero();
   integer_park_ = integer_park;
@@ -27,7 +33,6 @@ Float::Float(const Integer& integer_park, const Integer& decimal_park) {
   zero();
   integer_park_ = integer_park.integer_park();
   decimal_park_ = decimal_park.integer_park();
-  sign_ = integer_park.sign();
 }
 
 Float::Float(Float* number) {

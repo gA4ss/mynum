@@ -53,11 +53,11 @@ target_link_libraries(test_integer mynum gtest pthread)
 add_executable(test_float ${SRC_DIRECTORY}/test/test_float.cc)
 target_link_libraries(test_float mynum gtest pthread)
 
-# add_executable(test_bernoulli_numbers ${SRC_DIRECTORY}/test/test_bernoulli_numbers.cc)
-# target_link_libraries(test_bernoulli_numbers mynum my uuid gtest pthread)
+add_executable(test_bernoulli_numbers ${SRC_DIRECTORY}/test/test_bernoulli_numbers.cc)
+target_link_libraries(test_bernoulli_numbers mynum my uuid gtest pthread)
 
-# add_executable(test_euler_numbers ${SRC_DIRECTORY}/test/test_euler_numbers.cc)
-# target_link_libraries(test_euler_numbers mynum my uuid gtest pthread)
+add_executable(test_euler_numbers ${SRC_DIRECTORY}/test/test_euler_numbers.cc)
+target_link_libraries(test_euler_numbers mynum my uuid gtest pthread)
 endif(BUILD_TEST)
 
 #
@@ -103,6 +103,8 @@ add_library(${PROJECT_NAME} STATIC
   ${SRC_DIRECTORY}/integer/quo.cc
   ${SRC_DIRECTORY}/integer/mod.cc
   ${SRC_DIRECTORY}/integer/abs.cc
+  ${SRC_DIRECTORY}/integer/floor.cc
+  ${SRC_DIRECTORY}/integer/ceil.cc
   ${SRC_DIRECTORY}/integer/pow.cc
   ${SRC_DIRECTORY}/integer/factorial.cc
   ${SRC_DIRECTORY}/integer/extended_euclidean.cc

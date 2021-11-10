@@ -129,6 +129,17 @@ division_result_t div(const bignum_t& a, const bignum_t& b) {
     }
 
     //
+    // 特殊情况1,例如：8589934590 / 791621423
+    // 如果被除数还是小于除数，这里蕴含的一个条件就是 dividend_remainder_digits为0。
+    // quotient压入0比dividend少一个。
+    //
+    if (cmp(dividend, divisor) == -1) {
+      quotient.push_front(0);
+      break;
+    }
+
+    //
+    // 特殊情况2
     // 如果被除数剩余全部是0，这里蕴含的一个条件就是 dividend_remainder_digits为0。
     // quotient压入0比dividend少一个。
     //

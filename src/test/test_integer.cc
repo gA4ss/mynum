@@ -156,6 +156,11 @@ TEST(Integer, Div2) {
   n = Integer("-11");
   z = m / n;
   EXPECT_TRUE(z == "0");
+
+  m = Integer("8589934590");
+  n = Integer("791621423");
+  z = m / n;
+  EXPECT_TRUE(z == "10");
 }
 
 TEST(Integer, Mod) {

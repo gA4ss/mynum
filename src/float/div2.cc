@@ -20,9 +20,7 @@ static Float __mod_infinite_operation(const Float& num1, const Float& num2) {
   return res;
 }
 
-void div2(const Float& num1, const Float& num2, Float& quo, Float& rem, uinteger_t significant_digits) {
-  operation_is_not_implement_exception("%s", "div2");
-  
+void div2(const Float& num1, const Float& num2, Float& quo, Float& rem, uinteger_t significant_digits) {  
   if (is_zero(num2)) divisor_is_zero_exception("num2 = %s", num2.str().c_str());
   if (is_nan(num1) || is_nan(num2)) {
     quo = Float("nan"); rem = Float("nan");
@@ -71,12 +69,11 @@ void div2(const Float& num1, const Float& num2, Float& quo, Float& rem, uinteger
     rem = Float("0");
     return;
   } else if (lt(abs(num1), abs(num2))) {
-    if (num1.sign() == num2.sign()) {
+    if (num1.sign() == num2.sign()) {   // 同号
       quo = Float("0");
-      if (num1.sign() == kPositive) rem = floor(num1);
-      else rem = ceil(num1);
+      rem = num1;
       return;
-    } else {
+    } else {                            // 异号
       quo = Float("-1");
       rem = sub(abs(num2), abs(num1));
       rem.set_sign(num2.sign());
@@ -87,9 +84,9 @@ void div2(const Float& num1, const Float& num2, Float& quo, Float& rem, uinteger
   //
   // 这里必然 abs(num1) > abs(num2)
   //
-  // quo = div(floor(num1), floor(num2));
-  // quo = floor(quo);
-  // rem = sub(floor(num1), mul(floor(num2), quo));
+  quo = div(num1, num2, significant_digits);
+  quo = floor(quo);
+  rem = sub(num1, mul(num2, quo));
   return;
 }
 

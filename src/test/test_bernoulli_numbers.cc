@@ -1,18 +1,18 @@
 #include <stdlib.h>
-#include <mynum/numeric.h>
+#include <mynum/integer.h>
 
 using namespace mynum;
 
-typedef std::pair<std::vector<Numeric>, std::vector<Numeric> > fraction_vector_t;
+typedef std::pair<std::vector<Integer>, std::vector<Integer> > fraction_vector_t;
 fraction_vector_t test_bernoulli_numbers(uinteger_t n) {
-  Numeric g, den = "1", p = "1";
+  Integer g, den = "1", p = "1";
   uinteger_t h = 0, k, i, j = 1, tog = 1;
 
   if (n == 0) { ; }
 
-  std::vector<Numeric> T = std::vector<Numeric>(n, "0");
-  std::vector<Numeric> N = std::vector<Numeric>(n, "0");
-  std::vector<Numeric> D = std::vector<Numeric>(n, "0");
+  std::vector<Integer> T = std::vector<Integer>(n, "0");
+  std::vector<Integer> N = std::vector<Integer>(n, "0");
+  std::vector<Integer> D = std::vector<Integer>(n, "0");
 
   N[0] = "1";
   D[0] = "1";
@@ -21,6 +21,7 @@ fraction_vector_t test_bernoulli_numbers(uinteger_t n) {
 
   T[1] = "1";
   for (i = 3; i <= 2 * n; i++) {
+    // std::cout << "i = " << i << std::endl;
     if (tog) {
       p *= "4";
       den = (p - "1") * "2";
@@ -34,6 +35,8 @@ fraction_vector_t test_bernoulli_numbers(uinteger_t n) {
       g = gcd(T[h], den);
       N[j] = T[h] / g;
       D[j] = den / g;
+      // std::cout << "N = " << N[j].str() << " D = " << D[j].str() 
+      //           << std::endl << std::endl;
       j++;
     }
     tog = 1 - tog;
@@ -50,9 +53,9 @@ int main(void) {
   return 0;
 }
 
-// Numeric bernoulli_numbers(const Numeric& x) {
-//   Numeric k = integer(x), _x = integer(x);
-//   Numeric b = "0";
+// Integer bernoulli_numbers(const Integer& x) {
+//   Integer k = integer(x), _x = integer(x);
+//   Integer b = "0";
 //   if (is_zero(_x)) {
 //     return "1";
 //   }
@@ -61,7 +64,7 @@ int main(void) {
 //     return "0";
 //   }
 
-//   Numeric numerator = "0", denominator = "0", item = "0";
+//   Integer numerator = "0", denominator = "0", item = "0";
 //   while(!is_zero(k)) {
 //     k--;
 //     numerator = factorial(_x) * bernoulli_numbers(k);

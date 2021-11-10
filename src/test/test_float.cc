@@ -146,59 +146,103 @@ TEST(Float, DecimalsDiv) {
   EXPECT_TRUE(z - "1.0198019801980198" < "0.0001") << "z = " << z.str();
 }
 
-// TEST(Float, Mod) {
-//   Float m,n,z;
+TEST(Float, Mod) {
+  Float m,n,z;
 
-//   m = Float("inf");
-//   n = Float("3");
-//   z = m % n;
-//   EXPECT_TRUE(is_nan(z));
+  m = Float("inf");
+  n = Float("3");
+  z = m % n;
+  EXPECT_TRUE(is_nan(z));
 
-//   m = Float("3");
-//   n = Float("inf");
-//   z = m % n;
-//   EXPECT_TRUE(z == "3");
+  m = Float("3");
+  n = Float("inf");
+  z = m % n;
+  EXPECT_TRUE(z == "3");
 
-//   m = Float("7");
-//   n = Float("3");
-//   z = m % n;
-//   EXPECT_TRUE(z == "1");
+  m = Float("7");
+  n = Float("3");
+  z = m % n;
+  EXPECT_TRUE(z == "1");
 
-//   m = Float("-7");
-//   n = Float("3");
-//   z = m % n;
-//   EXPECT_TRUE(z == "2");
+  m = Float("-7");
+  n = Float("3");
+  z = m % n;
+  EXPECT_TRUE(z == "2");
 
-//   m = Float("7");
-//   n = Float("-3");
-//   z = m % n;
-//   EXPECT_TRUE(z == "-2");
+  m = Float("7");
+  n = Float("-3");
+  z = m % n;
+  EXPECT_TRUE(z == "-2");
 
-//   m = Float("-7");
-//   n = Float("-3");
-//   z = m % n;
-//   EXPECT_TRUE(z == "-1");
+  m = Float("-7");
+  n = Float("-3");
+  z = m % n;
+  EXPECT_TRUE(z == "-1");
 
-//   m = Float("5");
-//   n = Float("11");
-//   z = m % n;
-//   EXPECT_TRUE(z == "5");
+  m = Float("5");
+  n = Float("11");
+  z = m % n;
+  EXPECT_TRUE(z == "5");
 
-//   m = Float("-5");
-//   n = Float("11");
-//   z = m % n;
-//   EXPECT_TRUE(z == "6");
+  m = Float("-5");
+  n = Float("11");
+  z = m % n;
+  EXPECT_TRUE(z == "6");
 
-//   m = Float("5");
-//   n = Float("-11");
-//   z = m % n;
-//   EXPECT_TRUE(z == "-6");
+  m = Float("5");
+  n = Float("-11");
+  z = m % n;
+  EXPECT_TRUE(z == "-6");
 
-//   m = Float("-5");
-//   n = Float("-11");
-//   z = m % n;
-//   EXPECT_TRUE(z == "-5");
-// }
+  m = Float("-5");
+  n = Float("-11");
+  z = m % n;
+  EXPECT_TRUE(z == "-5");
+
+  // --------------------
+
+  m = Float("5.3");
+  n = Float("10");
+  z = m % n;
+  EXPECT_TRUE(z == "5.3");
+
+  m = Float("-5.3");
+  n = Float("10");
+  z = m % n;
+  EXPECT_TRUE(z == "4.7");
+
+  m = Float("5.3");
+  n = Float("-10");
+  z = m % n;
+  EXPECT_TRUE(z == "-4.7");
+
+  m = Float("-5.3");
+  n = Float("-10");
+  z = m % n;
+  EXPECT_TRUE(z == "-5.3");
+
+  // ---------------------
+
+  m = Float("5.3");
+  n = Float("3");
+  z = m % n;
+  EXPECT_TRUE(z == "2.3");
+
+  m = Float("-5.3");
+  n = Float("3");
+  z = m % n;
+  EXPECT_TRUE(z == "0.7");
+
+  m = Float("5.3");
+  n = Float("-3");
+  z = m % n;
+  EXPECT_TRUE(z == "-0.7");
+
+  m = Float("-5.3");
+  n = Float("-3");
+  z = m % n;
+  EXPECT_TRUE(z == "-2.3");
+}
 
 TEST(Float, Round) {
   Float m, n;
@@ -295,40 +339,31 @@ TEST(Float, Compare) {
 //   EXPECT_TRUE(n == "340282366920938463463374607431768211456") << "n = " << n.str();
 // }
 
-// // TEST(Float, BernoulliNumbers) {
-// //   Float x = "0", y;
-// //   for (int i = 0; i < 9; i++) {
-// //     y = bernoulli_numbers(x);
-// //     std::cout << "bernoulli(" << x.str() << ") = " << y.str() << std::endl;
-// //     x++;
-// //   }
-// // }
+TEST(Float, Trigonometric) {
+  Float x = "0.5235987666666667", y;
+  y = sin(x);
+  EXPECT_TRUE(abs(y - "0.5") < "0.0001") << "y = " << y.str();
 
-// TEST(Float, Trigonometric) {
-//   Float x = "0.5235987666666667", y;
-//   y = sin(x);
-//   EXPECT_TRUE(abs(y - "0.5") < "0.0001") << "y = " << y.str();
+  // y = cos(x);
+  // // std::cout << "cos(pi/6) = " << y.str() << std::endl;
+  // EXPECT_TRUE(abs(y - "0.8660254037844387") < "0.0001") << "y = " << y.str();
 
-//   y = cos(x);
-//   // std::cout << "cos(pi/6) = " << y.str() << std::endl;
-//   EXPECT_TRUE(abs(y - "0.8660254037844387") < "0.0001") << "y = " << y.str();
+  // y = tan(x);
+  // // std::cout << "tan(pi/6) = " << y.str() << std::endl;
+  // EXPECT_TRUE(abs(y - "0.5773502691896257") < "0.0001") << "y = " << y.str();
 
-//   y = tan(x);
-//   // std::cout << "tan(pi/6) = " << y.str() << std::endl;
-//   EXPECT_TRUE(abs(y - "0.5773502691896257") < "0.0001") << "y = " << y.str();
+  // y = cot(x);
+  // // std::cout << "cot(pi/6) = " << y.str() << std::endl;
+  // EXPECT_TRUE(abs(y - "1.7320508075688774") < "0.0001") << "y = " << y.str();
 
-//   y = cot(x);
-//   // std::cout << "cot(pi/6) = " << y.str() << std::endl;
-//   EXPECT_TRUE(abs(y - "1.7320508075688774") < "0.0001") << "y = " << y.str();
+  // y = sec(x);
+  // // std::cout << "sec(pi/6) = " << y.str() << std::endl;
+  // EXPECT_TRUE(abs(y - "1.154700538379252") < "0.0001") << "y = " << y.str();
 
-//   y = sec(x);
-//   // std::cout << "sec(pi/6) = " << y.str() << std::endl;
-//   EXPECT_TRUE(abs(y - "1.154700538379252") < "0.0001") << "y = " << y.str();
-
-//   y = csc(x);
-//   EXPECT_TRUE(abs(y - "2.0000000000000004") < "0.0001") << "y = " << y.str();
-//   // std::cout << "csc(pi/6) = " << y.str() << std::endl;
-// }
+  // y = csc(x);
+  // EXPECT_TRUE(abs(y - "2.0000000000000004") < "0.0001") << "y = " << y.str();
+  // std::cout << "csc(pi/6) = " << y.str() << std::endl;
+}
 
 // TEST(Float, ArcTrigonometric) {
 //   Float x = "0.5", y;

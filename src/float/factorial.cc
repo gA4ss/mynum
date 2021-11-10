@@ -1,7 +1,7 @@
 #include <mynum/float.h>
 namespace mynum {
 
-Float sin(const Float& x, uinteger_t significant_digits) {
+Float factorial(const Float& num1) {
   Float res = "0";
   // uinteger_t taylor_expansion = 0;
   // Integer numerator, denominator = "1", item;

@@ -14,6 +14,7 @@ static bignum_t __effective_digit(const Float& num1, uinteger_t precision, unit_
                                                   decimal_park.end());
   bignum_t::iterator iter = (decimal_park.end() - precision);
   v = *(iter-1);
+  if (new_decimal_park.empty()) new_decimal_park.push_back(0);
   return new_decimal_park;
 }
 
