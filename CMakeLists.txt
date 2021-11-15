@@ -3,7 +3,8 @@ project(mynum VERSION 1.0)
 
 # -g allows for gdb debugging
 # turn on -03 for best performance
-add_definitions(-std=c++11 -g -O0)
+#add_definitions(-std=c++11 -g -O0)
+add_definitions(-std=c++11 -O3)
 
 set(CXX_FLAGS "-Wall")
 set(CMAKE_CXX_FLAGS "${CXX_FLAGS}")
