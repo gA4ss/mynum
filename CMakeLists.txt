@@ -53,6 +53,12 @@ target_link_libraries(test_integer mynum gtest pthread)
 add_executable(test_float ${SRC_DIRECTORY}/test/test_float.cc)
 target_link_libraries(test_float mynum gtest pthread)
 
+add_executable(test_float_pow ${SRC_DIRECTORY}/test/test_float_pow.cc)
+target_link_libraries(test_float_pow mynum gtest pthread)
+
+add_executable(test_float_log ${SRC_DIRECTORY}/test/test_float_log.cc)
+target_link_libraries(test_float_log mynum gtest pthread)
+
 add_executable(test_bernoulli_numbers ${SRC_DIRECTORY}/test/test_bernoulli_numbers.cc)
 target_link_libraries(test_bernoulli_numbers mynum my uuid gtest pthread)
 
@@ -170,6 +176,7 @@ add_library(${PROJECT_NAME} STATIC
   ${SRC_DIRECTORY}/float/round.cc
   ${SRC_DIRECTORY}/float/integer.cc
   ${SRC_DIRECTORY}/float/pow.cc
+  ${SRC_DIRECTORY}/float/exp.cc
   ${SRC_DIRECTORY}/float/sqrt.cc
   ${SRC_DIRECTORY}/float/factorial.cc
   ${SRC_DIRECTORY}/float/log.cc
@@ -201,6 +208,7 @@ add_library(${PROJECT_NAME} STATIC
   ${SRC_DIRECTORY}/float/arccsch.cc
   ${SRC_DIRECTORY}/float/arcsech.cc
   ${SRC_DIRECTORY}/float/arccoth.cc
+  ${SRC_DIRECTORY}/float/fraction.cc
   ${SRC_DIRECTORY}/float/copy.cc
   ${SRC_DIRECTORY}/float/same_digits.cc
   ${SRC_DIRECTORY}/float/operator.cc
@@ -217,6 +225,10 @@ add_test(NAME test_integer COMMAND test_integer)
 set_tests_properties(test_integer PROPERTIES FAIL_REGULAR_EXPRESSION "FAILED")
 add_test(NAME test_float COMMAND test_float)
 set_tests_properties(test_float PROPERTIES FAIL_REGULAR_EXPRESSION "FAILED")
+add_test(NAME test_float_pow COMMAND test_float_pow)
+set_tests_properties(test_float_pow PROPERTIES FAIL_REGULAR_EXPRESSION "FAILED")
+add_test(NAME test_float_log COMMAND test_float_log)
+set_tests_properties(test_float_log PROPERTIES FAIL_REGULAR_EXPRESSION "FAILED")
 
 #
 # Install Set

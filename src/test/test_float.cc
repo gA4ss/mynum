@@ -4,6 +4,7 @@
 #include <iostream>
 #include <gtest/gtest.h>
 #include <mynum/float.h>
+#include <mynum/constant.h>
 
 using namespace mynum;
 
@@ -344,35 +345,83 @@ TEST(Float, Sqrt) {
   EXPECT_TRUE(abs(n - "1.77245") <= "0.0001") << "n = " << n.str();
 }
 
-TEST(Float, Pow) {
-  Float m, n, exp;
+// TEST(Float, Pow) {
+//   Float m, n, exp;
 
-  m = "5";
-  exp = "3";
-  n = pow(m, exp);
-  EXPECT_TRUE(n == "125") << "n = " << n.str();
+//   m = "5";
+//   exp = "3";
+//   n = pow(m, exp);
+//   EXPECT_TRUE(n == "125") << "n = " << n.str();
 
-  m = "2";
-  exp = "8";
-  n = pow(m, exp);
-  EXPECT_TRUE(n == "256") << "n = " << n.str();
+//   m = "2";
+//   exp = "8";
+//   n = pow(m, exp);
+//   EXPECT_TRUE(n == "256") << "n = " << n.str();
 
-  m = "2";
-  exp = "64";
-  n = pow(m, exp);
-  EXPECT_TRUE(n == "18446744073709551616") << "n = " << n.str();
+//   m = "2";
+//   exp = "64";
+//   n = pow(m, exp);
+//   EXPECT_TRUE(n == "18446744073709551616") << "n = " << n.str();
 
-  m = "2";
-  exp = "128";
-  n = pow(m, exp);
-  EXPECT_TRUE(n == "340282366920938463463374607431768211456") << "n = " << n.str();
-}
+//   m = "2";
+//   exp = "128";
+//   n = pow(m, exp);
+//   EXPECT_TRUE(n == "340282366920938463463374607431768211456") << "n = " << n.str();
+
+//   m = "5.3";
+//   exp = "4.7";
+//   n = pow(m, exp);
+//   EXPECT_TRUE(abs(n - "2535.692505986549") < "0.0001") << "n = " << n.str();
+
+//   m = "4.5";
+//   exp = "-3.14";
+//   n = pow(m, exp);
+//   EXPECT_TRUE(abs(n - "0.00889022") < "0.0001") << "n = " << n.str();
+// }
 
 TEST(Float, Exponential) {
+  Float x = "1", y;
+  y = exp(x);
+  // std::cout << "exp(1) = " << y.str() << std::endl;
+  EXPECT_TRUE(abs(y - "2.71828182846") < "0.0001") << "y = " << y.str();
+
+  x = "1.45";
+  y = exp(x);
+  // std::cout << "exp(1.45) = " << y.str() << std::endl;
+  EXPECT_TRUE(abs(y - "4.26311") < "0.0001") << "y = " << y.str();
 }
 
-TEST(Float, Logarithmic) {
-}
+// TEST(Float, Logarithmic) {
+//   Float x = "4", y;
+//   y = ln(x);
+//   // std::cout << "ln(4) = " << y.str() << std::endl;
+//   EXPECT_TRUE(abs(y - "1.386294361119891") < "0.0001") << "y = " << y.str();
+  
+//   x = "5";
+//   y = ln(x);
+//   // std::cout << "ln(5) = " << y.str() << std::endl;
+//   EXPECT_TRUE(abs(y - "1.609437912434100") < "0.0001") << "y = " << y.str();
+
+//   x = "0.6";
+//   y = ln(x);
+//   // std::cout << "ln(0.6) = " << y.str() << std::endl;
+//   EXPECT_TRUE(abs(y - "-0.510826") < "0.0001") << "y = " << y.str();
+
+//   x = "0.4";
+//   y = ln(x);
+//   // std::cout << "ln(0.4) = " << y.str() << std::endl;
+//   EXPECT_TRUE(abs(y - "-0.916291") < "0.0001") << "y = " << y.str();
+
+//   x = "5";
+//   y = log10(x);
+//   // std::cout << "ln(5) = " << y.str() << std::endl;
+//   EXPECT_TRUE(abs(y - "0.69897000") < "0.0001") << "y = " << y.str();
+
+//   x = "0.6";
+//   y = log10(x);
+//   // std::cout << "ln(0.6) = " << y.str() << std::endl;
+//   EXPECT_TRUE(abs(y - "-0.221849") < "0.0001") << "y = " << y.str();
+// }
 
 TEST(Float, Trigonometric) {
   Float x = "0.5235987666666667", y;
@@ -459,25 +508,57 @@ TEST(Float, Hyperbolic) {
 }
 
 TEST(Float, ArcHyperbolic) {
-  // Float x = "0.547853", y;
-  // y = arcsinh(x);
-  // EXPECT_TRUE(abs(y - "0.5235987666666667") < "0.0001") << "y = " << y.str();
+  Float x = "0.547853", y;
+  y = arcsinh(x);
+  EXPECT_TRUE(abs(y - "0.5235987666666667") < "0.0001") << "y = " << y.str();
 
-  // y = arccosh(x);
-  // EXPECT_TRUE(abs(y - "1.14024") < "0.0001") << "y = " << y.str();
+  x = "1.14024";
+  y = arccosh(x);
+  EXPECT_TRUE(abs(y - "0.5235987666666667") < "0.0001") << "y = " << y.str();
 
-  // y = arctanh(x);
-  // EXPECT_TRUE(abs(y - "0.480473") < "0.0001") << "y = " << y.str();
+  x = "0.480473";
+  y = arctanh(x);
+  EXPECT_TRUE(abs(y - "0.5235987666666667") < "0.0001") << "y = " << y.str();
 
-  // y = arccsch(x);
-  // EXPECT_TRUE(abs(y - "1.82531") < "0.0001") << "y = " << y.str();
+  x = "1.82531";
+  y = arccsch(x);
+  EXPECT_TRUE(abs(y - "0.5235987666666667") < "0.0001") << "y = " << y.str();
 
-  // y = arcsech(x);
-  // EXPECT_TRUE(abs(y - "0.87701") < "0.0001") << "y = " << y.str();
+  x = "0.87701";
+  y = arcsech(x);
+  EXPECT_TRUE(abs(y - "0.5235987666666667") < "0.0001") << "y = " << y.str();
 
-  // y = arccoth(x);
-  // EXPECT_TRUE(abs(y - "2.08128") < "0.0001") << "y = " << y.str();
+  x = "2.08128";
+  y = arccoth(x);
+  EXPECT_TRUE(abs(y - "0.5235987666666667") < "0.0001") << "y = " << y.str();
 }
+
+TEST(Float, Fraction) {
+  Float x = "3.1415926";
+  std::pair<Integer, Integer> y = fraction(x);
+  EXPECT_TRUE(y.first == "15707963");
+  EXPECT_TRUE(y.second == "5000000");
+
+  x = "-3.1415926";
+  y = fraction(x);
+  EXPECT_TRUE(y.first == "-15707963");
+  EXPECT_TRUE(y.second == "5000000");
+
+  x = "0.75";
+  y = fraction(x);
+  EXPECT_TRUE(y.first == "3");
+  EXPECT_TRUE(y.second == "4");
+
+  x = "-0.5";
+  y = fraction(x);
+  EXPECT_TRUE(y.first == "-1");
+  EXPECT_TRUE(y.second == "2");
+}
+
+// TEST(Float, Constant) {
+//   // Float pi = approximate_pi();
+//   // EXPECT_TRUE(abs(pi - "3.1415926") < "0.0001") << "pi = " << pi.str();
+// }
 
 int main(int argc, char* argv[]) {
   testing::InitGoogleTest(&argc, argv);

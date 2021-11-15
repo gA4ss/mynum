@@ -123,13 +123,14 @@ Float floor(const Float& num1);
 Float ceil(const Float& num1);
 Float round(const Float& num1, uinteger_t significant_digits=0);
 Float integer(const Float& num1);
-Float pow(const Float& num1, const Float& exp);
+Float pow(const Float& a, const Float& x, const char* epsilon="0.0000000000000001");
+Float exp(const Float& x, const char* epsilon="0.0000000000000001");
 Float sqrt(const Float& num1, const char* epsilon=kDefEpsilon);
 Float factorial(const Float& num1);
-Float log(const Float& base, const Float& log);
-Float log2(const Float& n);
-Float log10(const Float& n);
-Float ln(const Float& n);
+Float log(const Float& base, const Float& x, const char* epsilon="0.0000000000000001");
+Float log2(const Float& x, const char* epsilon="0.0000000000000001");
+Float log10(const Float& x, const char* epsilon="0.0000000000000001");
+Float ln(const Float& x, const char* epsilon="0.0000000000000001");
 int sgn(const Float& num1);
 
 //
@@ -171,6 +172,11 @@ Float arctanh(const Float& x, const char* epsilon=kDefEpsilon);
 Float arccsch(const Float& x, const char* epsilon=kDefEpsilon);
 Float arcsech(const Float& x, const char* epsilon=kDefEpsilon);
 Float arccoth(const Float& x, const char* epsilon=kDefEpsilon);
+
+//
+// 分数相关
+//
+std::pair<Integer, Integer> fraction(const Float& x);
 
 //
 // 功能函数
