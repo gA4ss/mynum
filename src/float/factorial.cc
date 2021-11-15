@@ -2,26 +2,14 @@
 namespace mynum {
 
 Float factorial(const Float& num1) {
-  Float res = "0";
-  // uinteger_t taylor_expansion = 0;
-  // Integer numerator, denominator = "1", item;
-  // while (true) {
-  //   numerator = pow(x, denominator);
-  //   // std::cout << taylor_expansion << std::endl;
-  //   // std::cout << "numerator = " << numerator.str() << std::endl;
-  //   // std::cout << "factorial(denominator) = " << factorial(denominator).str() << std::endl;
-  //   item = div(numerator, factorial(denominator));
-  //   // std::cout << "item = " << item.str() << std::endl;
-  //   if (i % 2 == 0) {
-  //     res -= item;
-  //   } else {
-  //     res += item;
-  //   }
-  //   denominator += "2";
-  //   // std::cout << "res = " << res.str() << std::endl;
-  // }
-  // return round(res, Float::config_.precision);
-  return res;
+  if (num1.sign() == kNegative) operand_value_is_invalid_exception("%s", "num1 is negative");
+  if (is_zero(num1) || is_one(num1)) return Float("1");
+  Float a = num1, b = "1";
+  while (a != "1") {
+    b *= a;
+    --a;
+  }
+  return b;
 }
 
 } // namespace mynum

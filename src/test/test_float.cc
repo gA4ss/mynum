@@ -315,6 +315,30 @@ TEST(Float, Compare) {
   EXPECT_TRUE(m < n);
 }
 
+TEST(Float, Sqrt) {
+  Float m, n;
+
+  m = "2";
+  n = sqrt(m, "0.0000000000000001");
+  EXPECT_TRUE(abs(n - "1.414213562373095") <= "0.0000000000000001") << "n = " << n.str();
+
+  m = "3";
+  n = sqrt(m, "0.0000000000000001");
+  EXPECT_TRUE(abs(n - "1.732050807568877") <= "0.0000000000000001") << "n = " << n.str();
+
+  m = "4";
+  n = sqrt(m, "0.0000000000000001");
+  EXPECT_TRUE(abs(n - "2") <= "0.0000000000000001") << "n = " << n.str();
+
+  m = "5.3";
+  n = sqrt(m, "0.0000000000000001");
+  EXPECT_TRUE(abs(n - "2.30217") <= "0.0000000000000001") << "n = " << n.str();
+
+  m = "3.1415926";
+  n = sqrt(m, "0.0000000000000001");
+  EXPECT_TRUE(abs(n - "1.77245") <= "0.0000000000000001") << "n = " << n.str();
+}
+
 // TEST(Float, Pow) {
 //   Float m, n, exp;
 
@@ -344,13 +368,13 @@ TEST(Float, Trigonometric) {
   y = sin(x);
   EXPECT_TRUE(abs(y - "0.5") < "0.0001") << "y = " << y.str();
 
-  // y = cos(x);
-  // // std::cout << "cos(pi/6) = " << y.str() << std::endl;
-  // EXPECT_TRUE(abs(y - "0.8660254037844387") < "0.0001") << "y = " << y.str();
+  y = cos(x);
+  // std::cout << "cos(pi/6) = " << y.str() << std::endl;
+  EXPECT_TRUE(abs(y - "0.8660254037844387") < "0.0001") << "y = " << y.str();
 
-  // y = tan(x);
-  // // std::cout << "tan(pi/6) = " << y.str() << std::endl;
-  // EXPECT_TRUE(abs(y - "0.5773502691896257") < "0.0001") << "y = " << y.str();
+  y = tan(x);
+  // std::cout << "tan(pi/6) = " << y.str() << std::endl;
+  EXPECT_TRUE(abs(y - "0.5773502691896257") < "0.0001") << "y = " << y.str();
 
   // y = cot(x);
   // // std::cout << "cot(pi/6) = " << y.str() << std::endl;

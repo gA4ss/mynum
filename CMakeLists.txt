@@ -61,11 +61,31 @@ target_link_libraries(test_euler_numbers mynum my uuid gtest pthread)
 endif(BUILD_TEST)
 
 #
+# Tools Build
+#
+set(BUILD_TOOLS TRUE)
+if(BUILD_TOOLS)
+add_executable(generate_bernoulli_numbers ${SRC_DIRECTORY}/tools/generate_bernoulli_numbers.cc)
+target_link_libraries(generate_bernoulli_numbers mynum my uuid gtest pthread)
+
+add_executable(generate_euler_numbers ${SRC_DIRECTORY}/tools/generate_euler_numbers.cc)
+target_link_libraries(generate_euler_numbers mynum my uuid gtest pthread)
+endif(BUILD_TOOLS)
+
+#
+# Research Build
+#
+set(BUILD_RESEARCH TRUE)
+if(BUILD_RESEARCH)
+endif(BUILD_RESEARCH)
+
+#
 # Library Build
 #
 add_library(${PROJECT_NAME} STATIC
   ${SRC_DIRECTORY}/common.cc
   ${SRC_DIRECTORY}/constant.cc
+  ${SRC_DIRECTORY}/constant_bernoulli_numbers.cc
   ${SRC_DIRECTORY}/convert.cc
   ${SRC_DIRECTORY}/bignum/shrink_zero.cc
   ${SRC_DIRECTORY}/bignum/string_to_bignum.cc
@@ -149,7 +169,8 @@ add_library(${PROJECT_NAME} STATIC
   ${SRC_DIRECTORY}/float/round.cc
   ${SRC_DIRECTORY}/float/integer.cc
   ${SRC_DIRECTORY}/float/pow.cc
-  ${SRC_DIRECTORY}/float/rooting.cc
+  ${SRC_DIRECTORY}/float/sqrt.cc
+  ${SRC_DIRECTORY}/float/factorial.cc
   ${SRC_DIRECTORY}/float/log.cc
   ${SRC_DIRECTORY}/float/log2.cc
   ${SRC_DIRECTORY}/float/log10.cc

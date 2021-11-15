@@ -122,7 +122,7 @@ Float ceil(const Float& num1);
 Float round(const Float& num1, uinteger_t significant_digits=0);
 Float integer(const Float& num1);
 Float pow(const Float& num1, const Float& exp);
-Float rooting(const Float& num1, const Float& exp);
+Float sqrt(const Float& num1, const char* epsilon="0.0000000000000001");
 Float factorial(const Float& num1);
 Float log(const Float& base, const Float& log);
 Float log2(const Float& n);
@@ -133,9 +133,9 @@ int sgn(const Float& num1);
 //
 // 三角函数
 //
-Float sin(const Float& x, uinteger_t significant_digits=16);
-Float cos(const Float& x);
-Float tan(const Float& x);
+Float sin(const Float& x, const char* epsilon="0.0000000000000001");
+Float cos(const Float& x, const char* epsilon="0.0000000000000001");
+Float tan(const Float& x, const char* epsilon="0.0000000000000001");
 Float csc(const Float& x);
 Float sec(const Float& x);
 Float cot(const Float& x);

@@ -33,6 +33,7 @@ Float::Float(const Integer& integer_park, const Integer& decimal_park) {
   zero();
   integer_park_ = integer_park.integer_park();
   decimal_park_ = decimal_park.integer_park();
+  sign_ = integer_park.sign();
 }
 
 Float::Float(Float* number) {
@@ -218,12 +219,12 @@ void Float::__create_from_string(const char* number, int base) {
 
   if (integer_str.empty()) integer_str = "0";
 
-  integer_park_ = string_to_bignum(integer_str.c_str());
-  if (precision) decimal_park_ = string_to_bignum(decimal_str.c_str());
+  integer_park_ = string_to_bignum(integer_str.c_str(), true);
+  if (precision) decimal_park_ = string_to_bignum(decimal_str.c_str(), false);
   else decimal_park_ = {0};
 
-  precision = decimal_park_.size();
-  shrink_zero(integer_park_, true);
+  // precision = decimal_park_.size();
+  // shrink_zero(integer_park_, true);
   // shrink_zero(decimal_park_, false);
 }
 

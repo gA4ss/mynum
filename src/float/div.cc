@@ -61,30 +61,30 @@ Float div(const Float& num1, const Float& num2, uinteger_t significant_digits) {
     if (numerator_precision > denominator_precision) {            // 结果缩小
       precision = numerator_precision - denominator_precision;
       //
-      // 计算结果前边填充0
+      // 计算结果前边填充0，如果结果存在尾数则尾数不参与
+      // 直接在整数部分进行修正。
       //
-      if (precision > combine_park.size()) {
-        fill_zero = precision - combine_park.size();
-        while (fill_zero--) combine_park.push_back(0);
+      if (precision > integer_park.size()) {
+        fill_zero = precision - integer_park.size();
+        while (fill_zero--) integer_park.push_back(0);
       }
-      integer_park.clear(); decimal_park.clear();
-      decimal_park.insert(decimal_park.begin(), combine_park.begin(), combine_park.begin()+precision);
-      integer_park.insert(integer_park.begin(), combine_park.begin()+precision, combine_park.end());
+      decimal_park.insert(decimal_park.end(), integer_park.begin(), integer_park.begin()+precision);
+      integer_park.erase(integer_park.begin(), integer_park.begin()+precision);
+      if (integer_park.empty()) integer_park.push_back(0);
     } else if (numerator_precision < denominator_precision) {     // 结果扩大
       precision = denominator_precision - numerator_precision;
       //
-      // 计算结果后边填充0
+      // 计算结果后边填充0，这里直接在尾数部分进行操作。
       //
-      if (precision > combine_park.size()) {
+      if (precision > decimal_park.size()) {
         fill_zero = precision;
-        while (fill_zero--) combine_park.push_front(0);
+        while (fill_zero--) decimal_park.push_front(0);
       }
-      integer_park.clear(); decimal_park.clear();
-      decimal_park.insert(decimal_park.begin(), combine_park.begin(), combine_park.begin()+precision);
-      integer_park.insert(integer_park.begin(), combine_park.begin()+precision, combine_park.end());
+      precision = decimal_park.size() - precision;
+      integer_park.insert(integer_park.begin(), decimal_park.begin()+precision, decimal_park.end());
+      decimal_park.erase(decimal_park.begin()+precision, decimal_park.end());
+      if (decimal_park.empty()) decimal_park.push_back(0);
     }
-
-    if (integer_park.empty()) integer_park.push_back(0);
     shrink_zero(decimal_park, false);   // 删除小数末尾的0
     shrink_zero(integer_park, true);    // 删除整数末尾的0
   }

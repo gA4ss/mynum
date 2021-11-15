@@ -8,8 +8,8 @@ extern Float __pi;
 extern Float __half_pi;
 extern Float __e;
 
-Float approximate_pi(const Float& precision);
-Float approximate_e(const Float& precision);
+Float approximate_pi(const char* epsilon="0.0000000000000001");
+Float approximate_e(const char* epsilon="0.0000000000000001");
 
 } // namespace mynum
 

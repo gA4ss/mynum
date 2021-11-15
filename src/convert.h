@@ -6,8 +6,8 @@
 
 namespace mynum {
 
-// Float convert_integer_to_float(const Integer& i);
-// Integer convert_float_to_integer(const Float& f);
+Float convert_integer_to_float(const Integer& i);
+Integer convert_float_to_integer(const Float& f);
 
 } // namespace mynum
 

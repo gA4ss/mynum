@@ -58,6 +58,12 @@ division_result_t div2(const bignum_t& a, const bignum_t& b, uinteger_t precisio
     dividend = res.second;
   } // end while
 
+  //
+  // 这里需要判断quotient的值，如果发现末尾是以0结尾，则舍去。
+  // 这是因为quotient这里表示的是尾数，0.5这样只有一个0的情况
+  // 0部分属于整数。只有0.05,这里的05才属于尾数。
+  //
+  if (quotient.back() == 0) quotient.pop_back();
   return division_result_t(integer_park, quotient);
 }
 
