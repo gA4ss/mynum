@@ -86,6 +86,7 @@ add_library(${PROJECT_NAME} STATIC
   ${SRC_DIRECTORY}/common.cc
   ${SRC_DIRECTORY}/constant.cc
   ${SRC_DIRECTORY}/constant_bernoulli_numbers.cc
+  ${SRC_DIRECTORY}/constant_euler_numbers.cc
   ${SRC_DIRECTORY}/convert.cc
   ${SRC_DIRECTORY}/bignum/shrink_zero.cc
   ${SRC_DIRECTORY}/bignum/string_to_bignum.cc

@@ -1,7 +1,7 @@
 #include <mynum/float.h>
 namespace mynum {
 
-Float arcsinh(const Float& x) {
+Float arcsinh(const Float& x, const char* epsilon) {
   Float res = "0";
   // uinteger_t taylor_expansion = Float::config_.taylor_expansion;
   // Float numerator, denominator = "1", item;

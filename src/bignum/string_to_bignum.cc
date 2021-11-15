@@ -40,6 +40,7 @@ bignum_t string_to_bignum(const char* number, int base, bool shrink_reverse/*=fa
   } while (*(++ptr));
 
   shrink_zero(res, shrink_reverse);
+  if (res.empty()) res.push_back(0);      // 如果削减为空，则添加一个0保留位数。
   return res;
 }
 

@@ -5,6 +5,7 @@ namespace mynum {
 Float pow(const Float& num1, const Float& exp) {
   if (is_nan(num1)) return Float();
   if (is_infinite(num1)) operand_value_is_invalid_exception("%s", "num1 is infinite");
+  if (is_zero(exp)) return Float("1");
 
   Float res = "1", i = "0";
   while (i < exp) {

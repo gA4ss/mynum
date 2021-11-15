@@ -8,6 +8,8 @@
 
 namespace mynum {
 
+#define kDefEpsilon               "0.000001"
+
 class Float {
 public:
   Float();
@@ -122,7 +124,7 @@ Float ceil(const Float& num1);
 Float round(const Float& num1, uinteger_t significant_digits=0);
 Float integer(const Float& num1);
 Float pow(const Float& num1, const Float& exp);
-Float sqrt(const Float& num1, const char* epsilon="0.0000000000000001");
+Float sqrt(const Float& num1, const char* epsilon=kDefEpsilon);
 Float factorial(const Float& num1);
 Float log(const Float& base, const Float& log);
 Float log2(const Float& n);
@@ -133,42 +135,42 @@ int sgn(const Float& num1);
 //
 // 三角函数
 //
-Float sin(const Float& x, const char* epsilon="0.0000000000000001");
-Float cos(const Float& x, const char* epsilon="0.0000000000000001");
-Float tan(const Float& x, const char* epsilon="0.0000000000000001");
-Float csc(const Float& x);
-Float sec(const Float& x);
-Float cot(const Float& x);
+Float sin(const Float& x, const char* epsilon=kDefEpsilon);
+Float cos(const Float& x, const char* epsilon=kDefEpsilon);
+Float tan(const Float& x, const char* epsilon=kDefEpsilon);
+Float csc(const Float& x, const char* epsilon=kDefEpsilon);
+Float sec(const Float& x, const char* epsilon=kDefEpsilon);
+Float cot(const Float& x, const char* epsilon=kDefEpsilon);
 
 //
 // 反三角函数
 //
-Float arcsin(const Float& x);
-Float arccos(const Float& x);
-Float arctan(const Float& x);
-Float arccsc(const Float& x);
-Float arcsec(const Float& x);
-Float arccot(const Float& x);
+Float arcsin(const Float& x, const char* epsilon=kDefEpsilon);
+Float arccos(const Float& x, const char* epsilon=kDefEpsilon);
+Float arctan(const Float& x, const char* epsilon=kDefEpsilon);
+Float arccsc(const Float& x, const char* epsilon=kDefEpsilon);
+Float arcsec(const Float& x, const char* epsilon=kDefEpsilon);
+Float arccot(const Float& x, const char* epsilon=kDefEpsilon);
 
 //
 // 双曲函数
 //
-Float sinh(const Float& x);
-Float cosh(const Float& x);
-Float tanh(const Float& x);
-Float csch(const Float& x);
-Float sech(const Float& x);
-Float coth(const Float& x);
+Float sinh(const Float& x, const char* epsilon=kDefEpsilon);
+Float cosh(const Float& x, const char* epsilon=kDefEpsilon);
+Float tanh(const Float& x, const char* epsilon=kDefEpsilon);
+Float csch(const Float& x, const char* epsilon=kDefEpsilon);
+Float sech(const Float& x, const char* epsilon=kDefEpsilon);
+Float coth(const Float& x, const char* epsilon=kDefEpsilon);
 
 //
 // 反双曲函数
 //
-Float arcsinh(const Float& x);
-Float arccosh(const Float& x);
-Float arctanh(const Float& x);
-Float arccsch(const Float& x);
-Float arcsech(const Float& x);
-Float arccoth(const Float& x);
+Float arcsinh(const Float& x, const char* epsilon=kDefEpsilon);
+Float arccosh(const Float& x, const char* epsilon=kDefEpsilon);
+Float arctanh(const Float& x, const char* epsilon=kDefEpsilon);
+Float arccsch(const Float& x, const char* epsilon=kDefEpsilon);
+Float arcsech(const Float& x, const char* epsilon=kDefEpsilon);
+Float arccoth(const Float& x, const char* epsilon=kDefEpsilon);
 
 //
 // 功能函数

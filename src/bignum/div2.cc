@@ -20,13 +20,18 @@ division_result_t div2(const bignum_t& a, const bignum_t& b, uinteger_t precisio
            dividend = res.second,
            divisor = b;
   int cr = 0;
-
+  size_t borrow_zero = 0;
   while (1) {
     //
     // 如果精度达到要求则停止
+    // 这里有一种情况就是，如果遇到2/1413333333333333333333
+    // 这样的情况，由于被除数与除数相差太远，这样补位的0就占据了
+    // 大多数的精度，所以这里要舍去由于0补位的精度，判断的是除法
+    // 本身计算得到的精度。
+    //
     // quotient.size() 初始值为 1
     //
-    if (quotient.size() > precision)
+    if ((quotient.size() - borrow_zero) > precision)
       break;
 
     //
@@ -40,6 +45,7 @@ division_result_t div2(const bignum_t& a, const bignum_t& b, uinteger_t precisio
       while (cmp(dividend, divisor) == -1) {
         dividend.push_front(0);
         quotient.push_front(0);
+        ++borrow_zero;
       }
     }
     res = div(dividend, divisor);

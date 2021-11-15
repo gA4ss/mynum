@@ -61,9 +61,9 @@ def bernoulli_numbers(x):
     b += (item * -1)
   return b
 
-# for i in range(0, 10):
-#   b = bernoulli_numbers(i)
-#   print(i, ") ", b)
+for i in range(0, 10):
+  b = bernoulli_numbers(i)
+  print(i, ") ", b)
 
 def arctan_2(x):
   res = 0
@@ -84,9 +84,9 @@ def arctan_2(x):
   return res
 
 # x = 0.5235987666666667
-x = 1.7320508075688774
-y = arctan_2(x)
-print("y = ", y)
+# x = 1.7320508075688774
+# y = arctan_2(x)
+# print("y = ", y)
 
 """
 sin(pi/6)

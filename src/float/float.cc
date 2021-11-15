@@ -219,8 +219,8 @@ void Float::__create_from_string(const char* number, int base) {
 
   if (integer_str.empty()) integer_str = "0";
 
-  integer_park_ = string_to_bignum(integer_str.c_str(), true);
-  if (precision) decimal_park_ = string_to_bignum(decimal_str.c_str(), false);
+  integer_park_ = string_to_bignum(integer_str.c_str(), base, true);
+  if (precision) decimal_park_ = string_to_bignum(decimal_str.c_str(), base, false);
   else decimal_park_ = {0};
 
   // precision = decimal_park_.size();

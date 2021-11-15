@@ -1,5 +1,6 @@
 #include <mynum/float.h>
 #include <mynum/constant.h>
+
 namespace mynum {
 
 extern std::vector<Float> __bernoulli_numbers;
@@ -14,38 +15,37 @@ Float tan(const Float& x, const char* epsilon) {
     );
   }
 
-  size_t i = 0, j = __bernoulli_numbers.size();
+  size_t i = 1, j = __bernoulli_numbers.size();
   Float res = "0";
   Float numerator, denominator, item, exponent = "0", p;
-  Float n = "1", b; //, p;
-  Float m = "0.0333333333333333";
+  Float n = "1", b;
   do {
-    if (i >= j) break;      // 超过表大小
     p = res;
-    std::cout << "n = " << n.str() << std::endl;
+    // std::cout << "n = " << n.str() << std::endl;
     exponent = n * "2";
-    std::cout << "exponent = " << exponent.str() << std::endl;
-    b = __bernoulli_numbers[i];
-    std::cout << "b = " << b.str() << std::endl;
+    // std::cout << "exponent = " << exponent.str() << std::endl;
+    if (i < j) {
+      b = __bernoulli_numbers[i];
+    } else {
+      // 超过表大小，则重新计算。
+    }
+    // std::cout << "b = " << b.str() << std::endl;
     numerator = pow("2", exponent) * (pow("2", exponent) - "1");
-    std::cout << "constant = " << numerator.str() << std::endl;
+    // std::cout << "constant = " << numerator.str() << std::endl;
     numerator *= b;
-    // numerator *= pow("-1", sub(n, "1"));
-    std::cout << "numerator = " << numerator.str() << std::endl;
+    // std::cout << "numerator = " << numerator.str() << std::endl;
     denominator = factorial(exponent);
-    std::cout << "denominator = " << denominator.str() << std::endl;
+    // std::cout << "denominator = " << denominator.str() << std::endl;
     item = div(numerator, denominator);
-    std::cout << "fraction = " << item.str() << std::endl;
+    // std::cout << "fraction = " << item.str() << std::endl;
     --exponent;
-    // p = pow(x, exponent);
-    std::cout << "pow = " << p.str() << std::endl;
-    // item *= p;
+    // std::cout << "pow = " << p.str() << std::endl;
     item *= pow(x, exponent);
-    std::cout << "item = " << item.str() << std::endl;
+    // std::cout << "item = " << item.str() << std::endl;
     res += item;
+    // std::cout << "res = " << res.str() << std::endl << std::endl;
     ++n;
     ++i;
-    std::cout << "res = " << res.str() << std::endl << std::endl;
   } while (abs(res - p) > epsilon);
   return res;
 }

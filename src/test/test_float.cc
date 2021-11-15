@@ -13,6 +13,7 @@ TEST(Float, Create) {
   EXPECT_TRUE(Float("-inf") == "-inf");
   EXPECT_TRUE("0" == Float("0"));
   EXPECT_TRUE(Float(".3414") == "0.3414");
+  EXPECT_TRUE(Float("0.0333333333333333") == "0.0333333333333333");
   EXPECT_TRUE("123456789.123456789" == Float("123456789.123456789"));
   EXPECT_TRUE(Float("1844674407370955161518446744073709551615") == "1844674407370955161518446744073709551615");
 }
@@ -108,6 +109,10 @@ TEST(Float, Div) {
   m = "0";
   m /= "inf";
   EXPECT_TRUE(m == "0");
+
+  m = "4.0000000000000000";
+  m /= "2";
+  EXPECT_TRUE(m == "2");
 }
 
 TEST(Float, DecimalsDiv) {
@@ -320,48 +325,54 @@ TEST(Float, Sqrt) {
 
   m = "2";
   n = sqrt(m, "0.0000000000000001");
-  EXPECT_TRUE(abs(n - "1.414213562373095") <= "0.0000000000000001") << "n = " << n.str();
+  EXPECT_TRUE(abs(n - "1.414213562373095") <= "0.000001") << "n = " << n.str();
 
   m = "3";
   n = sqrt(m, "0.0000000000000001");
-  EXPECT_TRUE(abs(n - "1.732050807568877") <= "0.0000000000000001") << "n = " << n.str();
+  EXPECT_TRUE(abs(n - "1.732050807568877") <= "0.000001") << "n = " << n.str();
 
   m = "4";
   n = sqrt(m, "0.0000000000000001");
-  EXPECT_TRUE(abs(n - "2") <= "0.0000000000000001") << "n = " << n.str();
+  EXPECT_TRUE(abs(n - "2") <= "0.000001") << "n = " << n.str();
 
   m = "5.3";
   n = sqrt(m, "0.0000000000000001");
-  EXPECT_TRUE(abs(n - "2.30217") <= "0.0000000000000001") << "n = " << n.str();
+  EXPECT_TRUE(abs(n - "2.30217") <= "0.0001") << "n = " << n.str();
 
   m = "3.1415926";
   n = sqrt(m, "0.0000000000000001");
-  EXPECT_TRUE(abs(n - "1.77245") <= "0.0000000000000001") << "n = " << n.str();
+  EXPECT_TRUE(abs(n - "1.77245") <= "0.0001") << "n = " << n.str();
 }
 
-// TEST(Float, Pow) {
-//   Float m, n, exp;
+TEST(Float, Pow) {
+  Float m, n, exp;
 
-//   m = "5";
-//   exp = "3";
-//   n = pow(m, exp);
-//   EXPECT_TRUE(n == "125") << "n = " << n.str();
+  m = "5";
+  exp = "3";
+  n = pow(m, exp);
+  EXPECT_TRUE(n == "125") << "n = " << n.str();
 
-//   m = "2";
-//   exp = "8";
-//   n = pow(m, exp);
-//   EXPECT_TRUE(n == "256") << "n = " << n.str();
+  m = "2";
+  exp = "8";
+  n = pow(m, exp);
+  EXPECT_TRUE(n == "256") << "n = " << n.str();
 
-//   m = "2";
-//   exp = "64";
-//   n = pow(m, exp);
-//   EXPECT_TRUE(n == "18446744073709551616") << "n = " << n.str();
+  m = "2";
+  exp = "64";
+  n = pow(m, exp);
+  EXPECT_TRUE(n == "18446744073709551616") << "n = " << n.str();
 
-//   m = "2";
-//   exp = "128";
-//   n = pow(m, exp);
-//   EXPECT_TRUE(n == "340282366920938463463374607431768211456") << "n = " << n.str();
-// }
+  m = "2";
+  exp = "128";
+  n = pow(m, exp);
+  EXPECT_TRUE(n == "340282366920938463463374607431768211456") << "n = " << n.str();
+}
+
+TEST(Float, Exponential) {
+}
+
+TEST(Float, Logarithmic) {
+}
 
 TEST(Float, Trigonometric) {
   Float x = "0.5235987666666667", y;
@@ -376,55 +387,97 @@ TEST(Float, Trigonometric) {
   // std::cout << "tan(pi/6) = " << y.str() << std::endl;
   EXPECT_TRUE(abs(y - "0.5773502691896257") < "0.0001") << "y = " << y.str();
 
-  // y = cot(x);
-  // // std::cout << "cot(pi/6) = " << y.str() << std::endl;
-  // EXPECT_TRUE(abs(y - "1.7320508075688774") < "0.0001") << "y = " << y.str();
+  y = cot(x);
+  // std::cout << "cot(pi/6) = " << y.str() << std::endl;
+  EXPECT_TRUE(abs(y - "1.7320508075688774") < "0.0001") << "y = " << y.str();
 
-  // y = sec(x);
-  // // std::cout << "sec(pi/6) = " << y.str() << std::endl;
-  // EXPECT_TRUE(abs(y - "1.154700538379252") < "0.0001") << "y = " << y.str();
+  y = sec(x);
+  // std::cout << "sec(pi/6) = " << y.str() << std::endl;
+  EXPECT_TRUE(abs(y - "1.154700538379252") < "0.0001") << "y = " << y.str();
 
-  // y = csc(x);
-  // EXPECT_TRUE(abs(y - "2.0000000000000004") < "0.0001") << "y = " << y.str();
+  y = csc(x);
+  EXPECT_TRUE(abs(y - "2.0000000000000004") < "0.0001") << "y = " << y.str();
   // std::cout << "csc(pi/6) = " << y.str() << std::endl;
 }
 
-// TEST(Float, ArcTrigonometric) {
-//   Float x = "0.5", y;
-//   y = arcsin(x);
-//   // std::cout << "arcsin(0.5) = " << y.str() << std::endl;
-//   EXPECT_TRUE(abs(y - "0.5235987666666667") < "0.0001") << "y = " << y.str();
+TEST(Float, ArcTrigonometric) {
+  Float x = "0.5", y;
+  y = arcsin(x);
+  // std::cout << "arcsin(0.5) = " << y.str() << std::endl;
+  EXPECT_TRUE(abs(y - "0.5235987666666667") < "0.0001") << "y = " << y.str();
 
-//   x = "0.8660254037844387";
-//   y = arccos(x);
-//   // std::cout << "arccos(0.8660254037844387) = " << y.str() << std::endl;
-//   EXPECT_TRUE(abs(y - "0.5235987666666667") < "0.0001") << "y = " << y.str();
+  x = "0.8660254037844387";
+  y = arccos(x);
+  // std::cout << "arccos(0.8660254037844387) = " << y.str() << std::endl;
+  EXPECT_TRUE(abs(y - "0.5235987666666667") < "0.0001") << "y = " << y.str();
 
-//   x = "0.5773502691896257";
-//   y = arctan(x);
-//   // std::cout << "arccos(0.5773502691896257) = " << y.str() << std::endl;
-//   EXPECT_TRUE(abs(y - "0.5235987666666667") < "0.0001") << "y = " << y.str();
+  x = "0.5773502691896257";
+  y = arctan(x);
+  // std::cout << "arccos(0.5773502691896257) = " << y.str() << std::endl;
+  EXPECT_TRUE(abs(y - "0.5235987666666667") < "0.0001") << "y = " << y.str();
 
-//   x = "1.7320508075688774";
-//   y = arctan(x);
-//   std::cout << "arctan(1.7320508075688774) = " << y.str() << std::endl;
-//   EXPECT_TRUE(abs(y - "1.0472") < "0.0001") << "y = " << y.str();
+  x = "1.7320508075688774";
+  y = arctan(x);
+  // std::cout << "arctan(1.7320508075688774) = " << y.str() << std::endl;
+  EXPECT_TRUE(abs(y - "1.0472") < "0.0001") << "y = " << y.str();
 
-//   x = "1.1547005383792515";
-//   y = arcsec(x);
-//   // std::cout << "arcsec(1.1547005383792515) = " << y.str() << std::endl;
-//   EXPECT_TRUE(abs(y - "0.5235987666666667") < "0.0001") << "y = " << y.str();
+  x = "1.1547005383792515";
+  y = arcsec(x);
+  // std::cout << "arcsec(1.1547005383792515) = " << y.str() << std::endl;
+  EXPECT_TRUE(abs(y - "0.5235987666666667") < "0.0001") << "y = " << y.str();
 
-//   x = "2.0000000000000004";
-//   y = arccsc(x);
-//   // std::cout << "arccsc(2.0000000000000004) = " << y.str() << std::endl;
-//   EXPECT_TRUE(abs(y - "0.5235987666666667") < "0.0001") << "y = " << y.str();
+  x = "2.0000000000000004";
+  y = arccsc(x);
+  // std::cout << "arccsc(2.0000000000000004) = " << y.str() << std::endl;
+  EXPECT_TRUE(abs(y - "0.5235987666666667") < "0.0001") << "y = " << y.str();
 
-//   x = "1.7320508075688774";
-//   y = arccot(x);
-//   // std::cout << "arccot(1.7320508075688774) = " << y.str() << std::endl;
-//   EXPECT_TRUE(abs(abs(y) - "0.5235987666666667") < "0.0001") << "y = " << y.str();
-// }
+  x = "1.7320508075688774";
+  y = arccot(x);
+  // std::cout << "arccot(1.7320508075688774) = " << y.str() << std::endl;
+  EXPECT_TRUE(abs(abs(y) - "0.5235987666666667") < "0.0001") << "y = " << y.str();
+}
+
+TEST(Float, Hyperbolic) {
+  Float x = "0.5235987666666667", y;
+  y = sinh(x);
+  EXPECT_TRUE(abs(y - "0.547853") < "0.0001") << "y = " << y.str();
+
+  y = cosh(x);
+  EXPECT_TRUE(abs(y - "1.14024") < "0.0001") << "y = " << y.str();
+
+  y = tanh(x);
+  EXPECT_TRUE(abs(y - "0.480473") < "0.0001") << "y = " << y.str();
+
+  y = csch(x);
+  EXPECT_TRUE(abs(y - "1.82531") < "0.0001") << "y = " << y.str();
+
+  y = sech(x);
+  EXPECT_TRUE(abs(y - "0.87701") < "0.0001") << "y = " << y.str();
+
+  y = coth(x);
+  EXPECT_TRUE(abs(y - "2.08128") < "0.0001") << "y = " << y.str();
+}
+
+TEST(Float, ArcHyperbolic) {
+  // Float x = "0.547853", y;
+  // y = arcsinh(x);
+  // EXPECT_TRUE(abs(y - "0.5235987666666667") < "0.0001") << "y = " << y.str();
+
+  // y = arccosh(x);
+  // EXPECT_TRUE(abs(y - "1.14024") < "0.0001") << "y = " << y.str();
+
+  // y = arctanh(x);
+  // EXPECT_TRUE(abs(y - "0.480473") < "0.0001") << "y = " << y.str();
+
+  // y = arccsch(x);
+  // EXPECT_TRUE(abs(y - "1.82531") < "0.0001") << "y = " << y.str();
+
+  // y = arcsech(x);
+  // EXPECT_TRUE(abs(y - "0.87701") < "0.0001") << "y = " << y.str();
+
+  // y = arccoth(x);
+  // EXPECT_TRUE(abs(y - "2.08128") < "0.0001") << "y = " << y.str();
+}
 
 int main(int argc, char* argv[]) {
   testing::InitGoogleTest(&argc, argv);

@@ -1,26 +1,46 @@
 #include <mynum/float.h>
+#include <mynum/constant.h>
+
 namespace mynum {
 
-Float sech(const Float& x) {
-  Float res = "0";
-  // uinteger_t taylor_expansion = Float::config_.taylor_expansion;
-  // Float numerator, denominator = "1", item;
-  // for (uinteger_t i = 1; i <= taylor_expansion; i++) {
-  //   numerator = pow(x, denominator);
-  //   // std::cout << taylor_expansion << std::endl;
-  //   // std::cout << "numerator = " << numerator.str() << std::endl;
-  //   // std::cout << "factorial(denominator) = " << factorial(denominator).str() << std::endl;
-  //   item = div(numerator, factorial(denominator));
-  //   // std::cout << "item = " << item.str() << std::endl;
-  //   if (i % 2 == 0) {
-  //     res -= item;
-  //   } else {
-  //     res += item;
-  //   }
-  //   denominator += "2";
-  //   // std::cout << "res = " << res.str() << std::endl;
-  // }
-  // return round(res, Float::config_.precision);
+extern std::vector<Float> __euler_numbers;
+
+Float sech(const Float& x, const char* epsilon) {
+  //
+  // 保证 |x| < pi/2
+  //
+  if ((abs(x) > __half_pi) || (__half_pi - (abs(x)) <= epsilon)) {
+    operand_value_is_invalid_exception(
+      "|x| < PI/2, x = %s", x.str().c_str()
+    );
+  }
+
+  size_t i = 1, j = __euler_numbers.size();
+  Float res = "1", n = "1", p, e;
+  Float numerator, denominator, exponent, item, sign = "-1";
+  do {
+    p = res;
+    exponent = n * "2";
+    // std::cout << "exponent = " << exponent.str() << std::endl;
+    if (i < j) {
+      e = __euler_numbers[i];
+    } else {
+
+    }
+    numerator = abs(e);
+    // std::cout << "numerator = " << numerator.str() << std::endl;
+    denominator = factorial(exponent);
+    // std::cout << "denominator = " << denominator.str() << std::endl;
+    item = div(numerator, denominator);
+    // std::cout << "fraction = " << item.str() << std::endl;
+    item *= pow(x, exponent);
+    item *= pow(sign, n);
+    // std::cout << "item = " << item.str() << std::endl;
+    res += item;
+    // std::cout << "res = " << res.str() << std::endl << std::endl;
+    ++n;
+    ++i;
+  } while (abs(res - p) > epsilon);
   return res;
 }
 

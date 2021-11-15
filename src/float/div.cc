@@ -42,7 +42,8 @@ Float div(const Float& num1, const Float& num2, uinteger_t significant_digits) {
   // 分割整数部分与小数部分
   //
   bignum_t integer_park = div_result.first, decimal_park = div_result.second;
-
+  if (integer_park.empty()) integer_park.push_back(0);
+  if (decimal_park.empty()) decimal_park.push_back(0);
 
   size_t numerator_precision = decimal_park_1.size(),
          denominator_precision = decimal_park_2.size();
@@ -54,10 +55,6 @@ Float div(const Float& num1, const Float& num2, uinteger_t significant_digits) {
   //
   if (numerator_precision != denominator_precision) {
     size_t precision = 0, fill_zero = 0;
-    bignum_t combine_park;
-    combine_park.insert(combine_park.begin(), decimal_park.begin(), decimal_park.end());
-    combine_park.insert(combine_park.end(), integer_park.begin(), integer_park.end());
-
     if (numerator_precision > denominator_precision) {            // 结果缩小
       precision = numerator_precision - denominator_precision;
       //
@@ -85,8 +82,8 @@ Float div(const Float& num1, const Float& num2, uinteger_t significant_digits) {
       decimal_park.erase(decimal_park.begin()+precision, decimal_park.end());
       if (decimal_park.empty()) decimal_park.push_back(0);
     }
-    shrink_zero(decimal_park, false);   // 删除小数末尾的0
-    shrink_zero(integer_park, true);    // 删除整数末尾的0
+    shrink_zero(decimal_park, false); if (decimal_park.empty()) decimal_park.push_back(0);
+    shrink_zero(integer_park, true); if (integer_park.empty()) integer_park.push_back(0);
   }
 
   int sign = kPositive;
