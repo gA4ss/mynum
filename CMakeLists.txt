@@ -32,12 +32,12 @@ link_directories(/usr/local/lib)
 #
 set(MYNUM_HEADERS
   ${SRC_DIRECTORY}/common.h
-  ${SRC_DIRECTORY}}/exception.h
-  ${SRC_DIRECTORY}}/constant.h
-  ${SRC_DIRECTORY}}/bignum.h
-  ${SRC_DIRECTORY}}/integer.h
-  ${SRC_DIRECTORY}}/float.h
-  ${SRC_DIRECTORY}}/convert.h
+  ${SRC_DIRECTORY}/exception.h
+  ${SRC_DIRECTORY}/constant.h
+  ${SRC_DIRECTORY}/bignum.h
+  ${SRC_DIRECTORY}/integer.h
+  ${SRC_DIRECTORY}/float.h
+  ${SRC_DIRECTORY}/convert.h
 )
 
 #
