@@ -38,6 +38,84 @@ set(MYNUM_HEADERS
   ${SRC_DIRECTORY}/integer.h
   ${SRC_DIRECTORY}/float.h
   ${SRC_DIRECTORY}/convert.h
+  ${SRC_DIRECTORY}/math.hpp
+)
+
+#
+# Mynum math header file
+#
+set(MYNUM_MATH_HEADERS
+  ${SRC_DIRECTORY}/math/abs.hpp
+  ${SRC_DIRECTORY}/math/acos.hpp
+  ${SRC_DIRECTORY}/math/acosh.hpp
+  ${SRC_DIRECTORY}/math/asin.hpp
+  ${SRC_DIRECTORY}/math/asinh.hpp
+  ${SRC_DIRECTORY}/math/atan.hpp
+  ${SRC_DIRECTORY}/math/atan2.hpp
+  ${SRC_DIRECTORY}/math/atanh.hpp
+  ${SRC_DIRECTORY}/math/cbrt.hpp
+  ${SRC_DIRECTORY}/math/ceil.hpp
+  ${SRC_DIRECTORY}/math/copysign.hpp
+  ${SRC_DIRECTORY}/math/cos.hpp
+  ${SRC_DIRECTORY}/math/cosh.hpp
+  ${SRC_DIRECTORY}/math/erf.hpp
+  ${SRC_DIRECTORY}/math/erfc.hpp
+  ${SRC_DIRECTORY}/math/exp.hpp
+  ${SRC_DIRECTORY}/math/exp2.hpp
+  ${SRC_DIRECTORY}/math/expm1.hpp
+  ${SRC_DIRECTORY}/math/fabs.hpp
+  ${SRC_DIRECTORY}/math/fdim.hpp
+  ${SRC_DIRECTORY}/math/floor.hpp
+  ${SRC_DIRECTORY}/math/fma.hpp
+  ${SRC_DIRECTORY}/math/fmax.hpp
+  ${SRC_DIRECTORY}/math/fmin.hpp
+  ${SRC_DIRECTORY}/math/fmod.hpp
+  ${SRC_DIRECTORY}/math/fpclassify.hpp
+  ${SRC_DIRECTORY}/math/frexp.hpp
+  ${SRC_DIRECTORY}/math/hypot.hpp
+  ${SRC_DIRECTORY}/math/ilogb.hpp
+  ${SRC_DIRECTORY}/math/isfinite.hpp
+  ${SRC_DIRECTORY}/math/isgreater.hpp
+  ${SRC_DIRECTORY}/math/isgreaterequal.hpp
+  ${SRC_DIRECTORY}/math/isinf.hpp
+  ${SRC_DIRECTORY}/math/isless.hpp
+  ${SRC_DIRECTORY}/math/islessequal.hpp
+  ${SRC_DIRECTORY}/math/islessgreater.hpp
+  ${SRC_DIRECTORY}/math/isnan.hpp
+  ${SRC_DIRECTORY}/math/isnormal.hpp
+  ${SRC_DIRECTORY}/math/isunordered.hpp
+  ${SRC_DIRECTORY}/math/ldexp.hpp
+  ${SRC_DIRECTORY}/math/lgamma.hpp
+  ${SRC_DIRECTORY}/math/llrint.hpp
+  ${SRC_DIRECTORY}/math/log.hpp
+  ${SRC_DIRECTORY}/math/log10.hpp
+  ${SRC_DIRECTORY}/math/log1p.hpp
+  ${SRC_DIRECTORY}/math/log2.hpp
+  ${SRC_DIRECTORY}/math/logb.hpp
+  ${SRC_DIRECTORY}/math/lrint.hpp
+  ${SRC_DIRECTORY}/math/lround.hpp
+  ${SRC_DIRECTORY}/math/modf.hpp
+  ${SRC_DIRECTORY}/math/nan.hpp
+  ${SRC_DIRECTORY}/math/nanf.hpp
+  ${SRC_DIRECTORY}/math/nanl.hpp
+  ${SRC_DIRECTORY}/math/nearbyint.hpp
+  ${SRC_DIRECTORY}/math/nextafter.hpp
+  ${SRC_DIRECTORY}/math/nexttoward.hpp
+  ${SRC_DIRECTORY}/math/pow.hpp
+  ${SRC_DIRECTORY}/math/remainder.hpp
+  ${SRC_DIRECTORY}/math/remquo.hpp
+  ${SRC_DIRECTORY}/math/rint.hpp
+  ${SRC_DIRECTORY}/math/round.hpp
+  ${SRC_DIRECTORY}/math/scalbln.hpp
+  ${SRC_DIRECTORY}/math/scalbn.hpp
+  ${SRC_DIRECTORY}/math/signbit.hpp
+  ${SRC_DIRECTORY}/math/sin.hpp
+  ${SRC_DIRECTORY}/math/sinh.hpp
+  ${SRC_DIRECTORY}/math/sqrt.hpp
+  ${SRC_DIRECTORY}/math/tan.hpp
+  ${SRC_DIRECTORY}/math/tanh.hpp
+  ${SRC_DIRECTORY}/math/tgamma.hpp
+  ${SRC_DIRECTORY}/math/trunc.hpp
 )
 
 #
@@ -61,10 +139,13 @@ add_executable(test_float_log ${SRC_DIRECTORY}/test/test_float_log.cc)
 target_link_libraries(test_float_log mynum gtest pthread)
 
 add_executable(test_bernoulli_numbers ${SRC_DIRECTORY}/test/test_bernoulli_numbers.cc)
-target_link_libraries(test_bernoulli_numbers mynum my uuid gtest pthread)
+target_link_libraries(test_bernoulli_numbers mynum my gtest pthread)
 
 add_executable(test_euler_numbers ${SRC_DIRECTORY}/test/test_euler_numbers.cc)
-target_link_libraries(test_euler_numbers mynum my uuid gtest pthread)
+target_link_libraries(test_euler_numbers mynum my gtest pthread)
+
+add_executable(test_math ${SRC_DIRECTORY}/test/test_math.cc)
+target_link_libraries(test_math mynum my gtest pthread)
 endif(BUILD_TEST)
 
 #
@@ -209,6 +290,10 @@ add_library(${PROJECT_NAME} STATIC
   ${SRC_DIRECTORY}/float/arccsch.cc
   ${SRC_DIRECTORY}/float/arcsech.cc
   ${SRC_DIRECTORY}/float/arccoth.cc
+  ${SRC_DIRECTORY}/float/arcsech.cc
+  ${SRC_DIRECTORY}/float/arccoth.cc
+  ${SRC_DIRECTORY}/float/erf.cc
+  ${SRC_DIRECTORY}/float/erfc.cc
   ${SRC_DIRECTORY}/float/fraction.cc
   ${SRC_DIRECTORY}/float/copy.cc
   ${SRC_DIRECTORY}/float/same_digits.cc
@@ -220,6 +305,8 @@ target_link_libraries(${PROJECT_NAME} my)
 # Enable Test
 #
 enable_testing()
+add_test(NAME test_math COMMAND test_math)
+set_tests_properties(test_math PROPERTIES FAIL_REGULAR_EXPRESSION "FAILED")
 add_test(NAME test_bignum COMMAND test_bignum)
 set_tests_properties(test_bignum PROPERTIES FAIL_REGULAR_EXPRESSION "FAILED")
 add_test(NAME test_integer COMMAND test_integer)
@@ -236,3 +323,4 @@ set_tests_properties(test_float_log PROPERTIES FAIL_REGULAR_EXPRESSION "FAILED")
 #
 INSTALL(TARGETS mynum ARCHIVE DESTINATION lib)
 INSTALL(FILES ${MYNUM_HEADERS} DESTINATION include/mynum)
+INSTALL(FILES ${MYNUM_MATH_HEADERS} DESTINATION include/mynum/math)

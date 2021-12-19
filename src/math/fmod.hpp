@@ -5,7 +5,7 @@
  * the nearest integer (instead of truncated).
  */
 template <class T>
-Float fmod(const T& numer, const T& denom) {
+Float fmod(const T& x, const T& y) {
   __is_invalid_type<T>();
   return (x > y) ? (Float(x) - Float(y)) : Float(0.0);
 }
