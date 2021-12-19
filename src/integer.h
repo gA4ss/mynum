@@ -17,6 +17,7 @@ public:
   Integer();
   Integer(const char* number, int base=10);
   Integer(std::string& number, int base=10);
+  Integer(const integer_t& number);
   Integer(const bignum_t& number);
   Integer(Integer* number);
   Integer(const Integer& number);
@@ -51,24 +52,47 @@ public:
   // 赋值运算符
   void operator=(const Integer& num2);
   void operator=(const char* num2);
+  void operator=(const integer_t& num2);
+
   void operator+=(const Integer& num2);
   void operator+=(const char* num2);
+  void operator+=(const integer_t& num2);
+
   void operator-=(const Integer& num2);
   void operator-=(const char* num2);
+  void operator-=(const integer_t& num2);
+
   void operator*=(const Integer& num2);
   void operator*=(const char* num2);
+  void operator*=(const integer_t& num2);
+
   void operator/=(const Integer& num2);
   void operator/=(const char* num2);
+  void operator/=(const integer_t& num2);
+
   void operator%=(const Integer& num2);
   void operator%=(const char* num2);
+  void operator%=(const integer_t& num2);
+
   void operator&=(const Integer& num2);
   void operator&=(const char* num2);
+  void operator&=(const integer_t& num2);
+
   void operator|=(const Integer& num2);
   void operator|=(const char* num2);
+  void operator|=(const integer_t& num2);
+
   void operator^=(const Integer& num2);
   void operator^=(const char* num2);
+  void operator^=(const integer_t& num2);
+
   void operator<<=(const Integer& bits);
+  void operator<<=(const char* num2);
+  void operator<<=(const integer_t& num2);
+
   void operator>>=(const Integer& bits);
+  void operator>>=(const char* num2);
+  void operator>>=(const integer_t& num2);
 
   // 迭代运算符
   char operator[](uinteger_t i);
@@ -167,6 +191,16 @@ Integer operator-(const char* num1, const Integer& num2);
 Integer operator*(const char* num1, const Integer& num2);
 Integer operator/(const char* num1, const Integer& num2);
 Integer operator%(const char* num1, const Integer& num2);
+Integer operator+(const Integer& num1, const integer_t& num2);
+Integer operator-(const Integer& num1, const integer_t& num2);
+Integer operator*(const Integer& num1, const integer_t& num2);
+Integer operator/(const Integer& num1, const integer_t& num2);
+Integer operator%(const Integer& num1, const integer_t& num2);
+Integer operator+(const integer_t& num1, const Integer& num2);
+Integer operator-(const integer_t& num1, const Integer& num2);
+Integer operator*(const integer_t& num1, const Integer& num2);
+Integer operator/(const integer_t& num1, const Integer& num2);
+Integer operator%(const integer_t& num1, const Integer& num2);
 
 bool operator==(const Integer& num1, const Integer& num2);
 bool operator!=(const Integer& num1, const Integer& num2);
@@ -186,12 +220,29 @@ bool operator<(const char* num1, const Integer& num2);
 bool operator>(const char* num1, const Integer& num2);
 bool operator<=(const char* num1, const Integer& num2);
 bool operator>=(const char* num1, const Integer& num2);
+bool operator==(const Integer& num1, const integer_t& num2);
+bool operator!=(const Integer& num1, const integer_t& num2);
+bool operator<(const Integer& num1, const integer_t& num2);
+bool operator>(const Integer& num1, const integer_t& num2);
+bool operator<=(const Integer& num1, const integer_t& num2);
+bool operator>=(const Integer& num1, const integer_t& num2);
+bool operator==(const integer_t& num1, const Integer& num2);
+bool operator!=(const integer_t& num1, const Integer& num2);
+bool operator<(const integer_t& num1, const Integer& num2);
+bool operator>(const integer_t& num1, const Integer& num2);
+bool operator<=(const integer_t& num1, const Integer& num2);
+bool operator>=(const integer_t& num1, const Integer& num2);
+
 bool operator||(const Integer& num1, const Integer& num2);
 bool operator&&(const Integer& num1, const Integer& num2);
 bool operator||(const Integer& num1, const char* num2);
 bool operator&&(const Integer& num1, const char* num2);
 bool operator||(const char* num1, const Integer& num2);
 bool operator&&(const char* num1, const Integer& num2);
+bool operator||(const Integer& num1, const integer_t& num2);
+bool operator&&(const Integer& num1, const integer_t& num2);
+bool operator||(const integer_t& num1, const Integer& num2);
+bool operator&&(const integer_t& num1, const Integer& num2);
 bool operator!(const Integer& num1);
 
 Integer operator~(const Integer& num1);
@@ -210,6 +261,16 @@ Integer operator&(const char* num1, const Integer& num2);
 Integer operator^(const char* num1, const Integer& num2);
 Integer operator<<(const char* num1, const Integer& bits);
 Integer operator>>(const char* num1, const Integer& bits);
+Integer operator|(const Integer& num1, const integer_t& num2);
+Integer operator&(const Integer& num1, const integer_t& num2);
+Integer operator^(const Integer& num1, const integer_t& num2);
+Integer operator<<(const Integer& num1, const integer_t& bits);
+Integer operator>>(const Integer& num1, const integer_t& bits);
+Integer operator|(const integer_t& num1, const Integer& num2);
+Integer operator&(const integer_t& num1, const Integer& num2);
+Integer operator^(const integer_t& num1, const Integer& num2);
+Integer operator<<(const integer_t& num1, const Integer& bits);
+Integer operator>>(const integer_t& num1, const Integer& bits);
 
 } // namespace mynum
 

@@ -15,9 +15,11 @@ public:
   Float();
   Float(const char* number, int base=10);
   Float(std::string& number, int base=10);
+  Float(const float_t& number);
   Float(const bignum_t& integer_park);
   Float(const bignum_t& integer_park, const bignum_t& decimal_park);
   Float(const Integer& integer_park, const Integer& decimal_park);
+  Float(const Integer& number);
   Float(Float* number);
   Float(const Float& number);
   virtual ~Float();
@@ -55,16 +57,22 @@ public:
   // 赋值运算符
   void operator=(const Float& num2);
   void operator=(const char* num2);
+  void operator=(const float_t& num2);
   void operator+=(const Float& num2);
   void operator+=(const char* num2);
+  void operator+=(const float_t& num2);
   void operator-=(const Float& num2);
   void operator-=(const char* num2);
+  void operator-=(const float_t& num2);
   void operator*=(const Float& num2);
   void operator*=(const char* num2);
+  void operator*=(const float_t& num2);
   void operator/=(const Float& num2);
   void operator/=(const char* num2);
+  void operator/=(const float_t& num2);
   void operator%=(const Float& num2);
   void operator%=(const char* num2);
+  void operator%=(const float_t& num2);
 
   // 迭代运算符
   char operator[](uinteger_t i);
@@ -174,6 +182,12 @@ Float arcsech(const Float& x, const char* epsilon=kDefEpsilon);
 Float arccoth(const Float& x, const char* epsilon=kDefEpsilon);
 
 //
+// 误差函数
+//
+Float erf(const Float& x, const char* epsilon=kDefEpsilon);
+Float erfc(const Float& x, const char* epsilon=kDefEpsilon);
+
+//
 // 分数相关
 //
 std::pair<Integer, Integer> fraction(const Float& x);
@@ -202,6 +216,16 @@ Float operator-(const char* num1, const Float& num2);
 Float operator*(const char* num1, const Float& num2);
 Float operator/(const char* num1, const Float& num2);
 Float operator%(const char* num1, const Float& num2);
+Float operator+(const Float& num1, const float_t& num2);
+Float operator-(const Float& num1, const float_t& num2);
+Float operator*(const Float& num1, const float_t& num2);
+Float operator/(const Float& num1, const float_t& num2);
+Float operator%(const Float& num1, const float_t& num2);
+Float operator+(const float_t& num1, const Float& num2);
+Float operator-(const float_t& num1, const Float& num2);
+Float operator*(const float_t& num1, const Float& num2);
+Float operator/(const float_t& num1, const Float& num2);
+Float operator%(const float_t& num1, const Float& num2);
 
 bool operator==(const Float& num1, const Float& num2);
 bool operator!=(const Float& num1, const Float& num2);
@@ -221,6 +245,18 @@ bool operator<(const char* num1, const Float& num2);
 bool operator>(const char* num1, const Float& num2);
 bool operator<=(const char* num1, const Float& num2);
 bool operator>=(const char* num1, const Float& num2);
+bool operator==(const Float& num1, const float_t& num2);
+bool operator!=(const Float& num1, const float_t& num2);
+bool operator<(const Float& num1, const float_t& num2);
+bool operator>(const Float& num1, const float_t& num2);
+bool operator<=(const Float& num1, const float_t& num2);
+bool operator>=(const Float& num1, const float_t& num2);
+bool operator==(const float_t& num1, const Float& num2);
+bool operator!=(const float_t& num1, const Float& num2);
+bool operator<(const float_t& num1, const Float& num2);
+bool operator>(const float_t& num1, const Float& num2);
+bool operator<=(const float_t& num1, const Float& num2);
+bool operator>=(const float_t& num1, const Float& num2);
 
 bool operator||(const Float& num1, const Float& num2);
 bool operator&&(const Float& num1, const Float& num2);
@@ -229,6 +265,10 @@ bool operator||(const Float& num1, const char* num2);
 bool operator&&(const Float& num1, const char* num2);
 bool operator||(const char* num1, const Float& num2);
 bool operator&&(const char* num1, const Float& num2);
+bool operator||(const Float& num1, const float_t& num2);
+bool operator&&(const Float& num1, const float_t& num2);
+bool operator||(const float_t& num1, const Float& num2);
+bool operator&&(const float_t& num1, const Float& num2);
 
 } // namespace mynum
 

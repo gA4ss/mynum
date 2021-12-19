@@ -40,7 +40,6 @@ backup/
 build/
 data/
 #lib/
-tools/
 #reference/
 
 # Special Files

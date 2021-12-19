@@ -22,7 +22,7 @@ enum {
 
 typedef int64_t integer_t;
 typedef uint64_t uinteger_t;
-typedef double float_t;
+typedef long double float_t;
 
 //////////////////////////////
 //        全局配置结构        //
