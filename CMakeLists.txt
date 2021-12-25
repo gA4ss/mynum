@@ -87,6 +87,7 @@ set(MYNUM_MATH_HEADERS
   ${SRC_DIRECTORY}/math/ldexp.hpp
   ${SRC_DIRECTORY}/math/lgamma.hpp
   ${SRC_DIRECTORY}/math/llrint.hpp
+  ${SRC_DIRECTORY}/math/llround.hpp
   ${SRC_DIRECTORY}/math/log.hpp
   ${SRC_DIRECTORY}/math/log10.hpp
   ${SRC_DIRECTORY}/math/log1p.hpp
@@ -205,6 +206,7 @@ add_library(${PROJECT_NAME} STATIC
   ${SRC_DIRECTORY}/integer/is_none.cc
   ${SRC_DIRECTORY}/integer/is_odd.cc
   ${SRC_DIRECTORY}/integer/is_even.cc
+  ${SRC_DIRECTORY}/integer/is_subnormal.cc
   ${SRC_DIRECTORY}/integer/add.cc
   ${SRC_DIRECTORY}/integer/sub.cc
   ${SRC_DIRECTORY}/integer/mul.cc
@@ -246,6 +248,7 @@ add_library(${PROJECT_NAME} STATIC
   ${SRC_DIRECTORY}/float/is_none.cc
   ${SRC_DIRECTORY}/float/is_integer.cc
   ${SRC_DIRECTORY}/float/is_float.cc
+  ${SRC_DIRECTORY}/float/is_subnormal.cc
   ${SRC_DIRECTORY}/float/add.cc
   ${SRC_DIRECTORY}/float/sub.cc
   ${SRC_DIRECTORY}/float/mul.cc

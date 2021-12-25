@@ -118,6 +118,7 @@ bool is_infinite(const Float& num1);
 bool is_none(const Float& num1);
 bool is_integer(const Float& num1);
 bool is_float(const Float& num1);
+bool is_subnormal(const Float& num1);
 
 Float add(const Float& num1, const Float& num2);
 Float sub(const Float& num1, const Float& num2);

@@ -1,6 +1,7 @@
 #ifndef MYNUM_MATH_HPP_
 #define MYNUM_MATH_HPP_
 
+#include <cmath>
 #include <mynum/integer.h>
 #include <mynum/float.h>
 

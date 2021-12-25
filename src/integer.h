@@ -136,6 +136,7 @@ bool is_infinite(const Integer& num1);
 bool is_none(const Integer& num1);
 bool is_odd(const Integer& num1);
 bool is_even(const Integer& num1);
+bool is_subnormal(const Integer& num1);
 
 Integer add(const Integer& num1, const Integer& num2);
 Integer sub(const Integer& num1, const Integer& num2);
