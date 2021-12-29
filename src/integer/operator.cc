@@ -400,6 +400,18 @@ Integer operator>>(const integer_t& num1, const Integer& bits) {
   return rshift_bits(Integer(num1), bits);
 }
 
+std::ostream& operator << (std::ostream& out, const Integer& num) {
+  out << num.str();
+  return out;
+}
+
+std::istream& operator >> (std::istream& in, Integer& num) {
+  std::string ss;
+  in >> ss;
+  num = Integer(ss);
+  return in;
+}
+
 // ----------------------------------------------------------------------
 Integer& Integer::operator+() {
   return *this;

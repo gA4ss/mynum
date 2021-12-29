@@ -2,6 +2,7 @@
 #define MYNUM_INTEGER_H_
 
 #include <mynum/bignum.h>
+#include <mynum/float.h>
 
 #include <ctype.h>
 #include <iostream>
@@ -21,6 +22,8 @@ public:
   Integer(const bignum_t& number);
   Integer(Integer* number);
   Integer(const Integer& number);
+  Integer(Float* number);
+  Integer(const Float& number);
   virtual ~Integer();
 
   void assign(const Integer& n);
@@ -272,6 +275,9 @@ Integer operator&(const integer_t& num1, const Integer& num2);
 Integer operator^(const integer_t& num1, const Integer& num2);
 Integer operator<<(const integer_t& num1, const Integer& bits);
 Integer operator>>(const integer_t& num1, const Integer& bits);
+
+std::ostream& operator << (std::ostream& out, const Integer& num);
+std::istream& operator >> (std::istream& in, Integer& num);
 
 } // namespace mynum
 

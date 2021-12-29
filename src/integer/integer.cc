@@ -33,6 +33,16 @@ Integer::Integer(const Integer& number) {
   assign(number);
 }
 
+Integer::Integer(Float* number) {
+  zero();
+  integer_park_ = number->integer_park();
+}
+
+Integer::Integer(const Float& number) {
+  zero();
+  integer_park_ = number.integer_park();
+}
+
 Integer::~Integer() {}
 
 void Integer::assign(const Integer& n) {

@@ -19,6 +19,7 @@ public:
   Float(const bignum_t& integer_park);
   Float(const bignum_t& integer_park, const bignum_t& decimal_park);
   Float(const Integer& integer_park, const Integer& decimal_park);
+  Float(Integer* number);
   Float(const Integer& number);
   Float(Float* number);
   Float(const Float& number);
@@ -270,6 +271,9 @@ bool operator||(const Float& num1, const float_t& num2);
 bool operator&&(const Float& num1, const float_t& num2);
 bool operator||(const float_t& num1, const Float& num2);
 bool operator&&(const float_t& num1, const Float& num2);
+
+std::ostream& operator << (std::ostream& out, const Float& num);
+std::istream& operator >> (std::istream& in, Float& num);
 
 } // namespace mynum
 

@@ -13,6 +13,7 @@ bool equ(const Float& num1, const Float& num2) {
   if (c != -2) return false;
 
   my_assert(c == -2, "c = %d", c);
+
   c = __cmp(num1, num2);
   if (num1.sign() == num2.sign() && c == 0)
     return true;

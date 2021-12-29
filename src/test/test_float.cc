@@ -17,6 +17,12 @@ TEST(Float, Create) {
   EXPECT_TRUE(Float("0.0333333333333333") == "0.0333333333333333");
   EXPECT_TRUE("123456789.123456789" == Float("123456789.123456789"));
   EXPECT_TRUE(Float("1844674407370955161518446744073709551615") == "1844674407370955161518446744073709551615");
+  EXPECT_TRUE(Float(3.1415926) == 3.1415926);
+  EXPECT_TRUE(Float(1.618) == 1.618);
+  EXPECT_TRUE(Float(-4567.789120431) == -4567.789120431);
+  // Float n;
+  // std::cin >> n;
+  // std::cout << n << std::endl;
 }
 
 TEST(Float, Add) {
@@ -25,6 +31,15 @@ TEST(Float, Add) {
   n = Float("2.1532");
   z = m + n;
   EXPECT_TRUE(z == "5.2947926");
+
+  z++;
+  EXPECT_TRUE(z == "6.2947926") << "z = " << z;
+
+  z += 1;
+  EXPECT_TRUE(z == "7.2947926") << "z = " << z;
+
+  z -= 1.0;
+  EXPECT_TRUE(z == "6.2947926") << "z = " << z;
 
   m = Float("3.1415926");
   n = Float("-3.1415926");

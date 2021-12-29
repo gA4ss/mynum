@@ -3,6 +3,8 @@
 
 #include <ctype.h>
 #include <iostream>
+#include <iomanip>
+#include <sstream>
 
 #include <my/my_common.h>
 #include <mynum/exception.h>
@@ -30,6 +32,7 @@ typedef long double float_t;
 typedef struct Config {
   uinteger_t significant_digits;    // 0xFFFFFFFFFFFFFFFF 表示一直计算。
   std::string epsilon;
+  int set_precision;                // 仅针对使用浮点数构造Float时，setprecision函数的值。
 } config_t;
 
 extern config_t __config;

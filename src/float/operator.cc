@@ -296,6 +296,18 @@ bool operator!(const Float& num1) {
   return is_zero(num1);
 }
 
+std::ostream& operator << (std::ostream& out, const Float& num) {
+  out << num.str();
+  return out;
+}
+
+std::istream& operator >> (std::istream& in, Float& num) {
+  std::string ss;
+  in >> ss;
+  num = Float(ss);
+  return in;
+}
+
 // ----------------------------------------------------------------------
 Float& Float::operator+() {
   return *this;
@@ -352,7 +364,7 @@ void Float::operator+=(const char* num2) {
 }
 
 void Float::operator+=(const float_t& num2) {
-  assign(Float(num2));
+  *this = add(*this, Float(num2));
 }
 
 void Float::operator-=(const Float& num2) {
@@ -364,7 +376,7 @@ void Float::operator-=(const char* num2) {
 }
 
 void Float::operator-=(const float_t& num2) {
-  assign(Float(num2));
+  *this = sub(*this, Float(num2));
 }
 
 void Float::operator*=(const Float& num2) {
@@ -376,7 +388,7 @@ void Float::operator*=(const char* num2) {
 }
 
 void Float::operator*=(const float_t& num2) {
-  assign(Float(num2));
+  *this = mul(*this, Float(num2));
 }
 
 void Float::operator/=(const Float& num2) {
@@ -388,7 +400,7 @@ void Float::operator/=(const char* num2) {
 }
 
 void Float::operator/=(const float_t& num2) {
-  assign(Float(num2));
+  *this = div(*this, Float(num2));
 }
 
 void Float::operator%=(const Float& num2) {
@@ -400,7 +412,7 @@ void Float::operator%=(const char* num2) {
 }
 
 void Float::operator%=(const float_t& num2) {
-  assign(Float(num2));
+  *this = mod(*this, Float(num2));
 }
 
 char Float::operator[](uinteger_t i) {

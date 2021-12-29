@@ -44,25 +44,25 @@ set(MYNUM_HEADERS
 #
 # Mynum math header file
 #
-set(MYNUM_MATH_HEADERS
-  ${SRC_DIRECTORY}/math/abs.hpp
-  ${SRC_DIRECTORY}/math/acos.hpp
-  ${SRC_DIRECTORY}/math/acosh.hpp
-  ${SRC_DIRECTORY}/math/asin.hpp
-  ${SRC_DIRECTORY}/math/asinh.hpp
-  ${SRC_DIRECTORY}/math/atan.hpp
-  ${SRC_DIRECTORY}/math/atan2.hpp
-  ${SRC_DIRECTORY}/math/atanh.hpp
-  ${SRC_DIRECTORY}/math/cbrt.hpp
-  ${SRC_DIRECTORY}/math/ceil.hpp
-  ${SRC_DIRECTORY}/math/copysign.hpp
-  ${SRC_DIRECTORY}/math/cos.hpp
-  ${SRC_DIRECTORY}/math/cosh.hpp
-  ${SRC_DIRECTORY}/math/erf.hpp
-  ${SRC_DIRECTORY}/math/erfc.hpp
-  ${SRC_DIRECTORY}/math/exp.hpp
-  ${SRC_DIRECTORY}/math/exp2.hpp
-  ${SRC_DIRECTORY}/math/expm1.hpp
+set(MYNUM_MATH_SRC
+  ${SRC_DIRECTORY}/math/abs.cc
+  ${SRC_DIRECTORY}/math/acos.cc
+  ${SRC_DIRECTORY}/math/acosh.cc
+  ${SRC_DIRECTORY}/math/asin.cc
+  ${SRC_DIRECTORY}/math/asinh.cc
+  ${SRC_DIRECTORY}/math/atan.cc
+  ${SRC_DIRECTORY}/math/atan2.cc
+  ${SRC_DIRECTORY}/math/atanh.cc
+  ${SRC_DIRECTORY}/math/cbrt.cc
+  ${SRC_DIRECTORY}/math/ceil.cc
+  ${SRC_DIRECTORY}/math/copysign.cc
+  ${SRC_DIRECTORY}/math/cos.cc
+  ${SRC_DIRECTORY}/math/cosh.cc
+  ${SRC_DIRECTORY}/math/erf.cc
+  ${SRC_DIRECTORY}/math/erfc.cc
+  ${SRC_DIRECTORY}/math/exp.cc
+  ${SRC_DIRECTORY}/math/exp2.cc
+  ${SRC_DIRECTORY}/math/expm1.cc
   ${SRC_DIRECTORY}/math/fabs.hpp
   ${SRC_DIRECTORY}/math/fdim.hpp
   ${SRC_DIRECTORY}/math/floor.hpp
@@ -301,6 +301,7 @@ add_library(${PROJECT_NAME} STATIC
   ${SRC_DIRECTORY}/float/copy.cc
   ${SRC_DIRECTORY}/float/same_digits.cc
   ${SRC_DIRECTORY}/float/operator.cc
+  ${MYNUM_MATH_SRC}
 )
 target_link_libraries(${PROJECT_NAME} my)
 
@@ -326,4 +327,4 @@ set_tests_properties(test_float_log PROPERTIES FAIL_REGULAR_EXPRESSION "FAILED")
 #
 INSTALL(TARGETS mynum ARCHIVE DESTINATION lib)
 INSTALL(FILES ${MYNUM_HEADERS} DESTINATION include/mynum)
-INSTALL(FILES ${MYNUM_MATH_HEADERS} DESTINATION include/mynum/math)
+# INSTALL(FILES ${MYNUM_MATH_HEADERS} DESTINATION include/mynum/math)
