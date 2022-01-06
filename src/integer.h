@@ -2,7 +2,6 @@
 #define MYNUM_INTEGER_H_
 
 #include <mynum/bignum.h>
-#include <mynum/float.h>
 
 #include <ctype.h>
 #include <iostream>
@@ -18,12 +17,12 @@ public:
   Integer();
   Integer(const char* number, int base=10);
   Integer(std::string& number, int base=10);
-  Integer(const integer_t& number);
+  Integer(integer_t number);
   Integer(const bignum_t& number);
   Integer(Integer* number);
   Integer(const Integer& number);
-  Integer(Float* number);
-  Integer(const Float& number);
+  // Integer(Float* number);
+  // Integer(const Float& number);
   virtual ~Integer();
 
   void assign(const Integer& n);

@@ -1,12 +1,14 @@
 /* Compute exponential function
  * Returns the base-e exponential function of x, which is e raised to the power x: ex.
  */
-#include <mynum/math.hpp>
+#include <mynum/math.h>
 
 namespace mynum {
+namespace math {
 
-//
-// 同 mynum/float/exp.cc
-//
+Float exp(const Float& x) {
+  return mynum::exp(x);
+}
 
+} // namespace math
 } // namespace mynum

@@ -1,12 +1,14 @@
 /* Compute cosine
  * Returns the cosine of an angle of x radians.
  */
-#include <mynum/math.hpp>
+#include <mynum/math.h>
 
 namespace mynum {
+namespace math {
 
-//
-// 同mynum/float/cos.cc原型相同
-//
+Float cos(const Float& x) {
+  return mynum::cos(x);
+}
 
+} // namespace math
 } // namespace mynum

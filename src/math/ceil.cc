@@ -1,12 +1,14 @@
 /* Round up value
  * Rounds x upward, returning the smallest integral value that is not less than x.
  */
-#include <mynum/math.hpp>
+#include <mynum/math.h>
 
 namespace mynum {
+namespace math {
 
-//
-// 原型与float和integer中的ceil同样。
-//
+Float ceil(const Float& x) {
+  return mynum::ceil(x);
+}
 
+} // namespace math
 } // namespace mynum

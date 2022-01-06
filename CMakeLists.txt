@@ -38,7 +38,7 @@ set(MYNUM_HEADERS
   ${SRC_DIRECTORY}/integer.h
   ${SRC_DIRECTORY}/float.h
   ${SRC_DIRECTORY}/convert.h
-  ${SRC_DIRECTORY}/math.hpp
+  ${SRC_DIRECTORY}/math.h
 )
 
 #
@@ -63,60 +63,60 @@ set(MYNUM_MATH_SRC
   ${SRC_DIRECTORY}/math/exp.cc
   ${SRC_DIRECTORY}/math/exp2.cc
   ${SRC_DIRECTORY}/math/expm1.cc
-  ${SRC_DIRECTORY}/math/fabs.hpp
-  ${SRC_DIRECTORY}/math/fdim.hpp
-  ${SRC_DIRECTORY}/math/floor.hpp
-  ${SRC_DIRECTORY}/math/fma.hpp
-  ${SRC_DIRECTORY}/math/fmax.hpp
-  ${SRC_DIRECTORY}/math/fmin.hpp
-  ${SRC_DIRECTORY}/math/fmod.hpp
-  ${SRC_DIRECTORY}/math/fpclassify.hpp
-  ${SRC_DIRECTORY}/math/frexp.hpp
-  ${SRC_DIRECTORY}/math/hypot.hpp
-  ${SRC_DIRECTORY}/math/ilogb.hpp
-  ${SRC_DIRECTORY}/math/isfinite.hpp
-  ${SRC_DIRECTORY}/math/isgreater.hpp
-  ${SRC_DIRECTORY}/math/isgreaterequal.hpp
-  ${SRC_DIRECTORY}/math/isinf.hpp
-  ${SRC_DIRECTORY}/math/isless.hpp
-  ${SRC_DIRECTORY}/math/islessequal.hpp
-  ${SRC_DIRECTORY}/math/islessgreater.hpp
-  ${SRC_DIRECTORY}/math/isnan.hpp
-  ${SRC_DIRECTORY}/math/isnormal.hpp
-  ${SRC_DIRECTORY}/math/isunordered.hpp
-  ${SRC_DIRECTORY}/math/ldexp.hpp
-  ${SRC_DIRECTORY}/math/lgamma.hpp
-  ${SRC_DIRECTORY}/math/llrint.hpp
-  ${SRC_DIRECTORY}/math/llround.hpp
-  ${SRC_DIRECTORY}/math/log.hpp
-  ${SRC_DIRECTORY}/math/log10.hpp
-  ${SRC_DIRECTORY}/math/log1p.hpp
-  ${SRC_DIRECTORY}/math/log2.hpp
-  ${SRC_DIRECTORY}/math/logb.hpp
-  ${SRC_DIRECTORY}/math/lrint.hpp
-  ${SRC_DIRECTORY}/math/lround.hpp
-  ${SRC_DIRECTORY}/math/modf.hpp
-  ${SRC_DIRECTORY}/math/nan.hpp
-  ${SRC_DIRECTORY}/math/nanf.hpp
-  ${SRC_DIRECTORY}/math/nanl.hpp
-  ${SRC_DIRECTORY}/math/nearbyint.hpp
-  ${SRC_DIRECTORY}/math/nextafter.hpp
-  ${SRC_DIRECTORY}/math/nexttoward.hpp
-  ${SRC_DIRECTORY}/math/pow.hpp
-  ${SRC_DIRECTORY}/math/remainder.hpp
-  ${SRC_DIRECTORY}/math/remquo.hpp
-  ${SRC_DIRECTORY}/math/rint.hpp
-  ${SRC_DIRECTORY}/math/round.hpp
-  ${SRC_DIRECTORY}/math/scalbln.hpp
-  ${SRC_DIRECTORY}/math/scalbn.hpp
-  ${SRC_DIRECTORY}/math/signbit.hpp
-  ${SRC_DIRECTORY}/math/sin.hpp
-  ${SRC_DIRECTORY}/math/sinh.hpp
-  ${SRC_DIRECTORY}/math/sqrt.hpp
-  ${SRC_DIRECTORY}/math/tan.hpp
-  ${SRC_DIRECTORY}/math/tanh.hpp
-  ${SRC_DIRECTORY}/math/tgamma.hpp
-  ${SRC_DIRECTORY}/math/trunc.hpp
+  ${SRC_DIRECTORY}/math/fabs.cc
+  ${SRC_DIRECTORY}/math/fdim.cc
+  ${SRC_DIRECTORY}/math/floor.cc
+  ${SRC_DIRECTORY}/math/fma.cc
+  ${SRC_DIRECTORY}/math/fmax.cc
+  ${SRC_DIRECTORY}/math/fmin.cc
+  ${SRC_DIRECTORY}/math/fmod.cc
+  ${SRC_DIRECTORY}/math/fpclassify.cc
+  ${SRC_DIRECTORY}/math/frexp.cc
+  ${SRC_DIRECTORY}/math/hypot.cc
+  ${SRC_DIRECTORY}/math/ilogb.cc
+  ${SRC_DIRECTORY}/math/isfinite.cc
+  ${SRC_DIRECTORY}/math/isgreater.cc
+  ${SRC_DIRECTORY}/math/isgreaterequal.cc
+  ${SRC_DIRECTORY}/math/isinf.cc
+  ${SRC_DIRECTORY}/math/isless.cc
+  ${SRC_DIRECTORY}/math/islessequal.cc
+  ${SRC_DIRECTORY}/math/islessgreater.cc
+  ${SRC_DIRECTORY}/math/isnan.cc
+  ${SRC_DIRECTORY}/math/isnormal.cc
+  ${SRC_DIRECTORY}/math/isunordered.cc
+  ${SRC_DIRECTORY}/math/ldexp.cc
+  ${SRC_DIRECTORY}/math/lgamma.cc
+  ${SRC_DIRECTORY}/math/llrint.cc
+  ${SRC_DIRECTORY}/math/llround.cc
+  ${SRC_DIRECTORY}/math/log.cc
+  ${SRC_DIRECTORY}/math/log10.cc
+  ${SRC_DIRECTORY}/math/log1p.cc
+  ${SRC_DIRECTORY}/math/log2.cc
+  ${SRC_DIRECTORY}/math/logb.cc
+  ${SRC_DIRECTORY}/math/lrint.cc
+  ${SRC_DIRECTORY}/math/lround.cc
+  ${SRC_DIRECTORY}/math/modf.cc
+  ${SRC_DIRECTORY}/math/nan.cc
+  ${SRC_DIRECTORY}/math/nanf.cc
+  ${SRC_DIRECTORY}/math/nanl.cc
+  ${SRC_DIRECTORY}/math/nearbyint.cc
+  ${SRC_DIRECTORY}/math/nextafter.cc
+  ${SRC_DIRECTORY}/math/nexttoward.cc
+  ${SRC_DIRECTORY}/math/pow.cc
+  ${SRC_DIRECTORY}/math/remainder.cc
+  ${SRC_DIRECTORY}/math/remquo.cc
+  ${SRC_DIRECTORY}/math/rint.cc
+  ${SRC_DIRECTORY}/math/round.cc
+  ${SRC_DIRECTORY}/math/scalbln.cc
+  ${SRC_DIRECTORY}/math/scalbn.cc
+  ${SRC_DIRECTORY}/math/signbit.cc
+  ${SRC_DIRECTORY}/math/sin.cc
+  ${SRC_DIRECTORY}/math/sinh.cc
+  ${SRC_DIRECTORY}/math/sqrt.cc
+  ${SRC_DIRECTORY}/math/tan.cc
+  ${SRC_DIRECTORY}/math/tanh.cc
+  ${SRC_DIRECTORY}/math/tgamma.cc
+  ${SRC_DIRECTORY}/math/trunc.cc
 )
 
 #

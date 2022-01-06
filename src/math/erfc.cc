@@ -4,12 +4,14 @@
  * The complementary error function is equivalent to:
  * erfc(x) = 1-erf(x)
  */
-#include <mynum/math.hpp>
+#include <mynum/math.h>
 
 namespace mynum {
+namespace math {
 
 Float erfc(const Float& x) {
-  return 1 - erf(x);
+  return mynum::erfc(x);
 }
 
+} // namespace math
 } // namespace mynum

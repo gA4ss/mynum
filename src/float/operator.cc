@@ -24,83 +24,83 @@ Float operator%(const Float& num1, const Float& num2) {
 }
 
 Float operator+(const Float& num1, const char* num2) {
-  return add(num1, Float(num2));
+  return add(num1, num2);
 }
 
 Float operator-(const Float& num1, const char* num2) {
-  return sub(num1, Float(num2));
+  return sub(num1, num2);
 }
 
 Float operator*(const Float& num1, const char* num2) {
-  return mul(num1, Float(num2));
+  return mul(num1, num2);
 }
 
 Float operator/(const Float& num1, const char* num2) {
-  return div(num1, Float(num2));
+  return div(num1, num2);
 }
 
 Float operator%(const Float& num1, const char* num2) {
-  return mod(num1, Float(num2));
+  return mod(num1, num2);
 }
 
 Float operator+(const char* num1, const Float& num2) {
-  return add(Float(num1), num2);
+  return add(num1, num2);
 }
 
 Float operator-(const char* num1, const Float& num2) {
-  return sub(Float(num1), num2);
+  return sub(num1, num2);
 }
 
 Float operator*(const char* num1, const Float& num2) {
-  return mul(Float(num1), num2);
+  return mul(num1, num2);
 }
 
 Float operator/(const char* num1, const Float& num2) {
-  return div(Float(num1), num2);
+  return div(num1, num2);
 }
 
 Float operator%(const char* num1, const Float& num2) {
-  return mod(Float(num1), num2);
+  return mod(num1, num2);
 }
 
 Float operator+(const Float& num1, const float_t& num2) {
-  return add(num1, Float(num2));
+  return add(num1, num2);
 }
 
 Float operator-(const Float& num1, const float_t& num2) {
-  return sub(num1, Float(num2));
+  return sub(num1, num2);
 }
 
 Float operator*(const Float& num1, const float_t& num2) {
-  return mul(num1, Float(num2));
+  return mul(num1, num2);
 }
 
 Float operator/(const Float& num1, const float_t& num2) {
-  return div(num1, Float(num2));
+  return div(num1, num2);
 }
 
 Float operator%(const Float& num1, const float_t& num2) {
-  return mod(num1, Float(num2));
+  return mod(num1, num2);
 }
 
 Float operator+(const float_t& num1, const Float& num2) {
-  return add(Float(num1), num2);
+  return add(num1, num2);
 }
 
 Float operator-(const float_t& num1, const Float& num2) {
-  return sub(Float(num1), num2);
+  return sub(num1, num2);
 }
 
 Float operator*(const float_t& num1, const Float& num2) {
-  return mul(Float(num1), num2);
+  return mul(num1, num2);
 }
 
 Float operator/(const float_t& num1, const Float& num2) {
-  return div(Float(num1), num2);
+  return div(num1, num2);
 }
 
 Float operator%(const float_t& num1, const Float& num2) {
-  return mod(Float(num1), num2);
+  return mod(num1, num2);
 }
 
 bool operator==(const Float& num1, const Float& num2) {
@@ -128,99 +128,99 @@ bool operator>=(const Float& num1, const Float& num2) {
 }
 
 bool operator==(const Float& num1, const char* num2) {
-  return equ(num1, Float(num2));
+  return equ(num1, num2);
 }
 
 bool operator!=(const Float& num1, const char* num2) {
-  return !equ(num1, Float(num2));
+  return !equ(num1, num2);
 }
 
 bool operator<(const Float& num1, const char* num2) {
-  return lt(num1, Float(num2));
+  return lt(num1, num2);
 }
 
 bool operator>(const Float& num1, const char* num2) {
-  return gt(num1, Float(num2));
+  return gt(num1, num2);
 }
 
 bool operator<=(const Float& num1, const char* num2) {
-  return le(num1, Float(num2));
+  return le(num1, num2);
 }
 
 bool operator>=(const Float& num1, const char* num2) {
-  return ge(num1, Float(num2));
+  return ge(num1, num2);
 }
 
 bool operator==(const char* num1, const Float& num2) {
-  return equ(Float(num1), num2);
+  return equ(num1, num2);
 }
 
 bool operator!=(const char* num1, const Float& num2) {
-  return !equ(Float(num1), num2);
+  return !equ(num1, num2);
 }
 
 bool operator<(const char* num1, const Float& num2) {
-  return lt(Float(num1), num2);
+  return lt(num1, num2);
 }
 
 bool operator>(const char* num1, const Float& num2) {
-  return gt(Float(num1), num2);
+  return gt(num1, num2);
 }
 
 bool operator<=(const char* num1, const Float& num2) {
-  return le(Float(num1), num2);
+  return le(num1, num2);
 }
 
 bool operator>=(const char* num1, const Float& num2) {
-  return ge(Float(num1), num2);
+  return ge(num1, num2);
 }
 
 bool operator==(const Float& num1, const float_t& num2) {
-  return equ(num1, Float(num2));
+  return equ(num1, num2);
 }
 
 bool operator!=(const Float& num1, const float_t& num2) {
-  return !equ(num1, Float(num2));
+  return !equ(num1, num2);
 }
 
 bool operator<(const Float& num1, const float_t& num2) {
-  return lt(num1, Float(num2));
+  return lt(num1, num2);
 }
 
 bool operator>(const Float& num1, const float_t& num2) {
-  return gt(num1, Float(num2));
+  return gt(num1, num2);
 }
 
 bool operator<=(const Float& num1, const float_t& num2) {
-  return le(num1, Float(num2));
+  return le(num1, num2);
 }
 
 bool operator>=(const Float& num1, const float_t& num2) {
-  return ge(num1, Float(num2));
+  return ge(num1, num2);
 }
 
 bool operator==(const float_t& num1, const Float& num2) {
-  return equ(Float(num1), num2);
+  return equ(num1, num2);
 }
 
 bool operator!=(const float_t& num1, const Float& num2) {
-  return !equ(Float(num1), num2);
+  return !equ(num1, num2);
 }
 
 bool operator<(const float_t& num1, const Float& num2) {
-  return lt(Float(num1), num2);
+  return lt(num1, num2);
 }
 
 bool operator>(const float_t& num1, const Float& num2) {
-  return gt(Float(num1), num2);
+  return gt(num1, num2);
 }
 
 bool operator<=(const float_t& num1, const Float& num2) {
-  return le(Float(num1), num2);
+  return le(num1, num2);
 }
 
 bool operator>=(const float_t& num1, const Float& num2) {
-  return ge(Float(num1), num2);
+  return ge(num1, num2);
 }
 
 bool operator||(const Float& num1, const Float& num2) {
@@ -348,11 +348,11 @@ void Float::operator=(const Float& num2) {
 }
 
 void Float::operator=(const char* num2) {
-  assign(Float(num2));
+  assign(num2);
 }
 
 void Float::operator=(const float_t& num2) {
-  assign(Float(num2));
+  assign(num2);
 }
 
 void Float::operator+=(const Float& num2) {
@@ -360,11 +360,11 @@ void Float::operator+=(const Float& num2) {
 }
 
 void Float::operator+=(const char* num2) {
-  *this = add(*this, Float(num2));
+  *this = add(*this, num2);
 }
 
 void Float::operator+=(const float_t& num2) {
-  *this = add(*this, Float(num2));
+  *this = add(*this, num2);
 }
 
 void Float::operator-=(const Float& num2) {
@@ -372,11 +372,11 @@ void Float::operator-=(const Float& num2) {
 }
 
 void Float::operator-=(const char* num2) {
-  *this = sub(*this, Float(num2));
+  *this = sub(*this, num2);
 }
 
 void Float::operator-=(const float_t& num2) {
-  *this = sub(*this, Float(num2));
+  *this = sub(*this, num2);
 }
 
 void Float::operator*=(const Float& num2) {
@@ -384,11 +384,11 @@ void Float::operator*=(const Float& num2) {
 }
 
 void Float::operator*=(const char* num2) {
-  *this = mul(*this, Float(num2));
+  *this = mul(*this, num2);
 }
 
 void Float::operator*=(const float_t& num2) {
-  *this = mul(*this, Float(num2));
+  *this = mul(*this, num2);
 }
 
 void Float::operator/=(const Float& num2) {
@@ -396,11 +396,11 @@ void Float::operator/=(const Float& num2) {
 }
 
 void Float::operator/=(const char* num2) {
-  *this = div(*this, Float(num2));
+  *this = div(*this, num2);
 }
 
 void Float::operator/=(const float_t& num2) {
-  *this = div(*this, Float(num2));
+  *this = div(*this, num2);
 }
 
 void Float::operator%=(const Float& num2) {
@@ -408,11 +408,11 @@ void Float::operator%=(const Float& num2) {
 }
 
 void Float::operator%=(const char* num2) {
-  *this = mod(*this, Float(num2));
+  *this = mod(*this, num2);
 }
 
 void Float::operator%=(const float_t& num2) {
-  *this = mod(*this, Float(num2));
+  *this = mod(*this, num2);
 }
 
 char Float::operator[](uinteger_t i) {

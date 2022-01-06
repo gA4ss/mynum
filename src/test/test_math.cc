@@ -5,7 +5,7 @@
 #include <gtest/gtest.h>
 #include <mynum/integer.h>
 #include <mynum/float.h>
-#include <mynum/math.hpp>
+#include <mynum/math.h>
 
 using namespace mynum;
 

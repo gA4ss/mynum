@@ -4,12 +4,14 @@
  * In trigonometrics, arc sine is the inverse operation of sine.
  */
 
-#include <mynum/math.hpp>
+#include <mynum/math.h>
 
 namespace mynum {
+namespace math {
 
 Float asin(const Float& x) {
-  return arcsin(x);
+  return mynum::arcsin(x);
 }
 
+} // namespace math
 } // namespace mynum

@@ -1,9 +1,10 @@
 /* Copy sign
  * Returns a value with the magnitude of x and the sign of y.
  */
-#include <mynum/math.hpp>
+#include <mynum/math.h>
 
 namespace mynum {
+namespace math {
 
 Float copysign(const Float& x, const Float& y) {
   Float z = x;
@@ -11,4 +12,5 @@ Float copysign(const Float& x, const Float& y) {
   return z;
 }
 
+} // namespace math
 } // namespace mynum

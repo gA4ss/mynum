@@ -15,7 +15,7 @@ Integer::Integer(std::string& number, int base) {
   __create_from_string(number.c_str(), base);
 }
 
-Integer::Integer(const integer_t& number) {
+Integer::Integer(integer_t number) {
   zero();
   __create_from_string(std::to_string(number).c_str(), 10);
 }
@@ -33,15 +33,15 @@ Integer::Integer(const Integer& number) {
   assign(number);
 }
 
-Integer::Integer(Float* number) {
-  zero();
-  integer_park_ = number->integer_park();
-}
+// Integer::Integer(Float* number) {
+//   zero();
+//   integer_park_ = number->integer_park();
+// }
 
-Integer::Integer(const Float& number) {
-  zero();
-  integer_park_ = number.integer_park();
-}
+// Integer::Integer(const Float& number) {
+//   zero();
+//   integer_park_ = number.integer_park();
+// }
 
 Integer::~Integer() {}
 

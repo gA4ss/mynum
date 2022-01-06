@@ -5,12 +5,14 @@
  *
  * Notice that because of the sign ambiguity, the function cannot determine with certainty in which quadrant the angle falls only by its tangent value. See atan2 for an alternative that takes a fractional argument instead.
  */
-#include <mynum/math.hpp>
+#include <mynum/math.h>
 
 namespace mynum {
+namespace math {
 
 Float atan(const Float& x) {
-  return arctan(x);
+  return mynum::arctan(x);
 }
 
+} // namespace math
 } // namespace mynum

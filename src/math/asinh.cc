@@ -3,12 +3,13 @@
  *
  * The area hyperbolic sine is the inverse operation of the hyperbolic sine.
  */
-#include <mynum/math.hpp>
+#include <mynum/math.h>
 
 namespace mynum {
+namespace math {
 
 Float asinh(const Float& x) {
-  return arcsinh(x);
+  return mynum::arcsinh(x);
 }
 
 Float asinhf(const Float& x) {
@@ -19,4 +20,5 @@ Float asinhl(const Float& x) {
   return asinh(x);
 }
 
+} // namespace math
 } // namespace mynum

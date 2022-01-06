@@ -17,7 +17,7 @@ Float::Float(std::string& number, int base) {
   __create_from_string(number.c_str(), base);
 }
 
-Float::Float(const float_t& number) {
+Float::Float(float_t number) {
   zero();
   std::stringstream ss;
   // ss << std::setiosflags(std::ios::fixed) << number;

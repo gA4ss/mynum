@@ -1,12 +1,14 @@
 /* Compute hyperbolic cosine
  * Returns the hyperbolic cosine of x.
  */
-#include <mynum/math.hpp>
+#include <mynum/math.h>
 
 namespace mynum {
+namespace math {
 
-//
-// 同mynum/float/cosh.cc原型相同
-//
+Float cosh(const Float& x) {
+  return mynum::cosh(x);
+}
 
+} // namespace math
 } // namespace mynum

@@ -1,12 +1,14 @@
 /* Compute cubic root
  * Returns the cubic root of x.
  */
-#include <mynum/math.hpp>
+#include <mynum/math.h>
 
 namespace mynum {
+namespace math {
 
 Float cbrt(const Float& x) {
-  return pow(x, Float("0.333333333333333333333333333333333333333"));
+  return mynum::pow(x, Float("0.333333333333333333333333333333333333333"));
 }
 
+} // namespace math
 } // namespace mynum

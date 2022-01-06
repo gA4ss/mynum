@@ -5,12 +5,14 @@
  *
  * In C++, this function is overloaded in <valarray> (see valarray atan2).
  */
-#include <mynum/math.hpp>
+#include <mynum/math.h>
 
 namespace mynum {
+namespace math {
 
 Float atan2(const Float& y, const Float& x) {
-  return arctan(y / x);
+  return mynum::arctan(y / x);
 }
 
+} // namespace math
 } // namespace mynum
