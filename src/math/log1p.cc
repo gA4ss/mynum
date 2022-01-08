@@ -3,11 +3,6 @@
  *
  * For small magnitude values of x, logp1 may be more accurate than log(1+x).
  */
-template <class T>
-T log1p(const T& x) {
-  return ln(Float(x)+1);
-}
-
 #include <mynum/math.h>
 
 namespace mynum {
