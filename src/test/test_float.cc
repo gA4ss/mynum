@@ -570,10 +570,17 @@ TEST(Float, Fraction) {
   EXPECT_TRUE(y.second == "2");
 }
 
-// TEST(Float, Constant) {
-//   // Float pi = approximate_pi();
-//   // EXPECT_TRUE(abs(pi - "3.1415926") < "0.0001") << "pi = " << pi.str();
+// TEST(Float, Error) {
+//   for (Float x = 0.00; x < 0.2; x += 0.01) {
+//     std::cout << "erf(" << x << ") = " << erf(x) << "\t";
+//     std::cout << "erfc(" << x << ") = " << erfc(x) << std::endl;
+//   }
 // }
+
+TEST(Float, Constant) {
+  // Float pi = approximate_pi();
+  // EXPECT_TRUE(abs(pi - "3.1415926") < "0.0001") << "pi = " << pi.str();
+}
 
 int main(int argc, char* argv[]) {
   testing::InitGoogleTest(&argc, argv);
