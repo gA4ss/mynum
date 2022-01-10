@@ -190,6 +190,11 @@ Float erf(const Float& x, const char* epsilon=kDefEpsilon);
 Float erfc(const Float& x, const char* epsilon=kDefEpsilon);
 
 //
+// 伽马函数
+//
+Float gamma(const Float& x, const char* epsilon=kDefEpsilon);
+
+//
 // 分数相关
 //
 std::pair<Integer, Integer> fraction(const Float& x);

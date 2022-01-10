@@ -139,6 +139,9 @@ target_link_libraries(test_float_pow mynum gtest pthread)
 add_executable(test_float_log ${SRC_DIRECTORY}/test/test_float_log.cc)
 target_link_libraries(test_float_log mynum gtest pthread)
 
+add_executable(test_float_erf_gamma ${SRC_DIRECTORY}/test/test_float_erf_gamma.cc)
+target_link_libraries(test_float_erf_gamma mynum gtest pthread)
+
 add_executable(test_bernoulli_numbers ${SRC_DIRECTORY}/test/test_bernoulli_numbers.cc)
 target_link_libraries(test_bernoulli_numbers mynum my gtest pthread)
 
@@ -297,6 +300,7 @@ add_library(${PROJECT_NAME} STATIC
   ${SRC_DIRECTORY}/float/arccoth.cc
   ${SRC_DIRECTORY}/float/erf.cc
   ${SRC_DIRECTORY}/float/erfc.cc
+  ${SRC_DIRECTORY}/float/gamma.cc
   ${SRC_DIRECTORY}/float/fraction.cc
   ${SRC_DIRECTORY}/float/copy.cc
   ${SRC_DIRECTORY}/float/same_digits.cc
@@ -321,6 +325,8 @@ add_test(NAME test_float_pow COMMAND test_float_pow)
 set_tests_properties(test_float_pow PROPERTIES FAIL_REGULAR_EXPRESSION "FAILED")
 add_test(NAME test_float_log COMMAND test_float_log)
 set_tests_properties(test_float_log PROPERTIES FAIL_REGULAR_EXPRESSION "FAILED")
+add_test(NAME test_float_erf_gamma COMMAND test_float_erf_gamma)
+set_tests_properties(test_float_erf_gamma PROPERTIES FAIL_REGULAR_EXPRESSION "FAILED")
 
 #
 # Install Set

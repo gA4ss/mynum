@@ -1,5 +1,4 @@
 frexp
 ilogb
-lgamma
 nextafter
 nexttoward

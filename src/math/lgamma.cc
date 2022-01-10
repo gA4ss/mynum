@@ -7,15 +7,15 @@ namespace mynum {
 namespace math {
 
 Float lgamma(const Float& x) {
-  return x;
+  return mynum::ln(mynum::gamma(x));
 }
 
 Float lgammaf(const Float& x) {
-  return x;
+  return lgamma(x);
 }
 
 Float lgammal(const Float& x) {
-  return x;
+  return lgamma(x);
 }
 
 } // namespace math
