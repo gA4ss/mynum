@@ -550,7 +550,7 @@ TEST(Float, ArcHyperbolic) {
 
 TEST(Float, Fraction) {
   Float x = "3.1415926";
-  std::pair<Float, Float> y = fraction(x);
+  std::pair<Integer, Integer> y = fraction(x);
   EXPECT_TRUE(y.first == "15707963");
   EXPECT_TRUE(y.second == "5000000");
 
