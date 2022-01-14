@@ -14,7 +14,7 @@ class Float {
 public:
   Float();
   Float(const char* number, int base=10);
-  Float(std::string& number, int base=10);
+  Float(std::string number, int base=10);
   Float(float_t number);
   Float(const bignum_t& integer_park);
   Float(const bignum_t& integer_park, const bignum_t& decimal_park);

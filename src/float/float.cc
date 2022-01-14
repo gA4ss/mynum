@@ -12,7 +12,7 @@ Float::Float(const char* number, int base) {
   __create_from_string(number, base);
 }
 
-Float::Float(std::string& number, int base) {
+Float::Float(std::string number, int base) {
   zero();
   __create_from_string(number.c_str(), base);
 }

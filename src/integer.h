@@ -16,7 +16,7 @@ class Integer {
 public:
   Integer();
   Integer(const char* number, int base=10);
-  Integer(std::string& number, int base=10);
+  Integer(std::string number, int base=10);
   Integer(integer_t number);
   Integer(const bignum_t& number);
   Integer(Integer* number);
