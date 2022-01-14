@@ -7,11 +7,11 @@ namespace mynum {
  * 在除法中div中不能使用缩减，因为
  * 最末尾的0是为了占位。
  */
-uinteger_t shrink_zero(bignum_t& a, bool reverse) {
+my::uinteger_t shrink_zero(bignum_t& a, bool reverse) {
   if (a.empty()) return 0;
   if ((a.size() == 1) && (a[0] == 0)) return 0;
 
-  uinteger_t ret = 0;
+  my::uinteger_t ret = 0;
   if (reverse) {
     int l = static_cast<int>(a.size());
     for (int i = l-1; i > 0; i--) {

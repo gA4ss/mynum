@@ -15,7 +15,7 @@ Float erf(const Float& x, const char* epsilon) {
   Float c = div(Float("2"), sqrt(__pi));
   // Float c = Float(2.0 / std::sqrt(M_PI));
   Float numerator, denominator = "1", item, p, e;
-  uinteger_t n = 0;
+  my::uinteger_t n = 0;
   do {
     p = res;
     e = add(mul("2", Float(n)), "1");

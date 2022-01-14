@@ -3,7 +3,7 @@ namespace mynum {
 
 Float sin(const Float& x, const char* epsilon) {
   Float res = "0";
-  uinteger_t i = 1;
+  my::uinteger_t i = 1;
   Float numerator, denominator = "1", item, p;
   do {
     p = res;

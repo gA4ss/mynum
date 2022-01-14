@@ -12,7 +12,7 @@ typedef bignum_t::reverse_iterator bignum_riter_t;
 typedef std::pair<bignum_t, bignum_t> division_result_t;
 static const uint64_t kNumericUnitMax = 0xFFFFFFFFFFFFFFFF;
 
-uinteger_t shrink_zero(bignum_t& a, bool reverse=false);
+my::uinteger_t shrink_zero(bignum_t& a, bool reverse=false);
 bignum_t string_to_bignum(const char* number=nullptr, int base=10, bool shrink_reverse=true);
 std::string bignum_to_string(const bignum_t& a);
 void nan(bignum_t& a);
@@ -26,7 +26,7 @@ bignum_t sub(bignum_t& a, bignum_t& b, bool t=false);
 bignum_t sub2(const bignum_t& a, const bignum_t& b, bool* t=nullptr);
 bignum_t mul(const bignum_t& a, const bignum_t& b);
 division_result_t div(const bignum_t& a, const bignum_t& b);
-division_result_t div2(const bignum_t& a, const bignum_t& b, uinteger_t precision=16);
+division_result_t div2(const bignum_t& a, const bignum_t& b, my::uinteger_t precision=16);
 bignum_t mod(const bignum_t& a, const bignum_t& b);
 
 } // namespace mynum

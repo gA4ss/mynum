@@ -6,7 +6,7 @@ namespace mynum {
 /* 余数在数学中的定义是始终大于等于0的。
  * 这里的整除运算都是在取floor后进行运算。
  */
-Float div(const Float& num1, const Float& num2, uinteger_t significant_digits) {
+Float div(const Float& num1, const Float& num2, my::uinteger_t significant_digits) {
   Float res;
   if (is_nan(num1) || is_nan(num2)) return res;
   if (is_zero(num2)) divisor_is_zero_exception("num2 = %s", num2.str().c_str());

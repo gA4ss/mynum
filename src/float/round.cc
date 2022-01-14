@@ -1,7 +1,7 @@
 #include <mynum/float.h>
 namespace mynum {
 
-static bignum_t __effective_digit(const Float& num1, uinteger_t precision, unit_t& v) {
+static bignum_t __effective_digit(const Float& num1, my::uinteger_t precision, unit_t& v) {
   bignum_t new_decimal_park;
   if (precision >= num1.precision()) {
     v = 0;
@@ -47,7 +47,7 @@ static bool __is_odd(const Float& num1) {
 /* 当尾数为5，而尾数后面的数字均为0时，应看尾数“5”的前一位：若前一位数字此时为奇数，
  * 就应向前进一位；若前一位数字此时为偶数，则应将尾数舍去。数字“0”在此时应被视为偶数。
  */
-Float round(const Float& num1, uinteger_t significant_digits) {
+Float round(const Float& num1, my::uinteger_t significant_digits) {
   if (is_nan(num1)) return Float();
   if (is_zero(num1)) return Float("0");
   if (is_infinite(num1)) operand_value_is_invalid_exception("%s", "num1 is infinite");

@@ -126,7 +126,7 @@ TEST(BigNum, Div) {
   shrink_zero(res.first, true);shrink_zero(res.second, true);
   EXPECT_TRUE(bignum_to_string(res.first) == "3473258")
               << "q = " << bignum_to_string(res.first);
-  EXPECT_TRUE(bignum_to_string(res.second) == "3869447703")
+  EXPECT_TRUE(bignum_to_string(res.second) == "38694477043")
               << "r = " << bignum_to_string(res.second);
 }
 

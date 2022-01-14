@@ -16,7 +16,7 @@ namespace math {
 
 Integer fpclassify(const Float& x) {
   if (mynum::is_infinite(x)) return Integer(FP_INFINITE);
-  else if (mynum::is_nan(x)) return Integer(static_cast<integer_t>(FP_NAN));
+  else if (mynum::is_nan(x)) return Integer(static_cast<my::integer_t>(FP_NAN));
   else if (mynum::is_zero(x)) return Integer(FP_ZERO);
   else if (mynum::is_subnormal(x)) return Integer(FP_SUBNORMAL);
   return Integer(FP_NORMAL);

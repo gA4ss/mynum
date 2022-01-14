@@ -4,9 +4,9 @@
 using namespace mynum;
 
 typedef std::pair<std::vector<Integer>, std::vector<Integer> > fraction_vector_t;
-fraction_vector_t test_bernoulli_numbers(uinteger_t n) {
+fraction_vector_t test_bernoulli_numbers(my::uinteger_t n) {
   Integer g, den = "1", p = "1";
-  uinteger_t h = 0, k, i, j = 1, tog = 1;
+  my::uinteger_t h = 0, k, i, j = 1, tog = 1;
 
   if (n == 0) { ; }
 

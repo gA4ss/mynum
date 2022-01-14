@@ -11,7 +11,7 @@ static Float __arctan_1(const Float& x, const char* epsilon) {
   }
 
   Float res = "0", n = "1", item, p;
-  uinteger_t i = 1;
+  my::uinteger_t i = 1;
   do {
     p = res;
     item = div(pow(x, n), n);

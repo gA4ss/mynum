@@ -2,7 +2,7 @@
 
 namespace mynum {
 
-division_result_t div2(const bignum_t& a, const bignum_t& b, uinteger_t precision) {
+division_result_t div2(const bignum_t& a, const bignum_t& b, my::uinteger_t precision) {
   if (a.empty() || b.empty()) {
     operand_value_is_invalid_exception(
       "%s", "operand a or b is nan."
@@ -31,8 +31,26 @@ division_result_t div2(const bignum_t& a, const bignum_t& b, uinteger_t precisio
     //
     // quotient.size() 初始值为 1
     //
+    // 因为这里减去了借位的数量，所以这里得到的结果，可能比设置
+    // 的精度位数大。
+    //
     if ((quotient.size() - borrow_zero) > precision)
       break;
+
+    //
+    // Debug Info
+    //
+    // std::cout << "dividend = ";
+    // for (int i = dividend.size()-1; i >= 0; i--) {
+    //   std::cout << std::to_string(dividend[i]);
+    // }
+    // std::cout << std::endl;
+
+    // std::cout << "divisor = ";
+    // for (int i = divisor.size()-1; i >= 0; i--) {
+    //   std::cout <<  std::to_string(divisor[i]);
+    // }
+    // std::cout << std::endl;
 
     //
     // 借位

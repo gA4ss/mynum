@@ -11,7 +11,7 @@ Float approximate_pi(const char* epsilon) {
   // 莱布尼兹公式
   // 这TMD的是最慢的近似方法了吧，极慢。
   Float res = "0", n = "3", o = "1", t = "2", item, p;
-  uinteger_t i = 2;
+  my::uinteger_t i = 2;
   do {
     p = res;
     item = div(o, n);

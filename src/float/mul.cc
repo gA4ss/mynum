@@ -36,7 +36,7 @@ Float mul(const Float& num1, const Float& num2) {
   else sign = kNegative;
 
   bignum_t integer_park, decimal_park;
-  uinteger_t precision = num1.precision() + num2.precision(), fill_zero = 0;
+  my::uinteger_t precision = num1.precision() + num2.precision(), fill_zero = 0;
 
   //
   // 扩大几倍缩小几倍

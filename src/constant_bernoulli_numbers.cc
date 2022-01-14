@@ -2,7 +2,7 @@
 
 namespace mynum {
 
-const uinteger_t kBernoulliNumbers = 200;
+const my::uinteger_t kBernoulliNumbers = 200;
 std::vector<Float> __bernoulli_numbers = {
 	"1.0",
 	"0.1666666666666667",

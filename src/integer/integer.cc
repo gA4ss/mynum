@@ -15,7 +15,7 @@ Integer::Integer(std::string number, int base) {
   __create_from_string(number.c_str(), base);
 }
 
-Integer::Integer(integer_t number) {
+Integer::Integer(my::integer_t number) {
   zero();
   __create_from_string(std::to_string(number).c_str(), 10);
 }

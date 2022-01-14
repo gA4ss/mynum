@@ -17,7 +17,7 @@ public:
   Integer();
   Integer(const char* number, int base=10);
   Integer(std::string number, int base=10);
-  Integer(integer_t number);
+  Integer(my::integer_t number);
   Integer(const bignum_t& number);
   Integer(Integer* number);
   Integer(const Integer& number);
@@ -54,50 +54,50 @@ public:
   // 赋值运算符
   void operator=(const Integer& num2);
   void operator=(const char* num2);
-  void operator=(const integer_t& num2);
+  void operator=(const my::integer_t& num2);
 
   void operator+=(const Integer& num2);
   void operator+=(const char* num2);
-  void operator+=(const integer_t& num2);
+  void operator+=(const my::integer_t& num2);
 
   void operator-=(const Integer& num2);
   void operator-=(const char* num2);
-  void operator-=(const integer_t& num2);
+  void operator-=(const my::integer_t& num2);
 
   void operator*=(const Integer& num2);
   void operator*=(const char* num2);
-  void operator*=(const integer_t& num2);
+  void operator*=(const my::integer_t& num2);
 
   void operator/=(const Integer& num2);
   void operator/=(const char* num2);
-  void operator/=(const integer_t& num2);
+  void operator/=(const my::integer_t& num2);
 
   void operator%=(const Integer& num2);
   void operator%=(const char* num2);
-  void operator%=(const integer_t& num2);
+  void operator%=(const my::integer_t& num2);
 
   void operator&=(const Integer& num2);
   void operator&=(const char* num2);
-  void operator&=(const integer_t& num2);
+  void operator&=(const my::integer_t& num2);
 
   void operator|=(const Integer& num2);
   void operator|=(const char* num2);
-  void operator|=(const integer_t& num2);
+  void operator|=(const my::integer_t& num2);
 
   void operator^=(const Integer& num2);
   void operator^=(const char* num2);
-  void operator^=(const integer_t& num2);
+  void operator^=(const my::integer_t& num2);
 
   void operator<<=(const Integer& bits);
   void operator<<=(const char* num2);
-  void operator<<=(const integer_t& num2);
+  void operator<<=(const my::integer_t& num2);
 
   void operator>>=(const Integer& bits);
   void operator>>=(const char* num2);
-  void operator>>=(const integer_t& num2);
+  void operator>>=(const my::integer_t& num2);
 
   // 迭代运算符
-  char operator[](uinteger_t i);
+  char operator[](my::uinteger_t i);
 
 protected:
   void __create_from_string(const char* n, int base);
@@ -167,8 +167,8 @@ Integer rshift_bits(const Integer& num1, const Integer& bits);
 //
 // 各种代数数
 //
-fraction_vector_t bernoulli_numbers(uinteger_t n);
-int_array_t euler_numbers(uinteger_t m);
+fraction_vector_t bernoulli_numbers(my::uinteger_t n);
+int_array_t euler_numbers(my::uinteger_t m);
 
 //
 // 功能函数
@@ -194,16 +194,16 @@ Integer operator-(const char* num1, const Integer& num2);
 Integer operator*(const char* num1, const Integer& num2);
 Integer operator/(const char* num1, const Integer& num2);
 Integer operator%(const char* num1, const Integer& num2);
-Integer operator+(const Integer& num1, const integer_t& num2);
-Integer operator-(const Integer& num1, const integer_t& num2);
-Integer operator*(const Integer& num1, const integer_t& num2);
-Integer operator/(const Integer& num1, const integer_t& num2);
-Integer operator%(const Integer& num1, const integer_t& num2);
-Integer operator+(const integer_t& num1, const Integer& num2);
-Integer operator-(const integer_t& num1, const Integer& num2);
-Integer operator*(const integer_t& num1, const Integer& num2);
-Integer operator/(const integer_t& num1, const Integer& num2);
-Integer operator%(const integer_t& num1, const Integer& num2);
+Integer operator+(const Integer& num1, const my::integer_t& num2);
+Integer operator-(const Integer& num1, const my::integer_t& num2);
+Integer operator*(const Integer& num1, const my::integer_t& num2);
+Integer operator/(const Integer& num1, const my::integer_t& num2);
+Integer operator%(const Integer& num1, const my::integer_t& num2);
+Integer operator+(const my::integer_t& num1, const Integer& num2);
+Integer operator-(const my::integer_t& num1, const Integer& num2);
+Integer operator*(const my::integer_t& num1, const Integer& num2);
+Integer operator/(const my::integer_t& num1, const Integer& num2);
+Integer operator%(const my::integer_t& num1, const Integer& num2);
 
 bool operator==(const Integer& num1, const Integer& num2);
 bool operator!=(const Integer& num1, const Integer& num2);
@@ -223,18 +223,18 @@ bool operator<(const char* num1, const Integer& num2);
 bool operator>(const char* num1, const Integer& num2);
 bool operator<=(const char* num1, const Integer& num2);
 bool operator>=(const char* num1, const Integer& num2);
-bool operator==(const Integer& num1, const integer_t& num2);
-bool operator!=(const Integer& num1, const integer_t& num2);
-bool operator<(const Integer& num1, const integer_t& num2);
-bool operator>(const Integer& num1, const integer_t& num2);
-bool operator<=(const Integer& num1, const integer_t& num2);
-bool operator>=(const Integer& num1, const integer_t& num2);
-bool operator==(const integer_t& num1, const Integer& num2);
-bool operator!=(const integer_t& num1, const Integer& num2);
-bool operator<(const integer_t& num1, const Integer& num2);
-bool operator>(const integer_t& num1, const Integer& num2);
-bool operator<=(const integer_t& num1, const Integer& num2);
-bool operator>=(const integer_t& num1, const Integer& num2);
+bool operator==(const Integer& num1, const my::integer_t& num2);
+bool operator!=(const Integer& num1, const my::integer_t& num2);
+bool operator<(const Integer& num1, const my::integer_t& num2);
+bool operator>(const Integer& num1, const my::integer_t& num2);
+bool operator<=(const Integer& num1, const my::integer_t& num2);
+bool operator>=(const Integer& num1, const my::integer_t& num2);
+bool operator==(const my::integer_t& num1, const Integer& num2);
+bool operator!=(const my::integer_t& num1, const Integer& num2);
+bool operator<(const my::integer_t& num1, const Integer& num2);
+bool operator>(const my::integer_t& num1, const Integer& num2);
+bool operator<=(const my::integer_t& num1, const Integer& num2);
+bool operator>=(const my::integer_t& num1, const Integer& num2);
 
 bool operator||(const Integer& num1, const Integer& num2);
 bool operator&&(const Integer& num1, const Integer& num2);
@@ -242,10 +242,10 @@ bool operator||(const Integer& num1, const char* num2);
 bool operator&&(const Integer& num1, const char* num2);
 bool operator||(const char* num1, const Integer& num2);
 bool operator&&(const char* num1, const Integer& num2);
-bool operator||(const Integer& num1, const integer_t& num2);
-bool operator&&(const Integer& num1, const integer_t& num2);
-bool operator||(const integer_t& num1, const Integer& num2);
-bool operator&&(const integer_t& num1, const Integer& num2);
+bool operator||(const Integer& num1, const my::integer_t& num2);
+bool operator&&(const Integer& num1, const my::integer_t& num2);
+bool operator||(const my::integer_t& num1, const Integer& num2);
+bool operator&&(const my::integer_t& num1, const Integer& num2);
 bool operator!(const Integer& num1);
 
 Integer operator~(const Integer& num1);
@@ -264,16 +264,16 @@ Integer operator&(const char* num1, const Integer& num2);
 Integer operator^(const char* num1, const Integer& num2);
 Integer operator<<(const char* num1, const Integer& bits);
 Integer operator>>(const char* num1, const Integer& bits);
-Integer operator|(const Integer& num1, const integer_t& num2);
-Integer operator&(const Integer& num1, const integer_t& num2);
-Integer operator^(const Integer& num1, const integer_t& num2);
-Integer operator<<(const Integer& num1, const integer_t& bits);
-Integer operator>>(const Integer& num1, const integer_t& bits);
-Integer operator|(const integer_t& num1, const Integer& num2);
-Integer operator&(const integer_t& num1, const Integer& num2);
-Integer operator^(const integer_t& num1, const Integer& num2);
-Integer operator<<(const integer_t& num1, const Integer& bits);
-Integer operator>>(const integer_t& num1, const Integer& bits);
+Integer operator|(const Integer& num1, const my::integer_t& num2);
+Integer operator&(const Integer& num1, const my::integer_t& num2);
+Integer operator^(const Integer& num1, const my::integer_t& num2);
+Integer operator<<(const Integer& num1, const my::integer_t& bits);
+Integer operator>>(const Integer& num1, const my::integer_t& bits);
+Integer operator|(const my::integer_t& num1, const Integer& num2);
+Integer operator&(const my::integer_t& num1, const Integer& num2);
+Integer operator^(const my::integer_t& num1, const Integer& num2);
+Integer operator<<(const my::integer_t& num1, const Integer& bits);
+Integer operator>>(const my::integer_t& num1, const Integer& bits);
 
 std::ostream& operator << (std::ostream& out, const Integer& num);
 std::istream& operator >> (std::istream& in, Integer& num);

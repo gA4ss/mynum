@@ -60,7 +60,7 @@ division_result_t div(const bignum_t& a, const bignum_t& b) {
     return division_result_t({0}, {x});
 
   bignum_t quotient, product, dividend = x, divisor = y, remainder = {0};
-  uinteger_t dividend_remainder_digits = dividend.size();
+  my::uinteger_t dividend_remainder_digits = dividend.size();
 
   //
   // 这里对被除数与除数做一些初始化工作，

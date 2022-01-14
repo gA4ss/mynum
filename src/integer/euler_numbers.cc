@@ -2,7 +2,7 @@
 
 namespace mynum {
 
-int_array_t euler_numbers(uinteger_t m) {
+int_array_t euler_numbers(my::uinteger_t m) {
   if (m == 0) {
     operand_value_is_invalid_exception(
       "m should greater than 0, m = %ul", m
@@ -20,10 +20,10 @@ int_array_t euler_numbers(uinteger_t m) {
   //  es[j] = "0";
 
   Integer sum = "0", binom = "1", item;
-  for (uinteger_t n = 1; n <= m; n++) {
+  for (my::uinteger_t n = 1; n <= m; n++) {
     sum = "0";
     binom = "1";
-    for (uinteger_t r = 0; r < n; r++) {
+    for (my::uinteger_t r = 0; r < n; r++) {
       item = buf[2*r];
       item *= binom;
       sum += item;

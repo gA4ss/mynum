@@ -17,7 +17,7 @@ Float::Float(std::string number, int base) {
   __create_from_string(number.c_str(), base);
 }
 
-Float::Float(float_t number) {
+Float::Float(my::float_t number) {
   zero();
   std::stringstream ss;
   // ss << std::setiosflags(std::ios::fixed) << number;
@@ -227,7 +227,7 @@ void Float::__create_from_string(const char* number, int base) {
   // 这里分为两部分处理,整数部分与小数部分
   //
   std::string integer_str = "", decimal_str = "";
-  uinteger_t precision = 0;
+  my::uinteger_t precision = 0;
   std::size_t found = number_str.find('.');
   if (found != std::string::npos) {
     integer_str = number_str.substr(0, found);

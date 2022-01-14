@@ -63,43 +63,43 @@ Integer operator%(const char* num1, const Integer& num2) {
   return mod(num1, num2);
 }
 
-Integer operator+(const integer_t& num1, const Integer& num2) {
+Integer operator+(const my::integer_t& num1, const Integer& num2) {
   return add(num1, num2);
 }
 
-Integer operator-(const integer_t& num1, const Integer& num2) {
+Integer operator-(const my::integer_t& num1, const Integer& num2) {
   return sub(num1, num2);
 }
 
-Integer operator*(const integer_t& num1, const Integer& num2) {
+Integer operator*(const my::integer_t& num1, const Integer& num2) {
   return mul(num1, num2);
 }
 
-Integer operator/(const integer_t& num1, const Integer& num2) {
+Integer operator/(const my::integer_t& num1, const Integer& num2) {
   return quo(num1, num2);
 }
 
-Integer operator%(const integer_t& num1, const Integer& num2) {
+Integer operator%(const my::integer_t& num1, const Integer& num2) {
   return mod(num1, num2);
 }
 
-Integer operator+(const Integer& num1, const integer_t& num2) {
+Integer operator+(const Integer& num1, const my::integer_t& num2) {
   return add(num1, num2);
 }
 
-Integer operator-(const Integer& num1, const integer_t& num2) {
+Integer operator-(const Integer& num1, const my::integer_t& num2) {
   return sub(num1, num2);
 }
 
-Integer operator*(const Integer& num1, const integer_t& num2) {
+Integer operator*(const Integer& num1, const my::integer_t& num2) {
   return mul(num1, num2);
 }
 
-Integer operator/(const Integer& num1, const integer_t& num2) {
+Integer operator/(const Integer& num1, const my::integer_t& num2) {
   return quo(num1, num2);
 }
 
-Integer operator%(const Integer& num1, const integer_t& num2) {
+Integer operator%(const Integer& num1, const my::integer_t& num2) {
   return mod(num1, num2);
 }
 
@@ -175,51 +175,51 @@ bool operator>=(const char* num1, const Integer& num2) {
   return ge(num1, num2);
 }
 
-bool operator==(const Integer& num1, const integer_t& num2) {
+bool operator==(const Integer& num1, const my::integer_t& num2) {
   return equ(num1, num2);
 }
 
-bool operator!=(const Integer& num1, const integer_t& num2) {
+bool operator!=(const Integer& num1, const my::integer_t& num2) {
   return !equ(num1, num2);
 }
 
-bool operator<(const Integer& num1, const integer_t& num2) {
+bool operator<(const Integer& num1, const my::integer_t& num2) {
   return lt(num1, num2);
 }
 
-bool operator>(const Integer& num1, const integer_t& num2) {
+bool operator>(const Integer& num1, const my::integer_t& num2) {
   return gt(num1, num2);
 }
 
-bool operator<=(const Integer& num1, const integer_t& num2) {
+bool operator<=(const Integer& num1, const my::integer_t& num2) {
   return le(num1, num2);
 }
 
-bool operator>=(const Integer& num1, const integer_t& num2) {
+bool operator>=(const Integer& num1, const my::integer_t& num2) {
   return ge(num1, num2);
 }
 
-bool operator==(const integer_t& num1, const Integer& num2) {
+bool operator==(const my::integer_t& num1, const Integer& num2) {
   return equ(num1, num2);
 }
 
-bool operator!=(const integer_t& num1, const Integer& num2) {
+bool operator!=(const my::integer_t& num1, const Integer& num2) {
   return !equ(num1, num2);
 }
 
-bool operator<(const integer_t& num1, const Integer& num2) {
+bool operator<(const my::integer_t& num1, const Integer& num2) {
   return lt(num1, num2);
 }
 
-bool operator>(const integer_t& num1, const Integer& num2) {
+bool operator>(const my::integer_t& num1, const Integer& num2) {
   return gt(num1, num2);
 }
 
-bool operator<=(const integer_t& num1, const Integer& num2) {
+bool operator<=(const my::integer_t& num1, const Integer& num2) {
   return le(num1, num2);
 }
 
-bool operator>=(const integer_t& num1, const Integer& num2) {
+bool operator>=(const my::integer_t& num1, const Integer& num2) {
   return ge(num1, num2);
 }
 
@@ -263,28 +263,28 @@ bool operator&&(const char* num1, const Integer& num2) {
   return false;
 }
 
-bool operator||(const Integer& num1, const integer_t& num2) {
+bool operator||(const Integer& num1, const my::integer_t& num2) {
   Integer num2_(num2);
   if (is_nan(num1) || is_nan(num2_)) return false;
   if (!is_zero(num1) || !is_zero(num2_)) return true;
   return false;
 }
 
-bool operator&&(const Integer& num1, const integer_t& num2) {
+bool operator&&(const Integer& num1, const my::integer_t& num2) {
   Integer num2_(num2);
   if (is_nan(num1) || is_nan(num2_)) return false;
   if (!is_zero(num1) && !is_zero(num2_)) return true;
   return false;
 }
 
-bool operator||(const integer_t& num1, const Integer& num2) {
+bool operator||(const my::integer_t& num1, const Integer& num2) {
   Integer num1_(num1);
   if (is_nan(num1_) || is_nan(num2)) return false;
   if (!is_zero(num1_) || !is_zero(num2)) return true;
   return false;
 }
 
-bool operator&&(const integer_t& num1, const Integer& num2) {
+bool operator&&(const my::integer_t& num1, const Integer& num2) {
   Integer num1_(num1);
   if (is_nan(num1_) || is_nan(num2)) return false;
   if (!is_zero(num1_) && !is_zero(num2)) return true;
@@ -360,43 +360,43 @@ Integer operator>>(const char* num1, const Integer& bits) {
   return rshift_bits(num1, bits);
 }
 
-Integer operator|(const Integer& num1, const integer_t& num2) {
+Integer operator|(const Integer& num1, const my::integer_t& num2) {
   return or_bits(num1, num2);
 }
 
-Integer operator&(const Integer& num1, const integer_t& num2) {
+Integer operator&(const Integer& num1, const my::integer_t& num2) {
   return and_bits(num1, num2);
 }
 
-Integer operator^(const Integer& num1, const integer_t& num2) {
+Integer operator^(const Integer& num1, const my::integer_t& num2) {
   return xor_bits(num1, num2);
 }
 
-Integer operator<<(const Integer& num1, const integer_t& bits) {
+Integer operator<<(const Integer& num1, const my::integer_t& bits) {
   return lshift_bits(num1, bits);
 }
 
-Integer operator>>(const Integer& num1, const integer_t& bits) {
+Integer operator>>(const Integer& num1, const my::integer_t& bits) {
   return rshift_bits(num1, bits);
 }
 
-Integer operator|(const integer_t& num1, const Integer& num2) {
+Integer operator|(const my::integer_t& num1, const Integer& num2) {
   return or_bits(num1, num2);
 }
 
-Integer operator&(const integer_t& num1, const Integer& num2) {
+Integer operator&(const my::integer_t& num1, const Integer& num2) {
   return and_bits(num1, num2);
 }
 
-Integer operator^(const integer_t& num1, const Integer& num2) {
+Integer operator^(const my::integer_t& num1, const Integer& num2) {
   return xor_bits(num1, num2);
 }
 
-Integer operator<<(const integer_t& num1, const Integer& bits) {
+Integer operator<<(const my::integer_t& num1, const Integer& bits) {
   return lshift_bits(num1, bits);
 }
 
-Integer operator>>(const integer_t& num1, const Integer& bits) {
+Integer operator>>(const my::integer_t& num1, const Integer& bits) {
   return rshift_bits(num1, bits);
 }
 
@@ -455,7 +455,7 @@ void Integer::operator=(const char* num2) {
   assign(num2);
 }
 
-void Integer::operator=(const integer_t& num2) {
+void Integer::operator=(const my::integer_t& num2) {
   assign(num2);
 }
 
@@ -467,7 +467,7 @@ void Integer::operator+=(const char* num2) {
   *this = add(*this, num2);
 }
 
-void Integer::operator+=(const integer_t& num2) {
+void Integer::operator+=(const my::integer_t& num2) {
   *this = add(*this, num2);
 }
 
@@ -479,7 +479,7 @@ void Integer::operator-=(const char* num2) {
   *this = sub(*this, num2);
 }
 
-void Integer::operator-=(const integer_t& num2) {
+void Integer::operator-=(const my::integer_t& num2) {
   *this = sub(*this, num2);
 }
 
@@ -491,7 +491,7 @@ void Integer::operator*=(const char* num2) {
   *this = mul(*this, num2);
 }
 
-void Integer::operator*=(const integer_t& num2) {
+void Integer::operator*=(const my::integer_t& num2) {
   *this = mul(*this, num2);
 }
 
@@ -503,7 +503,7 @@ void Integer::operator/=(const char* num2) {
   *this = quo(*this, num2);
 }
 
-void Integer::operator/=(const integer_t& num2) {
+void Integer::operator/=(const my::integer_t& num2) {
   *this = quo(*this, num2);
 }
 
@@ -515,7 +515,7 @@ void Integer::operator%=(const char* num2) {
   *this = mod(*this, num2);
 }
 
-void Integer::operator%=(const integer_t& num2) {
+void Integer::operator%=(const my::integer_t& num2) {
   *this = mod(*this, num2);
 }
 
@@ -527,7 +527,7 @@ void Integer::operator&=(const char* num2) {
   *this = and_bits(*this, num2);
 }
 
-void Integer::operator&=(const integer_t& num2) {
+void Integer::operator&=(const my::integer_t& num2) {
   *this = and_bits(*this, num2);
 }
 
@@ -539,7 +539,7 @@ void Integer::operator|=(const char* num2) {
   *this = or_bits(*this, num2);
 }
 
-void Integer::operator|=(const integer_t& num2) {
+void Integer::operator|=(const my::integer_t& num2) {
   *this = or_bits(*this, num2);
 }
 
@@ -551,7 +551,7 @@ void Integer::operator^=(const char* num2) {
   *this = xor_bits(*this, num2);
 }
 
-void Integer::operator^=(const integer_t& num2) {
+void Integer::operator^=(const my::integer_t& num2) {
   *this = xor_bits(*this, num2);
 }
 
@@ -563,7 +563,7 @@ void Integer::operator<<=(const char* bits) {
   *this = lshift_bits(*this, bits);
 }
 
-void Integer::operator<<=(const integer_t& bits) {
+void Integer::operator<<=(const my::integer_t& bits) {
   *this = lshift_bits(*this, bits);
 }
 
@@ -575,11 +575,11 @@ void Integer::operator>>=(const char* bits) {
   *this = rshift_bits(*this, bits);
 }
 
-void Integer::operator>>=(const integer_t& bits) {
+void Integer::operator>>=(const my::integer_t& bits) {
   *this = rshift_bits(*this, bits);
 }
 
-char Integer::operator[](uinteger_t i) {
+char Integer::operator[](my::uinteger_t i) {
   std::string res = str();
   if (i >= res.size()) out_of_range_exception("i = %d", i);
   return res[i];

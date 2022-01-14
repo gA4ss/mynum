@@ -3,7 +3,7 @@ namespace mynum {
 
 Float cos(const Float& x, const char* epsilon) {
   Float res = "1";
-  uinteger_t i = 1;
+  my::uinteger_t i = 1;
   Float numerator, denominator = "0", item = "1", p = "0";
   do {
     if (i != 1) {

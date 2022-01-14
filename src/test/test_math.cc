@@ -14,8 +14,8 @@ TEST(Math, Type) {
   Float f = 3.1415926;
   EXPECT_TRUE(my::get_type_name<Integer>() == "N5mynum7IntegerE");
   EXPECT_TRUE(my::get_type_name<Float>() == "N5mynum5FloatE");
-  EXPECT_TRUE(my::get_support_type<Integer>() == kBIntegerT);
-  EXPECT_TRUE(my::get_support_type<Float>() == kBFloatT);
+  EXPECT_TRUE(my::get_support_type<Integer>() == my::kBIntegerT);
+  EXPECT_TRUE(my::get_support_type<Float>() == my::kBFloatT);
 }
 
 TEST(Math, abs) {

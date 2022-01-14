@@ -2,7 +2,7 @@
 
 namespace mynum {
 
-const uinteger_t kEulerNumbers = 200;
+const my::uinteger_t kEulerNumbers = 200;
 std::vector<Float> __euler_numbers = {
 	"1.0",
 	"1.0",

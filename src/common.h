@@ -11,8 +11,6 @@
 
 namespace mynum {
 
-using namespace my;
-
 //////////////////////////////
 //     一些数字类型的定义     //
 //////////////////////////////
@@ -22,15 +20,11 @@ enum {
   kPositive = 1
 };
 
-typedef int64_t integer_t;
-typedef uint64_t uinteger_t;
-typedef long double float_t;
-
 //////////////////////////////
 //        全局配置结构        //
 //////////////////////////////
 typedef struct Config {
-  uinteger_t significant_digits;    // 0xFFFFFFFFFFFFFFFF 表示一直计算。
+  my::uinteger_t significant_digits;    // 0xFFFFFFFFFFFFFFFF 表示一直计算。
   std::string epsilon;
   int set_precision;                // 仅针对使用浮点数构造Float时，setprecision函数的值。
 } config_t;

@@ -4,9 +4,9 @@
 namespace mynum {
 
 /* 求伯努利数 */
-fraction_vector_t bernoulli_numbers(uinteger_t n) {
+fraction_vector_t bernoulli_numbers(my::uinteger_t n) {
   Integer g, den = "1", p = "1";
-  uinteger_t h = 0, k, i, j = 1, tog = 1;
+  my::uinteger_t h = 0, k, i, j = 1, tog = 1;
 
   if (n == 0) {
     operand_value_is_invalid_exception(

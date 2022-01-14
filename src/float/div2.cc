@@ -20,7 +20,7 @@ static Float __mod_infinite_operation(const Float& num1, const Float& num2) {
   return res;
 }
 
-void div2(const Float& num1, const Float& num2, Float& quo, Float& rem, uinteger_t significant_digits) {  
+void div2(const Float& num1, const Float& num2, Float& quo, Float& rem, my::uinteger_t significant_digits) {  
   if (is_zero(num2)) divisor_is_zero_exception("num2 = %s", num2.str().c_str());
   if (is_nan(num1) || is_nan(num2)) {
     quo = Float("nan"); rem = Float("nan");
