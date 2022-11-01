@@ -1,4 +1,0 @@
-frexp
-ilogb
-nextafter
-nexttoward
