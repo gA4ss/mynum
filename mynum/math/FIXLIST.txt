@@ -1,0 +1,4 @@
+frexp
+ilogb
+nextafter
+nexttoward
