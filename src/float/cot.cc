@@ -3,29 +3,35 @@
 namespace mynum
 {
 
+  // #define USE_ITER
   namespace f
   {
 
+#if defined(USE_ITER)
     extern std::vector<float_t> __bernoulli_numbers;
+#endif
 
-    float_t cot(const float_t &x, const float_t &epsilon, size_t precision)
+    float_t cot(const float_t &x, size_t precision)
     {
-      //
-      // 保证 0< |x| < pi
-      //
-      const float_t const_1 = mympf::create(1);
-      const float_t const_pi = mympf::create(M_PI);
+      const float_t const_pi = mympf::create(kPI);
+      const float_t epsilon = epsilon_from_precision(precision);
       if ((is_zero(x)) || (mympf::ucmp(x, const_pi) > 0) || (diff_eps(const_pi, x, epsilon)))
       {
         mynum_operand_value_is_invalid_exception(
             "0 < x < PI, x = %s", mympf::print_string(x).c_str());
       }
 
+      float_t y;
+#if defined(USE_ITER)
+      //
+      // 保证 0< |x| < pi
+      //
+      const float_t const_1 = mympf::create(1);
       size_t i = 0, j = __bernoulli_numbers.size();
-      float_t y = const_1;
       float_t numerator, denominator, exponent, item;
       float_t n = const_1, b, p;
       const float_t const_2 = mympf::create(2);
+      y = const_1;
       do
       {
         p = y;
@@ -46,16 +52,19 @@ namespace mynum
           mynum_over_bernoulli_numbers_table_exception(
               "index \'%lu\' over the bernoulli table.", i);
         }
-        numerator = pow(const_2, exponent, epsilon, precision);
+        numerator = pow(const_2, exponent, precision);
         numerator = mympf::mul(numerator, b);
         denominator = factorial(exponent);
         item = div(numerator, denominator);
         exponent = mympf::sub(exponent, const_1);
-        item = mympf::mul(item, pow(x, exponent, epsilon, precision));
+        item = mympf::mul(item, pow(x, exponent, precision));
         y = mympf::sub(y, item);
         n = mympf::add(n, const_1);
         ++i;
       } while (!diff_eps(y, p, epsilon));
+#else
+      y = mympf::div(mympf::create(1), tan(x, precision));
+#endif
       return check_result_on_precision(y, precision);
     }
   }

@@ -4,17 +4,18 @@ namespace mynum
 {
   namespace f
   {
-    float_t cosh(const float_t &x, const float_t &epsilon, size_t precision)
+    float_t cosh(const float_t &x, size_t precision)
     {
       float_t y = mympf::create(1);
       float_t numerator, denominator, item, p;
       float_t n = mympf::create(2);
       const float_t const_2 = n;
+      const float_t epsilon = epsilon_from_precision(precision);
 
       do
       {
         p = y;
-        numerator = pow(x, n, epsilon, precision);
+        numerator = pow(x, n, precision);
         denominator = factorial(n);
         item = mympf::div(numerator, denominator);
         y = mympf::add(y, item);

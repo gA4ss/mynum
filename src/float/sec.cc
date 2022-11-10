@@ -7,12 +7,13 @@ namespace mynum
   {
     extern std::vector<float_t> __euler_numbers;
 
-    float_t sec(const float_t &x, const float_t &epsilon, size_t precision)
+    float_t sec(const float_t &x, size_t precision)
     {
       //
       // 保证 |x| < pi/2
       //
-      const float_t const_half_pi = mympf::create(M_PI_2);
+      const float_t epsilon = epsilon_from_precision(precision);
+      const float_t const_half_pi = mympf::create(kPI_2);
       if ((mympf::ucmp(x, const_half_pi) > 0) || (diff_eps(const_half_pi, x, epsilon)))
       {
         mynum_operand_value_is_invalid_exception(
@@ -40,7 +41,7 @@ namespace mynum
         numerator = abs(e);
         denominator = factorial(exponent);
         item = mympf::div(numerator, denominator);
-        item = mympf::mul(item, pow(x, exponent, epsilon, precision));
+        item = mympf::mul(item, pow(x, exponent, precision));
         y = mympf::add(y, item);
         n = mympf::add(n, const_1);
         ++i;

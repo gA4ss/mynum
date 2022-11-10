@@ -28,5 +28,5 @@ def sin(x, eps=0.000000005):
 def R(d):
   return (math.pi / 180.0) * d
 
-y = sin(R(-127.0))
+y = sin(R(60))
 print(y)

@@ -6,12 +6,13 @@ namespace mynum
   {
     extern std::vector<float_t> __bernoulli_numbers;
 
-    float_t csch(const float_t &x, const float_t &epsilon, size_t precision)
+    float_t csch(const float_t &x, size_t precision)
     {
       //
       // 保证 0< |x| < pi
       //
-      const float_t const_pi = mympf::create(M_PI);
+      const float_t epsilon = epsilon_from_precision(precision);
+      const float_t const_pi = mympf::create(kPI);
       if ((is_zero(x)) || (mympf::ucmp(x, const_pi) > 0) ||
           (diff_eps(const_pi, x, epsilon)))
       {
@@ -40,13 +41,13 @@ namespace mynum
           mynum_over_bernoulli_numbers_table_exception(
               "index \'%lu\' over the bernoulli table.", i);
         }
-        item = mympf::sub(pow(l, exponent, epsilon, precision), o);
+        item = mympf::sub(pow(l, exponent, precision), o);
         numerator = mympf::mul(l, item);
         numerator = mympf::mul(numerator, b);
         denominator = factorial(mympf::add(exponent, o));
         item = mympf::div(numerator, denominator);
-        item = mympf::mul(item, pow(x, exponent, epsilon, precision));
-        sign = pow(k, n, epsilon, precision);
+        item = mympf::mul(item, pow(x, exponent, precision));
+        sign = pow(k, n, precision);
         item = mympf::mul(item, sign);
         y = mympf::add(y, item);
         n = mympf::add(n, const_1);

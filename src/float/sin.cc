@@ -5,7 +5,7 @@ namespace mynum
 
   namespace f
   {
-    float_t sin(const float_t &x, const float_t &epsilon, size_t precision)
+    float_t sin(const float_t &x, size_t precision)
     {
       const float_t const_0 = mympf::create(0);
       const float_t const_1 = mympf::create(1);
@@ -14,11 +14,12 @@ namespace mynum
       size_t i = 1;
       float_t y = const_0;
       float_t numerator, denominator = const_1, item, p;
+      const float_t epsilon = epsilon_from_precision(precision);
       do
       {
         p = y;
         // mynum_dbgprint_fmt("p = %s.\n", mympf::print_string(p).c_str());
-        numerator = pow(x, denominator, epsilon, precision);
+        numerator = pow(x, denominator, precision);
         // mynum_dbgprint_fmt("numerator = %s.\n", mympf::print_string(numerator).c_str());
         item = mympf::div(numerator, factorial(denominator));
         // mynum_dbgprint_fmt("item = %s.\n", mympf::print_string(item).c_str());

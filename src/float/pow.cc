@@ -5,7 +5,8 @@ namespace mynum
   namespace f
   {
 #define __pow(a, x, p) mympf::round(mympf::exp(a, x), p)
-    float_t pow(const float_t &a, const float_t &x, const float_t &epsilon, size_t precision)
+    // #define __pow(a, x) mympf::exp(a, x)
+    float_t pow(const float_t &a, const float_t &x, size_t precision)
     {
       if (f::is_one(a) || f::is_zero(x))
         return mympf::create(1);
@@ -27,14 +28,16 @@ namespace mynum
       {
         // 如果x是整数，小数部分为0
         y = __pow(a, x, precision); // 求a^x次方
+        // y = __pow(a, x);
       }
       else
       {
-        float_t lna = ln(a, epsilon, precision);
+        float_t lna = ln(a, precision);
         // mynum_dbgprint_fmt("lna = %s.\n", mympf::print_string(lna).c_str());
-        y = f::exp(mympf::mul(x, lna), epsilon, precision); // 求e^{ln(x*lna)}
+        y = f::exp(mympf::mul(x, lna), precision); // 求e^{ln(x*lna)}
       }
-      return y;
+      return check_result_on_precision(y, precision);
+      // return y;
     }
   }
 

@@ -56,60 +56,70 @@ namespace mynum
     float_t floor(const float_t &x);
     float_t round(const float_t &x);
     float_t factorial(const float_t &x);
-    float_t exp(const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t pow(const float_t &a, const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t ln(const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t log(const float_t &base, const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t log2(const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t log10(const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t sqrt(const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t sin(const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t cos(const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t tan(const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t cot(const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t sec(const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t csc(const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t arcsin(const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t arccos(const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t arctan(const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t arccot(const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t arcsec(const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t arccsc(const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t sinh(const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t cosh(const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t tanh(const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t coth(const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t sech(const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t csch(const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t arcsinh(const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t arccosh(const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t arctanh(const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t arccoth(const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t arcsech(const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t arccsch(const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t erf(const float_t &x, const float_t &epsilon, size_t precision = 16);
-    float_t erfc(const float_t &x, const float_t &epsilon, size_t precision = 16);
+    float_t exp(const float_t &x, size_t precision = 16);
+    float_t pow(const float_t &a, const float_t &x, size_t precision = 16);
+    float_t ln(const float_t &x, size_t precision = 16);
+    float_t log(const float_t &base, const float_t &x, size_t precision = 16);
+    float_t log2(const float_t &x, size_t precision = 16);
+    float_t log10(const float_t &x, size_t precision = 16);
+    float_t sqrt(const float_t &x, size_t precision = 16);
+    float_t sin(const float_t &x, size_t precision = 16);
+    float_t cos(const float_t &x, size_t precision = 16);
+    float_t tan(const float_t &x, size_t precision = 16);
+    float_t cot(const float_t &x, size_t precision = 16);
+    float_t sec(const float_t &x, size_t precision = 16);
+    float_t csc(const float_t &x, size_t precision = 16);
+    float_t arcsin(const float_t &x, size_t precision = 16);
+    float_t arccos(const float_t &x, size_t precision = 16);
+    float_t arctan(const float_t &x, size_t precision = 16);
+    float_t arccot(const float_t &x, size_t precision = 16);
+    float_t arcsec(const float_t &x, size_t precision = 16);
+    float_t arccsc(const float_t &x, size_t precision = 16);
+    float_t sinh(const float_t &x, size_t precision = 16);
+    float_t cosh(const float_t &x, size_t precision = 16);
+    float_t tanh(const float_t &x, size_t precision = 16);
+    float_t coth(const float_t &x, size_t precision = 16);
+    float_t sech(const float_t &x, size_t precision = 16);
+    float_t csch(const float_t &x, size_t precision = 16);
+    float_t arcsinh(const float_t &x, size_t precision = 16);
+    float_t arccosh(const float_t &x, size_t precision = 16);
+    float_t arctanh(const float_t &x, size_t precision = 16);
+    float_t arccoth(const float_t &x, size_t precision = 16);
+    float_t arcsech(const float_t &x, size_t precision = 16);
+    float_t arccsch(const float_t &x, size_t precision = 16);
+    float_t erf(const float_t &x, size_t precision = 16);
+    float_t erfc(const float_t &x, size_t precision = 16);
     int sgn(const float_t &x);
     fraction_t fraction(const float_t &x);
-    NOT_IMPLEMENTED float_t gamma(const float_t &x, const float_t &epsilon, size_t precision = 16);
+    NOT_IMPLEMENTED float_t gamma(const float_t &x, size_t precision = 16);
 
-    float_t approximate_pi(const float_t &epsilon, size_t precision = 16);
-    float_t approximate_e(const float_t &epsilon, size_t precision = 16);
-    float_t approximate_golden_ratio(const float_t &epsilon, size_t precision = 16);
+    float_t approximate_pi(size_t precision = 16);
+    float_t approximate_e(size_t precision = 16);
+    float_t approximate_golden_ratio(size_t precision = 16);
 
-    // 定义EPS
-    static const long double kEpsilon = DBL_EPSILON;
+// 定义EPS
+#define kEpsilon DBL_EPSILON
+#define kPI "3.141592653589793238462643383279502884"
+#define kPI_2 "1.570796326794896619231321691639751442"
+#define kPI_4 "0.785398163397448309615660845819875721"
 
-// 保证至少precision比epsilon的精度大1
-#define precision_on_epsilon(precision, epsilon)                                       \
-  {                                                                                    \
-    (precision) =                                                                      \
-        (precision) < (epsilon).precision * 2 ? (epsilon).precision * 2 : (precision); \
-  }
+    // # define M_Ef128	__f128 (2.718281828459045235360287471352662498) /* e */
+    // # define M_LOG2Ef128	__f128 (1.442695040888963407359924681001892137) /* log_2 e */
+    // # define M_LOG10Ef128	__f128 (0.434294481903251827651128918916605082) /* log_10 e */
+    // # define M_LN2f128	__f128 (0.693147180559945309417232121458176568) /* log_e 2 */
+    // # define M_LN10f128	__f128 (2.302585092994045684017991454684364208) /* log_e 10 */
+    // # define M_PIf128	__f128 (3.141592653589793238462643383279502884) /* pi */
+    // # define M_PI_2f128	__f128 (1.570796326794896619231321691639751442) /* pi/2 */
+    // # define M_PI_4f128	__f128 (0.785398163397448309615660845819875721) /* pi/4 */
+    // # define M_1_PIf128	__f128 (0.318309886183790671537767526745028724) /* 1/pi */
+    // # define M_2_PIf128	__f128 (0.636619772367581343075535053490057448) /* 2/pi */
+    // # define M_2_SQRTPIf128	__f128 (1.128379167095512573896158903121545172) /* 2/sqrt(pi) */
+    // # define M_SQRT2f128	__f128 (1.414213562373095048801688724209698079) /* sqrt(2) */
+    // # define M_SQRT1_2f128	__f128 (0.707106781186547524400844362104849039) /* 1/sqrt(2) */
 
-// 按照精度输出结果
-#define check_result_on_precision(result, precision) mympf::round((result), (precision))
-  } // namespace f
+#define epsilon_from_precision(precision) mympf::create(1, precision + 1)                // 从precision生成epsilon
+#define check_result_on_precision(result, precision) mympf::round((result), (precision)) // 按照精度输出结果
+  }                                                                                      // namespace f
 } // namespace mynum
 
 #endif // MYNUM_H_

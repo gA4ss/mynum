@@ -6,7 +6,7 @@ namespace mynum
   namespace f
   {
 
-    static float_t __ln_1(const float_t &x, const float_t &epsilon, size_t precision)
+    static float_t __ln_1(const float_t &x, size_t precision)
     {
       // mynum_dbgprint_fmt("ln(%s).\n", mympf::print_string(x).c_str());
       if (mympf::cmp(x, mympf::create("0.5")) < 0)
@@ -19,11 +19,11 @@ namespace mynum
       const float_t const_1 = mympf::create(1);
       float_t y = const_0, n = const_1, p;
       float_t item = mympf::div(mympf::sub(x, const_1), x), t;
-
+      const float_t epsilon = epsilon_from_precision(precision);
       do
       {
         p = y;
-        t = pow(item, n, epsilon, precision);
+        t = pow(item, n, precision);
         t = mympf::div(t, n);
         y = mympf::add(y, t);
         n = mympf::add(n, const_1);
@@ -34,7 +34,7 @@ namespace mynum
       return y;
     }
 
-    static float_t __ln_2(const float_t &x, const float_t &epsilon, size_t precision)
+    static float_t __ln_2(const float_t &x, size_t precision)
     {
       // mynum_dbgprint_fmt("ln(%s).\n", mympf::print_string(x).c_str());
       const float_t const_0 = mympf::create(0);
@@ -50,10 +50,11 @@ namespace mynum
       /* (x-1)/(x+1) */
       float_t item = mympf::div(mympf::sub(x, const_1),
                                 mympf::add(x, const_1));
+      const float_t epsilon = epsilon_from_precision(precision);
       do
       {
         p = y;
-        y = mympf::add(y, mympf::div(pow(item, n, epsilon, precision), n));
+        y = mympf::add(y, mympf::div(pow(item, n, precision), n));
         n = mympf::add(n, t);
         // mynum_dbgprint_fmt("p = %s.\n", mympf::print_string(p).c_str());
         // mynum_dbgprint_fmt("y = %s.\n", mympf::print_string(y).c_str());
@@ -63,7 +64,7 @@ namespace mynum
       return y;
     }
 
-    float_t ln(const float_t &x, const float_t &epsilon, size_t precision)
+    float_t ln(const float_t &x, size_t precision)
     {
       const float_t const_0 = mympf::create(0);
       const float_t const_1 = mympf::create(1);
@@ -77,12 +78,12 @@ namespace mynum
         return const_0;
 
       float_t y;
-      precision_on_epsilon(precision, epsilon);
       if (mympf::cmp(x, mympf::create("0.5")) >= 0)
-        y = __ln_1(x, epsilon, precision);
+        y = __ln_1(x, precision);
       else
-        y = __ln_2(x, epsilon, precision);
+        y = __ln_2(x, precision);
       return check_result_on_precision(y, precision);
+      // return y;
     }
   }
 } // namespace mynum

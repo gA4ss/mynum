@@ -5,7 +5,7 @@ namespace mynum
 
   namespace f
   {
-    float_t log(const float_t &base, const float_t &x, const float_t &epsilon, size_t precision)
+    float_t log(const float_t &base, const float_t &x, size_t precision)
     {
       // base > 0，base != 1，x > 0
       const float_t const_0 = mympf::create(0);
@@ -21,7 +21,7 @@ namespace mynum
         mynum_operand_value_is_invalid_exception(
             "x > 0, x = %s", mympf::print_string(x).c_str());
       }
-      float_t y = mympf::div(ln(x, epsilon, precision), ln(base, epsilon, precision));
+      float_t y = mympf::div(ln(x, precision), ln(base, precision));
       return check_result_on_precision(y, precision);
     }
   }

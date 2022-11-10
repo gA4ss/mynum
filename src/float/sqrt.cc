@@ -5,7 +5,7 @@ namespace mynum
 
   namespace f
   {
-    float_t sqrt(const float_t &x, const float_t &epsilon, size_t precision)
+    float_t sqrt(const float_t &x, size_t precision)
     {
       if (x.neg())
       {
@@ -22,6 +22,7 @@ namespace mynum
       else if (is_one(x))
         return const_1;
 
+      const float_t epsilon = epsilon_from_precision(precision);
       float_t pre = const_0, cur = const_1, t = const_2, e = epsilon, tt;
       while (mympf::ucmp(mympf::usub(cur, pre), e) > 0)
       {

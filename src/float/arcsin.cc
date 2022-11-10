@@ -3,11 +3,12 @@ namespace mynum
 {
   namespace f
   {
-    float_t arcsin(const float_t &x, const float_t &epsilon, size_t precision)
+    float_t arcsin(const float_t &x, size_t precision)
     {
       //
       // 保证 |x| < 1
       //
+      const float_t epsilon = epsilon_from_precision(precision);
       const float_t const_0 = mympf::create(0);
       const float_t const_1 = mympf::create(1);
 
@@ -23,7 +24,7 @@ namespace mynum
       do
       {
         p = y;
-        item = mympf::div(pow(x, n, epsilon, precision), n);
+        item = mympf::div(pow(x, n, precision), n);
         numerator = mympf::add(numerator, const_2);
         denominator = mympf::add(denominator, const_2);
         coeff = mympf::mul(coeff, div(numerator, denominator));

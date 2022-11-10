@@ -6,12 +6,13 @@ namespace mynum
   {
     extern std::vector<float_t> __bernoulli_numbers;
 
-    float_t tanh(const float_t &x, const float_t &epsilon, size_t precision)
+    float_t tanh(const float_t &x, size_t precision)
     {
       //
       // 保证 |x| < pi/2
       //
-      const float_t const_half_pi = mympf::create(M_PI_2);
+      const float_t epsilon = epsilon_from_precision(precision);
+      const float_t const_half_pi = mympf::create(kPI_2);
       if ((mympf::ucmp(x, const_half_pi) > 0) || (diff_eps(const_half_pi, x, epsilon)))
       {
         mynum_operand_value_is_invalid_exception(
@@ -43,14 +44,14 @@ namespace mynum
               "index \'%lu\' over the bernoulli table.", i);
         }
         // std::cout << "b = " << b.str() << std::endl;
-        sign = pow(k, mympf::sub(n, const_1), epsilon, precision);
-        item = pow(l, exponent, epsilon, precision);
+        sign = pow(k, mympf::sub(n, const_1), precision);
+        item = pow(l, exponent, precision);
         numerator = mympf::mul(mympf::mul(sign, item), mympf::sub(item, o));
         numerator = mympf::mul(numerator, b);
         denominator = factorial(exponent);
         item = mympf::div(numerator, denominator);
         exponent = mympf::sub(exponent, const_1);
-        item = mympf::mul(item, pow(x, exponent, epsilon, precision));
+        item = mympf::mul(item, pow(x, exponent, precision));
         y = mympf::add(y, item);
         n = mympf::add(n, const_1);
         ++i;

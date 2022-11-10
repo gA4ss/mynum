@@ -17,10 +17,11 @@ namespace mynum
     // float_t __e = __create_const("2.7182818284590452353602874713527");
     // float_t __golden_ratio = __create_const("0.6180339887");
 
-    float_t approximate_pi(const float_t &epsilon, size_t precision)
+    float_t approximate_pi(size_t precision)
     {
       // 莱布尼兹公式
       // 这TMD的是最慢的近似方法了吧，极慢。
+      const float_t epsilon = epsilon_from_precision(precision);
       const float_t const_0 = mympf::create(0);
       const float_t const_1 = mympf::create(1);
       float_t y = const_0, n = mympf::create(3), 
@@ -42,18 +43,18 @@ namespace mynum
       return check_result_on_precision(y, precision);
     }
 
-    float_t approximate_e(const float_t &epsilon, size_t precision)
+    float_t approximate_e(size_t precision)
     {
-      float_t y = f::exp(mympf::create(1), epsilon, precision);
+      float_t y = f::exp(mympf::create(1), precision);
       return check_result_on_precision(y, precision);
     }
 
-    float_t approximate_golden_ratio(const float_t &epsilon, size_t precision)
+    float_t approximate_golden_ratio(size_t precision)
     {
       const float_t const_1 = mympf::create(1);
       const float_t const_2 = mympf::create(2);
       const float_t const_5 = mympf::create(5);
-      float_t y = mympf::div(mympf::sub(sqrt(const_5, epsilon, precision), const_1), const_2);
+      float_t y = mympf::div(mympf::sub(sqrt(const_5, precision), const_1), const_2);
       return check_result_on_precision(y, precision);
     }
   }

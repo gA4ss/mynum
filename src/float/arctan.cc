@@ -4,7 +4,7 @@ namespace mynum
 {
   namespace f
   {
-    static float_t __arctan_1(const float_t &x, const float_t &epsilon, size_t precision)
+    static float_t __arctan_1(const float_t &x, size_t precision)
     {
       const float_t const_0 = mympf::create(0);
       const float_t const_1 = mympf::create(1);
@@ -17,11 +17,12 @@ namespace mynum
 
       float_t y = const_0, n = const_1, item, p;
       const float_t const_2 = mympf::create(2);
+      const float_t epsilon = epsilon_from_precision(precision);
       size_t i = 1;
       do
       {
         p = y;
-        item = mympf::div(pow(x, n, epsilon, precision), n);
+        item = mympf::div(pow(x, n, precision), n);
         if (i % 2 == 0)
           y = mympf::sub(y, item);
         else
@@ -32,7 +33,7 @@ namespace mynum
       return y;
     }
 
-    static float_t __arctan_2(const float_t &x, const float_t &epsilon, size_t precision)
+    static float_t __arctan_2(const float_t &x, size_t precision)
     {
       const float_t const_0 = mympf::create(0);
       const float_t const_1 = mympf::create(1);
@@ -46,11 +47,12 @@ namespace mynum
       float_t y = const_0, n = const_1, item, p;
       const float_t const_2 = mympf::create(2);
       const float_t const_m1 = mympf::create("-1");
+      const float_t epsilon = epsilon_from_precision(precision);
       size_t i = 1;
       do
       {
         p = y;
-        item = mympf::div(const_1, mympf::mul(n, pow(x, n, epsilon, precision)));
+        item = mympf::div(const_1, mympf::mul(n, pow(x, n, precision)));
         if (i % 2 == 0)
           y = mympf::add(y, item);
         else
@@ -66,16 +68,16 @@ namespace mynum
       return y;
     }
 
-    float_t arctan(const float_t &x, const float_t &epsilon, size_t precision)
+    float_t arctan(const float_t &x, size_t precision)
     {
       float_t y = mympf::create(0);
       if (mympf::ucmp(x, mympf::create(1)) < 0)
       {
-        y = __arctan_1(x, epsilon, precision);
+        y = __arctan_1(x, precision);
       }
       else
       {
-        y = __arctan_2(x, epsilon, precision);
+        y = __arctan_2(x, precision);
       }
       return check_result_on_precision(y, precision);
     }
