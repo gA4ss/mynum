@@ -91,7 +91,7 @@ namespace mynum
     float_t erfc(const float_t &x, size_t precision = 16);
     int sgn(const float_t &x);
     fraction_t fraction(const float_t &x);
-    NOT_IMPLEMENTED float_t gamma(const float_t &x, size_t precision = 16);
+    float_t gamma(const float_t &x, size_t precision = 16);
 
     float_t approximate_pi(size_t precision = 16);
     float_t approximate_e(size_t precision = 16);

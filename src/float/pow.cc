@@ -4,8 +4,13 @@ namespace mynum
 {
   namespace f
   {
+
+#if defined(FULL_COMPUTE_IN_CORE)
+#define __pow(a, x) mympf::exp(a, x)
+#else
 #define __pow(a, x, p) mympf::round(mympf::exp(a, x), p)
-    // #define __pow(a, x) mympf::exp(a, x)
+#endif
+
     float_t pow(const float_t &a, const float_t &x, size_t precision)
     {
       if (f::is_one(a) || f::is_zero(x))
@@ -26,9 +31,12 @@ namespace mynum
       float_t y;
       if (is_integer(x))
       {
+#if defined(FULL_COMPUTE_IN_CORE)
+        y = __pow(a, x);
+#else
         // 如果x是整数，小数部分为0
         y = __pow(a, x, precision); // 求a^x次方
-        // y = __pow(a, x);
+#endif
       }
       else
       {
@@ -36,7 +44,12 @@ namespace mynum
         // mynum_dbgprint_fmt("lna = %s.\n", mympf::print_string(lna).c_str());
         y = f::exp(mympf::mul(x, lna), precision); // 求e^{ln(x*lna)}
       }
+
+#if defined(FULL_COMPUTE_IN_CORE)
+      return y;
+#else
       return check_result_on_precision(y, precision);
+#endif
       // return y;
     }
   }

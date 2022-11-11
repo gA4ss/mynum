@@ -9,7 +9,7 @@ namespace mynum
 {
   namespace f
   {
-    NOT_IMPLEMENTED float_t gamma(const float_t &x, size_t precision)
+    float_t gamma(const float_t &x, size_t precision)
     {
       return x;
     }

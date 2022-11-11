@@ -30,7 +30,12 @@ namespace mynum
         n = mympf::add(n, const_1);
       } while (!diff_eps(y, p, epsilon));
       y = mympf::add(y, const_1);
+
+#if defined(FULL_COMPUTE_IN_CORE)
+      return y;
+#else
       return check_result_on_precision(y, precision);
+#endif
       // return y;
     }
   }

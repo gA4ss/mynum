@@ -5,7 +5,9 @@ namespace mynum
 
   namespace f
   {
+#if defined(ITER_IN_TH)
     extern std::vector<float_t> __euler_numbers;
+#endif
 
     float_t sech(const float_t &x, size_t precision)
     {
@@ -20,11 +22,14 @@ namespace mynum
             "|x| < PI/2, x = %s", mympf::print_string(x).c_str());
       }
 
+      float_t y;
+#if defined(ITER_IN_TH)
       const float_t const_1 = mympf::create(1);
       size_t i = 1, j = __euler_numbers.size();
-      float_t y = const_1, n = const_1, p, e;
+      float_t n = const_1, p, e;
       float_t numerator, denominator, exponent, item, sign = mympf::create("-1");
       const float_t const_2 = mympf::create(2);
+      y = const_1;
       do
       {
         p = y;
@@ -47,6 +52,9 @@ namespace mynum
         n = mympf::add(n, const_1);
         ++i;
       } while (!diff_eps(y, p, epsilon));
+#else
+      y = mympf::div(mympf::create(1), cosh(x, precision));
+#endif
       return check_result_on_precision(y, precision);
     }
   }

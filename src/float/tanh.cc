@@ -4,7 +4,9 @@ namespace mynum
 {
   namespace f
   {
+#if defined(ITER_IN_TH)
     extern std::vector<float_t> __bernoulli_numbers;
+#endif
 
     float_t tanh(const float_t &x, size_t precision)
     {
@@ -19,15 +21,17 @@ namespace mynum
             "|x| < PI/2, x = %s", mympf::print_string(x).c_str());
       }
 
+      float_t y;
+#if defined(ITER_IN_TH)
       const float_t const_0 = mympf::create(0);
       const float_t const_1 = mympf::create(1);
       const float_t const_2 = mympf::create(2);
 
       size_t i = 1, j = __bernoulli_numbers.size();
-      float_t y = const_0;
       float_t numerator, denominator, item, exponent = const_0, sign = mympf::create("-1"), p;
       float_t n = const_1, k = mympf::create("-1"),
               l = const_2, o = const_1, b;
+      y = const_0;
       do
       {
         p = y;
@@ -56,6 +60,9 @@ namespace mynum
         n = mympf::add(n, const_1);
         ++i;
       } while (!diff_eps(y, p, epsilon));
+#else
+      y = mympf::div(sinh(x, precision), cosh(x, precision));
+#endif
       return check_result_on_precision(y, precision);
     }
   }

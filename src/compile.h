@@ -4,11 +4,23 @@
 namespace mynum
 {
 
+//
+// 在三角函数与双曲函数中通过迭代展开公式
+//
+// #define ITER_IN_TH
+
+//
+// 在核心运算函数中不使用精度控制
+//
+// #define FULL_COMPUTE_IN_CORE
+
+//
+// 调试选项
+//
 #ifdef DEBUG
 
 #endif
 
-#define NOT_IMPLEMENTED
 
 } // namespace mynum
 

@@ -3,11 +3,9 @@
 namespace mynum
 {
 
-  // #define USE_ITER
-
   namespace f
   {
-#if defined(USE_ITER)
+#if defined(ITER_IN_TH)
     extern std::vector<float_t> __bernoulli_numbers;
 #endif
 
@@ -25,7 +23,7 @@ namespace mynum
       }
 
       float_t y;
-#if defined(USE_ITER)
+#if defined(ITER_IN_TH)
       const float_t const_0 = mympf::create(0);
       const float_t const_1 = mympf::create(1);
       const float_t const_2 = mympf::create(2);

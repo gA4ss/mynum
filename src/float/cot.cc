@@ -3,11 +3,10 @@
 namespace mynum
 {
 
-  // #define USE_ITER
   namespace f
   {
 
-#if defined(USE_ITER)
+#if defined(ITER_IN_TH)
     extern std::vector<float_t> __bernoulli_numbers;
 #endif
 
@@ -22,7 +21,7 @@ namespace mynum
       }
 
       float_t y;
-#if defined(USE_ITER)
+#if defined(ITER_IN_TH)
       //
       // 保证 0< |x| < pi
       //
@@ -63,7 +62,7 @@ namespace mynum
         ++i;
       } while (!diff_eps(y, p, epsilon));
 #else
-      y = mympf::div(mympf::create(1), tan(x, precision));
+      y = mympf::div(cos(x, precision), sin(x, precision));
 #endif
       return check_result_on_precision(y, precision);
     }

@@ -82,7 +82,12 @@ namespace mynum
         y = __ln_1(x, precision);
       else
         y = __ln_2(x, precision);
+
+#if defined(FULL_COMPUTE_IN_CORE)
+      return y;
+#else
       return check_result_on_precision(y, precision);
+#endif
       // return y;
     }
   }
