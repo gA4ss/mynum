@@ -99,6 +99,12 @@ namespace mynum
 |`gmmma`|伽马函数，*未实现*|
 |`factorial`|阶乘|
 |`fraction`|化浮点为分数|
+|`add(fraction)`|分数加|
+|`sub(fraction)`|分数减|
+|`mul(fraction)`|分数乘|
+|`div(fraction)`|分数除|
+|`common_denominator(fraction)`|通分|
+|`reduction(fraction)`|分数消减|
 |`floor`|下取整|
 |`ceil`|上取整|
 |`round`|四舍五入|
@@ -113,3 +119,18 @@ namespace mynum
 |超出欧拉数表|
 
 其余异常发生由`mympz`与`mympf`抛出。
+
+
+# ChangeList
+
+## 2023-4-6
+
+* 增加分数的加减乘除函数、分子分母消减函数、通分函数。
+```
+    fraction_t reduction(const fraction_t &x);
+    fraction_t add(const fraction_t &x, const fraction_t &y);
+    fraction_t sub(const fraction_t &x, const fraction_t &y);
+    fraction_t mul(const fraction_t &x, const fraction_t &y);
+    fraction_t div(const fraction_t &x, const fraction_t &y);
+    std::pair<fraction_t, fraction_t> common_denominator(const fraction_t &x, const fraction_t &y);
+```

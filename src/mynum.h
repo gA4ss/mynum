@@ -91,6 +91,12 @@ namespace mynum
     float_t erfc(const float_t &x, size_t precision = 16);
     int sgn(const float_t &x);
     fraction_t fraction(const float_t &x);
+    fraction_t reduction(const fraction_t &x);
+    std::pair<fraction_t, fraction_t> common_denominator(const fraction_t &x, const fraction_t &y);
+    fraction_t add(const fraction_t &x, const fraction_t &y);
+    fraction_t sub(const fraction_t &x, const fraction_t &y);
+    fraction_t mul(const fraction_t &x, const fraction_t &y);
+    fraction_t div(const fraction_t &x, const fraction_t &y);
     float_t gamma(const float_t &x, size_t precision = 16);
 
     float_t approximate_pi(size_t precision = 16);
