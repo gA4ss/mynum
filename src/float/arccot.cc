@@ -8,7 +8,7 @@ namespace mynum
     float_t arccot(const float_t &x, size_t precision)
     {
       float_t at = arctan(x, precision);
-      float_t y = mympf::sub(mympf::create(M_PI_2), at);
+      float_t y = mympf::sub(mympf::create(kPI_2), at);
       return check_result_on_precision(y, precision);
     }
   }

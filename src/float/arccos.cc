@@ -14,7 +14,8 @@ namespace mynum
         mynum_operand_value_is_invalid_exception(
             "|x| < 1, x = %s", mympf::print_string(x).c_str());
       }
-      float_t y = mympf::sub(mympf::create(M_PI_2), arcsin(x, precision));
+      // float_t y = mympf::sub(mympf::create(M_PI_2), arcsin(x, precision));
+      float_t y = mympf::sub(approximate_pi(precision), arcsin(x, precision));
       return check_result_on_precision(y, precision);
     }
   }

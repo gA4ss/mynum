@@ -4,6 +4,25 @@ namespace mynum
 {
   namespace f
   {
+    fraction_t fraction(const myflt_t x)
+    {
+      float_t _x = mympf::create(std::to_string(x));
+      return fraction(_x);
+    }
+
+    fraction_t fraction(const integer_t &x)
+    {
+      return {x, mympz::create(1)};
+    }
+
+    fraction_t fraction(const integer_t &x, const integer_t &y)
+    {
+      integer_t _x = x, _y = y;
+      _x.neg = x.neg ^ y.neg;
+      _y.neg = 0;
+      return reduction({_x, _y});
+    }
+
     fraction_t fraction(const float_t &x)
     {
       const integer_t const_0 = mympz::create(0);
@@ -102,6 +121,28 @@ namespace mynum
       zd.neg = 0;
       fraction_t z = {zn, zd};
       return reduction(z);
+    }
+
+    fraction_t mod(const fraction_t &x, const fraction_t &y, size_t precision)
+    {
+      float_t a = to_float(x), b = to_float(y);
+      float_t v = mympf::mod(a, b, precision);
+      fraction_t fr = fraction(v);
+      return fr;
+    }
+
+    float_t to_float(const fraction_t &x, size_t precision)
+    {
+      float_t y = mympf::div(mympf::create(x.first, 0), 
+                             mympf::create(x.second, 0),
+                             precision);
+      return y;
+    }
+
+    int sgn(const fraction_t &x)
+    {
+      int s1 = z::sgn(x.first), s2 = z::sgn(x.second);
+      return s1 ^ s2;
     }
   }
 } // namespace mynum

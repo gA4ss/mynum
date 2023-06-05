@@ -42,6 +42,7 @@ set(MYNUM_HEADERS
   ${SRC_DIRECTORY}/compile.h
   ${SRC_DIRECTORY}/exception.h
   ${SRC_DIRECTORY}/debug.h
+  ${SRC_DIRECTORY}/wrapper.h
   ${SRC_DIRECTORY}/mynum.h
 )
 
@@ -123,6 +124,7 @@ set(INTEGER_SRC
 #
 add_library(${PROJECT_NAME} STATIC
   ${SRC_DIRECTORY}/mynum.cc
+  ${SRC_DIRECTORY}/wrapper.cc
   ${INTEGER_SRC}
   ${FLOAT_SRC}
 )
@@ -160,7 +162,8 @@ set_tests_properties(test_fraction PROPERTIES FAIL_REGULAR_EXPRESSION "FAILED")
 # set_tests_properties(test_float PROPERTIES FAIL_REGULAR_EXPRESSION "FAILED")
 add_test(NAME test_integer COMMAND test_integer)
 set_tests_properties(test_integer PROPERTIES FAIL_REGULAR_EXPRESSION "FAILED")
-
+add_test(NAME test_number COMMAND test_number)
+set_tests_properties(test_number PROPERTIES FAIL_REGULAR_EXPRESSION "FAILED")
 
 #
 # Install Set

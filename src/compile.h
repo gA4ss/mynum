@@ -21,6 +21,10 @@ namespace mynum
 
 #endif
 
+//
+// 是否在ARM64中
+//
+#define ARCH_ARM64
 
 } // namespace mynum
 
