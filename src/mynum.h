@@ -183,12 +183,17 @@ namespace mynum
   bool test(const number_t &x, int type);
   number_t covert_to(const number_t &x, int type);
   std::pair<number_t, number_t> same_type(const number_t &x, const number_t &y);
+  // -----------------------------------
+  bool is_zero(const number_t &x);
+  bool is_one(const number_t &x);
   number_t add(const number_t &x, const number_t &y);
   number_t sub(const number_t &x, const number_t &y);
   number_t mul(const number_t &x, const number_t &y);
   number_t div(const number_t &x, const number_t &y);
   number_t idiv(const number_t &x, const number_t &y);
   number_t mod(const number_t &x, const number_t &y);
+  int cmp(const number_t &x, const number_t &y);
+
   number_t abs(const number_t &x);
   number_t ceil(const number_t &x);
   number_t floor(const number_t &x);

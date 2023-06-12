@@ -9,4 +9,15 @@ mynum::number_t operator*(const mynum::number_t &x, const mynum::number_t &y);
 mynum::number_t operator/(const mynum::number_t &x, const mynum::number_t &y);
 mynum::number_t operator%(const mynum::number_t &x, const mynum::number_t &y);
 
+bool operator||(const mynum::number_t &x, const mynum::number_t &y);
+bool operator&&(const mynum::number_t &x, const mynum::number_t &y);
+bool operator!(const mynum::number_t &x);
+
+bool operator<(const mynum::number_t &x, const mynum::number_t &y);
+bool operator<=(const mynum::number_t &x, const mynum::number_t &y);
+bool operator>(const mynum::number_t &x, const mynum::number_t &y);
+bool operator>=(const mynum::number_t &x, const mynum::number_t &y);
+bool operator==(const mynum::number_t &x, const mynum::number_t &y);
+bool operator!=(const mynum::number_t &x, const mynum::number_t &y);
+
 #endif // MYNUM_WRAPPER_H_

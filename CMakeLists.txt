@@ -120,6 +120,62 @@ set(INTEGER_SRC
 )
 
 #
+# Number source
+#
+set(NUMBER_SRC
+  ${SRC_DIRECTORY}/number/number.cc
+  ${SRC_DIRECTORY}/number/is_zero.cc
+  ${SRC_DIRECTORY}/number/is_one.cc
+  ${SRC_DIRECTORY}/number/add.cc
+  ${SRC_DIRECTORY}/number/sub.cc
+  ${SRC_DIRECTORY}/number/mul.cc
+  ${SRC_DIRECTORY}/number/div.cc
+  ${SRC_DIRECTORY}/number/mod.cc
+  ${SRC_DIRECTORY}/number/cmp.cc
+  ${SRC_DIRECTORY}/number/abs.cc
+  ${SRC_DIRECTORY}/number/ceil.cc
+  ${SRC_DIRECTORY}/number/floor.cc
+  ${SRC_DIRECTORY}/number/round.cc
+  ${SRC_DIRECTORY}/number/exp.cc
+  ${SRC_DIRECTORY}/number/pow.cc
+  ${SRC_DIRECTORY}/number/ln.cc
+  ${SRC_DIRECTORY}/number/log.cc
+  ${SRC_DIRECTORY}/number/log2.cc
+  ${SRC_DIRECTORY}/number/log10.cc
+  ${SRC_DIRECTORY}/number/sqrt.cc
+  ${SRC_DIRECTORY}/number/sin.cc
+  ${SRC_DIRECTORY}/number/cos.cc
+  ${SRC_DIRECTORY}/number/tan.cc
+  ${SRC_DIRECTORY}/number/cot.cc
+  ${SRC_DIRECTORY}/number/sec.cc
+  ${SRC_DIRECTORY}/number/csc.cc
+  ${SRC_DIRECTORY}/number/arcsin.cc
+  ${SRC_DIRECTORY}/number/arccos.cc
+  ${SRC_DIRECTORY}/number/arctan.cc
+  ${SRC_DIRECTORY}/number/arccot.cc
+  ${SRC_DIRECTORY}/number/arcsec.cc
+  ${SRC_DIRECTORY}/number/arccsc.cc
+  ${SRC_DIRECTORY}/number/sinh.cc
+  ${SRC_DIRECTORY}/number/cosh.cc
+  ${SRC_DIRECTORY}/number/tanh.cc
+  ${SRC_DIRECTORY}/number/coth.cc
+  ${SRC_DIRECTORY}/number/sech.cc
+  ${SRC_DIRECTORY}/number/csch.cc
+  ${SRC_DIRECTORY}/number/arcsinh.cc
+  ${SRC_DIRECTORY}/number/arccosh.cc
+  ${SRC_DIRECTORY}/number/arctanh.cc
+  ${SRC_DIRECTORY}/number/arccoth.cc
+  ${SRC_DIRECTORY}/number/arcsech.cc
+  ${SRC_DIRECTORY}/number/arccsch.cc
+  ${SRC_DIRECTORY}/number/erf.cc
+  ${SRC_DIRECTORY}/number/erfc.cc
+  ${SRC_DIRECTORY}/number/sgn.cc
+  ${SRC_DIRECTORY}/number/fraction.cc
+  ${SRC_DIRECTORY}/number/reduction.cc
+  ${SRC_DIRECTORY}/number/gamma.cc
+)
+
+#
 # Library Build
 #
 add_library(${PROJECT_NAME} STATIC
@@ -127,6 +183,7 @@ add_library(${PROJECT_NAME} STATIC
   ${SRC_DIRECTORY}/wrapper.cc
   ${INTEGER_SRC}
   ${FLOAT_SRC}
+  ${NUMBER_SRC}
 )
 target_link_libraries(${PROJECT_NAME} mympf mympz my)
 
