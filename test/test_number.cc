@@ -4,6 +4,7 @@
 #include <iostream>
 #include <gtest/gtest.h>
 #include <mynum/mynum.h>
+#include <mynum/wrapper.h>
 
 using namespace mynum;
 
@@ -31,6 +32,10 @@ TEST(Float, Number) {
 
   n = number_t("32143781439713589483247637186471648932174839265843917489332132112.3213432784568236574832647832164783216478321");
   std::cout << n.type() << " " << n.value() << std::endl;
+}
+
+TEST(Float, Wrapper) {
+  
 }
 
 int main(int argc, char* argv[]) {
