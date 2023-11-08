@@ -182,6 +182,7 @@ namespace mynum
 
   bool test(const number_t &x, int type);
   number_t covert_to(const number_t &x, int type);
+  number_t integer_to_float(const number_t &x);
   std::pair<number_t, number_t> same_type(const number_t &x, const number_t &y);
   // -----------------------------------
   bool is_zero(const number_t &x);

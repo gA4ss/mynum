@@ -308,6 +308,19 @@ namespace mynum
     return y;
   }
 
+  number_t integer_to_float(const number_t &x)
+  {
+    if (x.type() == kNumTypeInteger)
+    {
+      return __covert_to(x, kNumTypeFloat);
+    }
+    else if (x.type() == kNumTypeMpz)
+    {
+      return __covert_to(x, kNumTypeMpf);
+    }
+    return x;
+  }
+
   std::pair<number_t, number_t> same_type(const number_t &x, const number_t &y)
   {
     if (x.type() == y.type())
