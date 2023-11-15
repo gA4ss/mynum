@@ -34,8 +34,9 @@ TEST(Float, Number) {
   std::cout << n.type() << " " << n.value() << std::endl;
 }
 
-TEST(Float, Wrapper) {
-  
+TEST(Float, Number2) {
+  // std::cout << std::to_string(LDBL_MIN) << std::endl;
+  // std::cout << std::to_string(LDBL_MAX) << std::endl;
 }
 
 int main(int argc, char* argv[]) {

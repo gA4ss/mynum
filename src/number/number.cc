@@ -105,7 +105,7 @@ namespace mynum
   #include <cerrno> 
   extern int errno;
 #endif
-  void __number_t::set_str_value(std::string n)
+  void __number_t::set_str_value(std::string n, bool use_bignum)
   {
     int t = my::type_of_string(n);
     switch (t)

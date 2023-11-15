@@ -158,7 +158,7 @@ namespace mynum
     int type() const;
     int type();
 
-    void set_str_value(std::string n);
+    void set_str_value(std::string n, bool use_bignum = false);
     void set_int_value(myint_t n);
     void set_flt_value(myflt_t n);
     void set_mpz_value(integer_t n);
