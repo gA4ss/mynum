@@ -24,12 +24,12 @@ namespace mynum
   {
     set_mpf_value(n);
   }
-  
+
   __number_t::__number_t(integer_t n)
   {
     set_mpz_value(n);
   }
-  
+
   __number_t::__number_t(fraction_t n)
   {
     set_frac_value(n);
@@ -40,24 +40,24 @@ namespace mynum
     std::string r = "";
     switch (__type)
     {
-      case kNumTypeInteger:
-        r = std::to_string(num_integer);
+    case kNumTypeInteger:
+      r = std::to_string(num_integer);
       break;
-      case kNumTypeFloat:
-        r = std::to_string(num_float);
+    case kNumTypeFloat:
+      r = std::to_string(num_float);
       break;
-      case kNumTypeMpz:
-        r = mympz::print_string(num_mpz);
+    case kNumTypeMpz:
+      r = mympz::print_string(num_mpz);
       break;
-      case kNumTypeMpf:
-        r = mympf::print_string(num_mpf);
+    case kNumTypeMpf:
+      r = mympf::print_string(num_mpf);
       break;
-      case kNumTypeFraction:
-        r = mympz::print_string(num_fraction.first) + "/" + 
-            mympz::print_string(num_fraction.second);
+    case kNumTypeFraction:
+      r = mympz::print_string(num_fraction.first) + "/" +
+          mympz::print_string(num_fraction.second);
       break;
-      default:
-        // 异常
+    default:
+      // 异常
       break;
     }
     return r;
@@ -68,24 +68,24 @@ namespace mynum
     std::string r = "";
     switch (__type)
     {
-      case kNumTypeInteger:
-        r = std::to_string(num_integer);
+    case kNumTypeInteger:
+      r = std::to_string(num_integer);
       break;
-      case kNumTypeFloat:
-        r = std::to_string(num_float);
+    case kNumTypeFloat:
+      r = std::to_string(num_float);
       break;
-      case kNumTypeMpz:
-        r = mympz::print_string(num_mpz);
+    case kNumTypeMpz:
+      r = mympz::print_string(num_mpz);
       break;
-      case kNumTypeMpf:
-        r = mympf::print_string(num_mpf);
+    case kNumTypeMpf:
+      r = mympf::print_string(num_mpf);
       break;
-      case kNumTypeFraction:
-        r = mympz::print_string(num_fraction.first) + "/" + 
-            mympz::print_string(num_fraction.second);
+    case kNumTypeFraction:
+      r = mympz::print_string(num_fraction.first) + "/" +
+          mympz::print_string(num_fraction.second);
       break;
-      default:
-        // 异常
+    default:
+      // 异常
       break;
     }
     return r;
@@ -102,7 +102,7 @@ namespace mynum
   }
 
 #if !defined(ARCH_ARM64)
-  #include <cerrno> 
+#include <cerrno>
   extern int errno;
 #endif
   void __number_t::set_str_value(std::string n, bool use_bignum)
@@ -110,98 +110,115 @@ namespace mynum
     int t = my::type_of_string(n);
     switch (t)
     {
-      case kStrTypeInt:
+    case kStrTypeInt:
+    {
+      try
       {
-        try
-        {
-          num_integer = std::stoll(n);
-          __type = kNumTypeInteger;
-        }
-        catch(std::invalid_argument const& ex)
-        {
-          // 异常
-        }
-        catch(std::out_of_range const& ex)
-        {
-          // 转换成高精度值
-          num_mpz = mympz::create(n);
-          __type = kNumTypeMpz;
-        }
-      }break;
-      case kStrTypeReal:
+        num_integer = std::stoll(n);
+        __type = kNumTypeInteger;
+      }
+      catch (std::invalid_argument const &ex)
       {
-#if !defined(ARCH_ARM64)
-        try
+        // 异常
+      }
+      catch (std::out_of_range const &ex)
+      {
+        // 转换成高精度值
+        num_mpz = mympz::create(n);
+        __type = kNumTypeMpz;
+      }
+    }
+    break;
+    case kStrTypeReal:
+    {
+// #if !defined(ARCH_ARM64)
+//       try
+//       {
+//         num_float = std::stold(n);
+//         if (errno == ERANGE)
+//         {
+//           // 转换成高精度值
+//           num_mpf = mympf::create(n);
+//           __type = kNumTypeMpf;
+//         }
+//         else
+//         {
+//           __type = kNumTypeFloat;
+//         }
+//       }
+//       catch (std::out_of_range const &ex)
+//       {
+//         // 转换成高精度值
+//         num_mpf = mympf::create(n);
+//         __type = kNumTypeMpf;
+//       }
+#if defined(USE_FLOAT_MAX)
+      //
+      // 一个相当愚蠢的办法
+      //
+      float_t min_f = mympf::create(std::to_string(LDBL_MIN));
+      // std::cout << LDBL_MIN << " " << std::to_string(LDBL_MIN) << std::endl;
+      float_t max_f = mympf::create(std::to_string(LDBL_MAX));
+      float_t curr_f = mympf::create(n);
+      // std::cout << mympf::print_string(min_f) << " "
+      //           << mympf::print_string(max_f) << " "
+      //           << mympf::print_string(curr_f) << std::endl;
+      if (curr_f.neg() == 0)
+      {
+        if ((cmp(max_f, curr_f) >= 0) && (cmp(curr_f, min_f) <= 0))
         {
           num_float = std::stold(n);
-          if (errno == ERANGE)
-          {
-            // 转换成高精度值
-            num_mpf = mympf::create(n);
-            __type = kNumTypeMpf;
-          }
-          else
-          {
-            __type = kNumTypeFloat;
-          }
-        }
-        catch(std::out_of_range const& ex)
-        {
-          // 转换成高精度值
-          num_mpf = mympf::create(n);
-          __type = kNumTypeMpf;
-        }
-#else
-        //
-        // 一个相当愚蠢的办法
-        //
-        float_t min_f = mympf::create(std::to_string(LDBL_MIN));
-        // std::cout << LDBL_MIN << " " << std::to_string(LDBL_MIN) << std::endl;
-        float_t max_f = mympf::create(std::to_string(LDBL_MAX));
-        float_t curr_f = mympf::create(n);
-        // std::cout << mympf::print_string(min_f) << " "
-        //           << mympf::print_string(max_f) << " "
-        //           << mympf::print_string(curr_f) << std::endl;
-        if (curr_f.neg() == 0)
-        {
-          if ((cmp(max_f, curr_f) >= 0) && (cmp(curr_f, min_f) <= 0))
-          {
-            num_float = std::stold(n);
-            __type = kNumTypeFloat;
-          }
-          else
-          {
-            num_mpf = curr_f;
-            __type = kNumTypeMpf;
-          }
+          __type = kNumTypeFloat;
         }
         else
         {
-          min_f.set_neg(1); max_f.set_neg(1);
-          if ((cmp(curr_f, max_f) >= 0) && (cmp(min_f, curr_f) <= 0))
-          {
-            num_float = std::stold(n);
-            __type = kNumTypeFloat;
-          }
-          else
-          {
-            num_mpf = curr_f;
-            __type = kNumTypeMpf;
-          }
+          num_mpf = curr_f;
+          __type = kNumTypeMpf;
         }
-#endif
-      }break;
-      case kStrTypeFrac:
+      }
+      else
       {
-        std::size_t pos = n.find("/");
-        std::string s1 = n.substr(0, pos);
-        std::string s2 = n.substr(pos+1);
-        num_fraction = {mympz::create(s1), mympz::create(s2)};
-        __type = kNumTypeFraction;
-      }break;
-      default:
-        // 异常
-        break;
+        min_f.set_neg(1); max_f.set_neg(1);
+        if ((cmp(curr_f, max_f) >= 0) && (cmp(min_f, curr_f) <= 0))
+        {
+          num_float = std::stold(n);
+          __type = kNumTypeFloat;
+        }
+        else
+        {
+          num_mpf = curr_f;
+          __type = kNumTypeMpf;
+        }
+      }
+#else
+      //
+      // 但凡字符串长度超过2000个字节，直接转换成大数。
+      //
+      if (n.size() > MAX_FLOAT_STR)
+      {
+        num_mpf = mympf::create(n);
+        __type = kNumTypeMpf;
+      }
+      else
+      {
+        num_float = std::stold(n);
+        __type = kNumTypeFloat;
+      }
+#endif
+    }
+    break;
+    case kStrTypeFrac:
+    {
+      std::size_t pos = n.find("/");
+      std::string s1 = n.substr(0, pos);
+      std::string s2 = n.substr(pos + 1);
+      num_fraction = {mympz::create(s1), mympz::create(s2)};
+      __type = kNumTypeFraction;
+    }
+    break;
+    default:
+      // 异常
+      break;
     }
   }
 

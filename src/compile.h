@@ -24,7 +24,13 @@ namespace mynum
 //
 // 是否在ARM64中
 //
-#define ARCH_ARM64
+// #define ARCH_ARM64
+
+//
+// 开启浮点最大化计算
+//
+// #define USE_FLOAT_MAX
+#define MAX_FLOAT_STR           2024
 
 } // namespace mynum
 
