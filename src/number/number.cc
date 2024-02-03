@@ -338,6 +338,20 @@ namespace mynum
     return x;
   }
 
+  number_t float_to_integer(const number_t &x)
+  {
+    number_t y;
+    if (x.type() == kNumTypeFloat)
+    {
+      y.set_int_value(static_cast<myint_t>(x.num_float));
+    }
+    else if (x.type() == kNumTypeMpf)
+    {
+      y.set_mpz_value(mympf::integer_part(x.num_mpf).number);
+    }
+    return y;
+  }
+
   std::pair<number_t, number_t> same_type(const number_t &x, const number_t &y)
   {
     if (x.type() == y.type())

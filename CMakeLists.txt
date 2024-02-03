@@ -8,10 +8,10 @@ project(mynum VERSION 1.0)
 # set(DEBUG 1)
 if(DEBUG)
 message(STATUS "compile debug version.")
-add_definitions(-std=c++11 -g -O0 -DDEBUG -Wunused-variable)
+add_definitions(-std=c++17 -g -O0 -DDEBUG -Wunused-variable)
 else()
 message(STATUS "compile release version.")
-add_definitions(-std=c++11 -O3 -Wunused-variable)
+add_definitions(-std=c++17 -O3 -Wunused-variable)
 endif(DEBUG)
 
 set(CXX_FLAGS "-Wall")
@@ -173,6 +173,9 @@ set(NUMBER_SRC
   ${SRC_DIRECTORY}/number/fraction.cc
   ${SRC_DIRECTORY}/number/reduction.cc
   ${SRC_DIRECTORY}/number/gamma.cc
+  ${SRC_DIRECTORY}/number/gcd.cc
+  ${SRC_DIRECTORY}/number/lcm.cc
+  ${SRC_DIRECTORY}/number/extended_euclidean.cc
 )
 
 #
@@ -221,7 +224,8 @@ add_test(NAME test_integer COMMAND test_integer)
 set_tests_properties(test_integer PROPERTIES FAIL_REGULAR_EXPRESSION "FAILED")
 add_test(NAME test_number COMMAND test_number)
 set_tests_properties(test_number PROPERTIES FAIL_REGULAR_EXPRESSION "FAILED")
-
+add_test(NAME test_gcd COMMAND test_gcd)
+set_tests_properties(test_gcd PROPERTIES FAIL_REGULAR_EXPRESSION "FAILED")
 #
 # Install Set
 #

@@ -15,8 +15,8 @@
 
 namespace mynum
 {
-  typedef int64_t         myint_t;
-  typedef long double     myflt_t;
+  typedef int64_t myint_t;
+  typedef long double myflt_t;
 
   typedef mympf::float_t float_t;
   typedef mympz::bignum_t integer_t;
@@ -138,14 +138,15 @@ namespace mynum
 
   //
   // 定义Number
-#define kNumTypeNone        0
-#define kNumTypeInteger     1
-#define kNumTypeFloat       2
-#define kNumTypeMpz         3
-#define kNumTypeMpf         4
-#define kNumTypeFraction    5
+#define kNumTypeNone 0
+#define kNumTypeInteger 1
+#define kNumTypeFloat 2
+#define kNumTypeMpz 3
+#define kNumTypeMpf 4
+#define kNumTypeFraction 5
 
-  typedef struct __number_t {
+  typedef struct __number_t
+  {
     __number_t();
     __number_t(std::string n);
     __number_t(myflt_t n);
@@ -183,6 +184,7 @@ namespace mynum
   bool test(const number_t &x, int type);
   number_t covert_to(const number_t &x, int type);
   number_t integer_to_float(const number_t &x);
+  number_t float_to_integer(const number_t &x);
   std::pair<number_t, number_t> same_type(const number_t &x, const number_t &y);
   // -----------------------------------
   bool is_zero(const number_t &x);
@@ -236,6 +238,13 @@ namespace mynum
   number_t fraction(const number_t &x);
   number_t reduction(const number_t &x);
   number_t gamma(const number_t &x, size_t precision = 16);
+
+  //
+  // 仅作用于整型number_t的函数
+  //
+  number_t gcd(const number_t &x, const number_t &y);
+  number_t lcm(const number_t &x, const number_t &y);
+  number_t extended_euclidean(const number_t &x, const number_t &y, number_t &s, number_t &t);
 
 } // namespace mynum
 
