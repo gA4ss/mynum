@@ -245,6 +245,7 @@ namespace mynum
   number_t gcd(const number_t &x, const number_t &y);
   number_t lcm(const number_t &x, const number_t &y);
   number_t extended_euclidean(const number_t &x, const number_t &y, number_t &s, number_t &t);
+  bool relatively_prime(const number_t &x, const number_t &y);
 
 } // namespace mynum
 

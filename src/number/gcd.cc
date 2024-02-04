@@ -13,11 +13,11 @@ namespace mynum
     int type = _x.type();
     if (type == kNumTypeInteger)
     {
-      z.set_int_value(std::gcd(_x.num_integer, _y.num_integer));
+      z.set_int_value(std::__gcd(_x.num_integer, _y.num_integer));
     }
     else if (type == kNumTypeFloat)
     {
-      z.set_int_value(std::gcd(static_cast<myint_t>(_x.num_float), 
+      z.set_int_value(std::__gcd(static_cast<myint_t>(_x.num_float), 
                                static_cast<myint_t>(_y.num_float)));
     }
     else if (type == kNumTypeMpz)
