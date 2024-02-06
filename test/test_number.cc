@@ -8,7 +8,8 @@
 
 using namespace mynum;
 
-TEST(Float, Number) {
+TEST(Float, Number)
+{
   number_t n("1/2");
   std::cout << n.value() << std::endl;
 
@@ -34,12 +35,29 @@ TEST(Float, Number) {
   std::cout << n.type() << " " << n.value() << std::endl;
 }
 
-TEST(Float, Number2) {
+TEST(Float, Number2)
+{
   // std::cout << std::to_string(LDBL_MIN) << std::endl;
   // std::cout << std::to_string(LDBL_MAX) << std::endl;
 }
 
-int main(int argc, char* argv[]) {
+TEST(Float, IO)
+{
+  number_t n("321434214");
+  std::cout << n << std::endl;
+  n = number_t(1983);
+  std::cout << n << std::endl;
+  // std::cin >> n;
+  // std::cout << n << std::endl;
+
+  number_t x = n;
+  std::cout << x << std::endl;
+  x = "321321";
+  std::cout << x << std::endl;
+}
+
+int main(int argc, char *argv[])
+{
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }

@@ -7,6 +7,11 @@ namespace mynum
     set_int_value(0);
   }
 
+  __number_t::__number_t(const __number_t &n)
+  {
+    set_num_value(n);
+  }
+
   __number_t::__number_t(std::string n)
   {
     set_str_value(n);
@@ -105,7 +110,7 @@ namespace mynum
 #include <cerrno>
   extern int errno;
 #endif
-  void __number_t::set_str_value(std::string n, bool use_bignum)
+  void __number_t::set_str_value(std::string n)
   {
     int t = my::type_of_string(n);
     switch (t)
@@ -178,7 +183,8 @@ namespace mynum
       }
       else
       {
-        min_f.set_neg(1); max_f.set_neg(1);
+        min_f.set_neg(1);
+        max_f.set_neg(1);
         if ((cmp(curr_f, max_f) >= 0) && (cmp(min_f, curr_f) <= 0))
         {
           num_float = std::stold(n);
@@ -218,6 +224,33 @@ namespace mynum
     break;
     default:
       // 异常
+      break;
+    }
+  }
+
+  void __number_t::set_num_value(const __number_t &n)
+  {
+    __type = n.type();
+    switch (__type)
+    {
+    case kNumTypeInteger:
+      num_integer = n.num_integer;
+      break;
+    case kNumTypeFloat:
+      num_float = n.num_float;
+      break;
+    case kNumTypeMpz:
+      num_mpz = n.num_mpz;
+      break;
+    case kNumTypeMpf:
+      num_mpf = n.num_mpf;
+      break;
+    case kNumTypeFraction:
+      num_fraction = n.num_fraction;
+      break;
+    default:
+      num_integer = 0;
+      __type= kNumTypeInteger;
       break;
     }
   }
@@ -369,5 +402,35 @@ namespace mynum
       _x = covert_to(x, y.type());
     }
     return {_x, _y};
+  }
+
+  __number_t &__number_t::operator=(const __number_t &n)
+  {
+    set_num_value(n);
+    return *this;
+  }
+
+  __number_t &__number_t::operator=(std::string n)
+  {
+    set_str_value(n);
+    return *this;
+  }
+
+  __number_t &__number_t::operator=(myflt_t n)
+  {
+    set_flt_value(n);
+    return *this;
+  }
+
+  __number_t &__number_t::operator=(const integer_t &n)
+  {
+    set_mpz_value(n);
+    return *this;
+  }
+
+  __number_t &__number_t::operator=(const float_t &n)
+  {
+    set_mpf_value(n);
+    return *this;
   }
 } // namespace mynum

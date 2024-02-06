@@ -138,6 +138,7 @@ namespace mynum
 
   //
   // 定义Number
+  //
 #define kNumTypeNone 0
 #define kNumTypeInteger 1
 #define kNumTypeFloat 2
@@ -148,6 +149,7 @@ namespace mynum
   typedef struct __number_t
   {
     __number_t();
+    __number_t(const __number_t &n);
     __number_t(std::string n);
     __number_t(myflt_t n);
     __number_t(integer_t n);
@@ -159,12 +161,22 @@ namespace mynum
     int type() const;
     int type();
 
-    void set_str_value(std::string n, bool use_bignum = false);
+    void set_str_value(std::string n);
+    void set_num_value(const __number_t &n);
     void set_int_value(myint_t n);
     void set_flt_value(myflt_t n);
     void set_mpz_value(integer_t n);
     void set_mpf_value(float_t n);
     void set_frac_value(fraction_t n);
+
+    //
+    // 赋值运算
+    //
+    __number_t &operator=(const __number_t &n);
+    __number_t &operator=(std::string n);
+    __number_t &operator=(myflt_t n);
+    __number_t &operator=(const integer_t &n);
+    __number_t &operator=(const float_t &n);
 
     //
     // 当前保存的类型
