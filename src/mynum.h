@@ -178,6 +178,12 @@ namespace mynum
     __number_t &operator=(const integer_t &n);
     __number_t &operator=(const float_t &n);
 
+    void operator+=(const __number_t &n);
+    void operator-=(const __number_t &n);
+    void operator*=(const __number_t &n);
+    void operator/=(const __number_t &n);
+    void operator%=(const __number_t &n);
+
     //
     // 当前保存的类型
     //
