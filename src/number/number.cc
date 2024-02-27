@@ -19,10 +19,10 @@ namespace mynum
 
   __number_t::__number_t(myflt_t n)
   {
-    // if (static_cast<myint_t>(n) == n)
-    //   set_int_value(n);
-    // else
-    set_flt_value(n);
+    if (static_cast<myint_t>(n) == n)
+      set_int_value(n);
+    else
+      set_flt_value(n);
   }
 
   __number_t::__number_t(float_t n)

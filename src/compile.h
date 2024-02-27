@@ -32,6 +32,11 @@ namespace mynum
 // #define USE_FLOAT_MAX
 #define MAX_FLOAT_STR           2024
 
+//
+// 使用标准化GCD
+//
+// #define STD_GCD                 1
+
 } // namespace mynum
 
 #endif // MYNUM_COMPILE_H_

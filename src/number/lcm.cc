@@ -4,9 +4,12 @@
 
 namespace mynum
 {
+
+  #include "__gcd.cc"
+
   static inline myint_t __lcm(myint_t x, myint_t y)
   {
-    return (x * y) / std::__gcd(x, y);
+    return (x * y) / __gcd(x, y);
   }
 
   number_t lcm(const number_t &x, const number_t &y)

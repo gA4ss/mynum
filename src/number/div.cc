@@ -9,7 +9,9 @@ namespace mynum
     int type = _x.type();
     if (type == kNumTypeInteger)
     {
-      z.set_int_value(_x.num_integer / _y.num_integer);
+      myflt_t fx = static_cast<myflt_t>(_x.num_integer);
+      myflt_t fy = static_cast<myflt_t>(_y.num_integer);
+      z.set_flt_value(fx / fy);
     }
     else if (type == kNumTypeFloat)
     {
