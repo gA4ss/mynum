@@ -137,14 +137,115 @@ namespace mynum
   }                                                                                      // namespace f
 
   //
-  // 定义Number
+  // 定义实数
+  //
+#define kRealTypeNone 0
+#define kRealTypeInteger 1
+#define kRealTypeFloat 2
+#define kRealTypeMpz 3
+#define kRealTypeMpf 4
+#define kRealTypeFraction 5
+
+  typedef struct __real_t
+  {
+    __real_t();
+    __real_t(const __real_t &n);
+    __real_t(std::string n);
+    __real_t(myflt_t n);
+    __real_t(integer_t n);
+    __real_t(float_t n);
+    __real_t(fraction_t n);
+
+    std::string value() const;
+    std::string value();
+    int type() const;
+    int type();
+
+    void set_str_value(std::string n);
+    void set_num_value(const __real_t &n);
+    void set_int_value(myint_t n);
+    void set_flt_value(myflt_t n);
+    void set_mpz_value(integer_t n);
+    void set_mpf_value(float_t n);
+    void set_frac_value(fraction_t n);
+
+    //
+    // 赋值运算
+    //
+    __real_t &operator=(const __real_t &n);
+    __real_t &operator=(std::string n);
+    __real_t &operator=(myflt_t n);
+    __real_t &operator=(const integer_t &n);
+    __real_t &operator=(const float_t &n);
+
+    void operator+=(const __real_t &n);
+    void operator-=(const __real_t &n);
+    void operator*=(const __real_t &n);
+    void operator/=(const __real_t &n);
+    void operator%=(const __real_t &n);
+
+    //
+    // 当前保存的类型
+    //
+    int __type;
+
+    //
+    // 所存储的类型
+    //
+    myint_t num_integer;
+    myflt_t num_float;
+    integer_t num_mpz;
+    float_t num_mpf;
+    fraction_t num_fraction;
+  } real_t;
+
+  //
+  // 定义复数
+  //
+#define kComplexTypeNumber    0
+#define kComplexTypeTriangle  1
+#define kComplexTypeExponent  2
+  typedef struct __complex_t
+  {
+    __complex_t();
+    __complex_t(const __real_t &re, const __real_t &im);
+    __complex_t(std::string re, std::string im);
+
+    void construct_from_rho_phi(const __real_t &rho, const __real_t &phi);
+    void construct_from_rho_phi(std::string rho, std::string phi);
+
+    real_t re() const;
+    real_t im() const;
+    real_t rho() const;
+    real_t phi() const;
+
+    std::string value() const;
+    int type() const;
+
+    //
+    // 存储类型
+    //
+    int __type;
+
+    //
+    // 三角存储数据
+    //
+    real_t __rho;
+    real_t __phi;
+
+    //
+    // 实部与虚部
+    //
+    real_t __real_park;
+    real_t __imaginary_part;
+  } complex_t;
+
+  //
+  // 数的定义
   //
 #define kNumTypeNone 0
-#define kNumTypeInteger 1
-#define kNumTypeFloat 2
-#define kNumTypeMpz 3
-#define kNumTypeMpf 4
-#define kNumTypeFraction 5
+#define kNumTypeReal 1
+#define kNumTypeComplex 2
 
   typedef struct __number_t
   {
@@ -155,19 +256,6 @@ namespace mynum
     __number_t(integer_t n);
     __number_t(float_t n);
     __number_t(fraction_t n);
-
-    std::string value() const;
-    std::string value();
-    int type() const;
-    int type();
-
-    void set_str_value(std::string n);
-    void set_num_value(const __number_t &n);
-    void set_int_value(myint_t n);
-    void set_flt_value(myflt_t n);
-    void set_mpz_value(integer_t n);
-    void set_mpf_value(float_t n);
-    void set_frac_value(fraction_t n);
 
     //
     // 赋值运算
@@ -189,14 +277,6 @@ namespace mynum
     //
     int __type;
 
-    //
-    // 所存储的类型
-    //
-    myint_t num_integer;
-    myflt_t num_float;
-    integer_t num_mpz;
-    float_t num_mpf;
-    fraction_t num_fraction;
   } number_t;
 
   bool test(const number_t &x, int type);
