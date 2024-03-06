@@ -1,32 +1,9 @@
-#include <mynum/mynum.h>
+#include <mynum/complex.h>
 
 namespace mynum
 {
-  number_t sub(const number_t &x, const number_t &y)
+  complex_t sub(const complex_t &x, const complex_t &y)
   {
-    std::pair<number_t, number_t> xy = same_type(x, y);
-    number_t _x = xy.first, _y = xy.second, z;
-    int type = _x.type();
-    if (type == kNumTypeInteger)
-    {
-      z.set_int_value(_x.num_integer - _y.num_integer);
-    }
-    else if (type == kNumTypeFloat)
-    {
-      z.set_flt_value(_x.num_float - _y.num_float);
-    }
-    else if (type == kNumTypeMpz)
-    {
-      z.set_mpz_value(mympz::sub(_x.num_mpz, _y.num_mpz));
-    }
-    else if (type == kNumTypeMpf)
-    {
-      z.set_mpf_value(mympf::sub(_x.num_mpf, _y.num_mpf));
-    }
-    else if (type == kNumTypeFraction)
-    {
-      z.set_frac_value(f::sub(_x.num_fraction, _y.num_fraction));
-    }
-    return z;
+    return complex_t(sub(x.re(), y.re()), sub(x.im(), y.im()));
   }
 } // namespace mynum

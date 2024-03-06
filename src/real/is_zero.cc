@@ -1,4 +1,4 @@
-#include <mynum/mynum.h>
+#include <mynum/real.h>
 
 namespace mynum
 {
@@ -6,23 +6,23 @@ namespace mynum
   {
     bool y = false;
     int type = x.type();
-    if (type == kNumTypeInteger)
+    if (type == kRealTypeInteger)
     {
       y = (x.num_integer == 0);
     }
-    else if (type == kNumTypeFloat)
+    else if (type == kRealTypeFloat)
     {
       y = (x.num_float <= kEpsilon);
     }
-    else if (type == kNumTypeMpz)
+    else if (type == kRealTypeMpz)
     {
       y = mympz::is_zero(x.num_mpz);
     }
-    else if (type == kNumTypeMpf)
+    else if (type == kRealTypeMpf)
     {
       y = f::is_zero(x.num_mpf);
     }
-    else if (type == kNumTypeFraction)
+    else if (type == kRealTypeFraction)
     {
       y = mympz::is_zero(x.num_fraction.first);
     }

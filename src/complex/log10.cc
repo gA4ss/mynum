@@ -1,34 +1,9 @@
-#include <mynum/mynum.h>
-#include <cmath>
+#include <mynum/complex.h>
 
 namespace mynum
 {
-  number_t log10(const number_t &x, size_t precision)
+  complex_t log10(const complex_t &x, size_t precision)
   {
-    number_t y;
-    int type = x.type();
-    if (type == kNumTypeInteger)
-    {
-      y.set_flt_value(std::log10(x.num_integer));
-    }
-    else if (type == kNumTypeFloat)
-    {
-      y.set_flt_value(std::log10(x.num_float));
-    }
-    else if (type == kNumTypeMpz)
-    {
-      float_t fx = mympf::create(x.num_mpz, 0);
-      y.set_mpf_value(f::log10(fx, precision));
-    }
-    else if (type == kNumTypeMpf)
-    {
-      y.set_mpf_value(f::log10(x.num_mpf, precision));
-    }
-    else if (type == kNumTypeFraction)
-    {
-      float_t fx = f::to_float(x.num_fraction);
-      y.set_mpf_value(f::log10(fx, precision));
-    }
-    return y;
+    return x;
   }
 } // namespace mynum

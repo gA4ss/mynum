@@ -1,4 +1,4 @@
-#include <mynum/mynum.h>
+#include <mynum/real.h>
 #include <cmath>
 
 namespace mynum
@@ -7,23 +7,23 @@ namespace mynum
   {
     bool y = false;
     int type = x.type();
-    if (type == kNumTypeInteger)
+    if (type == kRealTypeInteger)
     {
       y = (x.num_integer == 1);
     }
-    else if (type == kNumTypeFloat)
+    else if (type == kRealTypeFloat)
     {
       y = (std::abs(x.num_float - 1.0) <= kEpsilon);
     }
-    else if (type == kNumTypeMpz)
+    else if (type == kRealTypeMpz)
     {
       y = mympz::is_one(x.num_mpz);
     }
-    else if (type == kNumTypeMpf)
+    else if (type == kRealTypeMpf)
     {
       y = f::is_one(x.num_mpf);
     }
-    else if (type == kNumTypeFraction)
+    else if (type == kRealTypeFraction)
     {
       y = (mympz::cmp(x.num_fraction.first, x.num_fraction.second) == 0);
     }

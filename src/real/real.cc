@@ -1,5 +1,6 @@
-#include <mynum/mynum.h>
+#include <mynum/real.h>
 #include <cmath>
+
 namespace mynum
 {
   __real_t::__real_t()
@@ -45,47 +46,19 @@ namespace mynum
     std::string r = "";
     switch (__type)
     {
-    case kNumTypeInteger:
+    case kRealTypeInteger:
       r = std::to_string(num_integer);
       break;
-    case kNumTypeFloat:
+    case kRealTypeFloat:
       r = std::to_string(num_float);
       break;
-    case kNumTypeMpz:
+    case kRealTypeMpz:
       r = mympz::print_string(num_mpz);
       break;
-    case kNumTypeMpf:
+    case kRealTypeMpf:
       r = mympf::print_string(num_mpf);
       break;
-    case kNumTypeFraction:
-      r = mympz::print_string(num_fraction.first) + "/" +
-          mympz::print_string(num_fraction.second);
-      break;
-    default:
-      // 异常
-      break;
-    }
-    return r;
-  }
-
-  std::string __real_t::value()
-  {
-    std::string r = "";
-    switch (__type)
-    {
-    case kNumTypeInteger:
-      r = std::to_string(num_integer);
-      break;
-    case kNumTypeFloat:
-      r = std::to_string(num_float);
-      break;
-    case kNumTypeMpz:
-      r = mympz::print_string(num_mpz);
-      break;
-    case kNumTypeMpf:
-      r = mympf::print_string(num_mpf);
-      break;
-    case kNumTypeFraction:
+    case kRealTypeFraction:
       r = mympz::print_string(num_fraction.first) + "/" +
           mympz::print_string(num_fraction.second);
       break;
@@ -97,11 +70,6 @@ namespace mynum
   }
 
   int __real_t::type() const
-  {
-    return __type;
-  }
-
-  int __real_t::type()
   {
     return __type;
   }
@@ -120,7 +88,7 @@ namespace mynum
       try
       {
         num_integer = std::stoll(n);
-        __type = kNumTypeInteger;
+        __type = kRealTypeInteger;
       }
       catch (std::invalid_argument const &ex)
       {
@@ -130,7 +98,7 @@ namespace mynum
       {
         // 转换成高精度值
         num_mpz = mympz::create(n);
-        __type = kNumTypeMpz;
+        __type = kRealTypeMpz;
       }
     }
     break;
@@ -144,18 +112,18 @@ namespace mynum
 //         {
 //           // 转换成高精度值
 //           num_mpf = mympf::create(n);
-//           __type = kNumTypeMpf;
+//           __type = kRealTypeMpf;
 //         }
 //         else
 //         {
-//           __type = kNumTypeFloat;
+//           __type = kRealTypeFloat;
 //         }
 //       }
 //       catch (std::out_of_range const &ex)
 //       {
 //         // 转换成高精度值
 //         num_mpf = mympf::create(n);
-//         __type = kNumTypeMpf;
+//         __type = kRealTypeMpf;
 //       }
 #if defined(USE_FLOAT_MAX)
       //
@@ -173,12 +141,12 @@ namespace mynum
         if ((cmp(max_f, curr_f) >= 0) && (cmp(curr_f, min_f) <= 0))
         {
           num_float = std::stold(n);
-          __type = kNumTypeFloat;
+          __type = kRealTypeFloat;
         }
         else
         {
           num_mpf = curr_f;
-          __type = kNumTypeMpf;
+          __type = kRealTypeMpf;
         }
       }
       else
@@ -188,12 +156,12 @@ namespace mynum
         if ((cmp(curr_f, max_f) >= 0) && (cmp(min_f, curr_f) <= 0))
         {
           num_float = std::stold(n);
-          __type = kNumTypeFloat;
+          __type = kRealTypeFloat;
         }
         else
         {
           num_mpf = curr_f;
-          __type = kNumTypeMpf;
+          __type = kRealTypeMpf;
         }
       }
 #else
@@ -203,12 +171,12 @@ namespace mynum
       if (n.size() > MAX_FLOAT_STR)
       {
         num_mpf = mympf::create(n);
-        __type = kNumTypeMpf;
+        __type = kRealTypeMpf;
       }
       else
       {
         num_float = std::stold(n);
-        __type = kNumTypeFloat;
+        __type = kRealTypeFloat;
       }
 #endif
     }
@@ -219,7 +187,7 @@ namespace mynum
       std::string s1 = n.substr(0, pos);
       std::string s2 = n.substr(pos + 1);
       num_fraction = {mympz::create(s1), mympz::create(s2)};
-      __type = kNumTypeFraction;
+      __type = kRealTypeFraction;
     }
     break;
     default:
@@ -233,24 +201,24 @@ namespace mynum
     __type = n.type();
     switch (__type)
     {
-    case kNumTypeInteger:
+    case kRealTypeInteger:
       num_integer = n.num_integer;
       break;
-    case kNumTypeFloat:
+    case kRealTypeFloat:
       num_float = n.num_float;
       break;
-    case kNumTypeMpz:
+    case kRealTypeMpz:
       num_mpz = n.num_mpz;
       break;
-    case kNumTypeMpf:
+    case kRealTypeMpf:
       num_mpf = n.num_mpf;
       break;
-    case kNumTypeFraction:
+    case kRealTypeFraction:
       num_fraction = n.num_fraction;
       break;
     default:
       num_integer = 0;
-      __type = kNumTypeInteger;
+      __type = kRealTypeInteger;
       break;
     }
   }
@@ -258,31 +226,31 @@ namespace mynum
   void __real_t::set_int_value(myint_t n)
   {
     num_integer = n;
-    __type = kNumTypeInteger;
+    __type = kRealTypeInteger;
   }
 
   void __real_t::set_flt_value(myflt_t n)
   {
     num_float = n;
-    __type = kNumTypeFloat;
+    __type = kRealTypeFloat;
   }
 
   void __real_t::set_mpf_value(float_t n)
   {
     num_mpf = n;
-    __type = kNumTypeMpf;
+    __type = kRealTypeMpf;
   }
 
   void __real_t::set_mpz_value(integer_t n)
   {
     num_mpz = n;
-    __type = kNumTypeMpz;
+    __type = kRealTypeMpz;
   }
 
   void __real_t::set_frac_value(fraction_t n)
   {
     num_fraction = n;
-    __type = kNumTypeFraction;
+    __type = kRealTypeFraction;
   }
 
   bool test(const real_t &x, int type)
@@ -292,24 +260,24 @@ namespace mynum
 
   static real_t __covert_to_frac(const real_t &x)
   {
-    if (x.type() == kNumTypeFraction)
+    if (x.type() == kRealTypeFraction)
       return x;
 
     real_t _x;
     fraction_t fr;
-    if (x.type() == kNumTypeInteger)
+    if (x.type() == kRealTypeInteger)
     {
       fr = {mympz::create(x.num_integer), mympz::create(1)};
     }
-    else if (x.type() == kNumTypeFloat)
+    else if (x.type() == kRealTypeFloat)
     {
       fr = f::fraction(mympf::create(x.value()));
     }
-    else if (x.type() == kNumTypeMpz)
+    else if (x.type() == kRealTypeMpz)
     {
       fr = {x.num_mpz, mympz::create(1)};
     }
-    else if (x.type() == kNumTypeMpf)
+    else if (x.type() == kRealTypeMpf)
     {
       fr = f::fraction(x.num_mpf);
     }
@@ -324,23 +292,23 @@ namespace mynum
 
     real_t y;
     std::string v = x.value();
-    if (type == kNumTypeInteger)
+    if (type == kRealTypeInteger)
     {
       y.set_int_value(std::stoll(v));
     }
-    else if (type == kNumTypeFloat)
+    else if (type == kRealTypeFloat)
     {
       y.set_flt_value(std::stold(v));
     }
-    else if (type == kNumTypeMpz)
+    else if (type == kRealTypeMpz)
     {
       y.set_mpz_value(mympz::create(v));
     }
-    else if (type == kNumTypeMpf)
+    else if (type == kRealTypeMpf)
     {
       y.set_mpf_value(mympf::create(v));
     }
-    else if (type == kNumTypeFraction)
+    else if (type == kRealTypeFraction)
     {
       y = __covert_to_frac(x);
     }
@@ -360,13 +328,13 @@ namespace mynum
 
   real_t integer_to_float(const real_t &x)
   {
-    if (x.type() == kNumTypeInteger)
+    if (x.type() == kRealTypeInteger)
     {
-      return __covert_to(x, kNumTypeFloat);
+      return __covert_to(x, kRealTypeFloat);
     }
-    else if (x.type() == kNumTypeMpz)
+    else if (x.type() == kRealTypeMpz)
     {
-      return __covert_to(x, kNumTypeMpf);
+      return __covert_to(x, kRealTypeMpf);
     }
     return x;
   }
@@ -374,11 +342,11 @@ namespace mynum
   real_t float_to_integer(const real_t &x)
   {
     real_t y;
-    if (x.type() == kNumTypeFloat)
+    if (x.type() == kRealTypeFloat)
     {
       y.set_int_value(static_cast<myint_t>(x.num_float));
     }
-    else if (x.type() == kNumTypeMpf)
+    else if (x.type() == kRealTypeMpf)
     {
       y.set_mpz_value(mympf::integer_part(x.num_mpf).number);
     }
@@ -403,6 +371,12 @@ namespace mynum
     }
     return {_x, _y};
   }
+
+  ////////////////////////////////////////
+  //              操作符重载             //
+  ////////////////////////////////////////
+
+#if 0
 
   __real_t &__real_t::operator=(const __real_t &n)
   {
@@ -458,4 +432,6 @@ namespace mynum
   {
     *this = mod(*this, n);
   }
+#endif
+
 } // namespace mynum

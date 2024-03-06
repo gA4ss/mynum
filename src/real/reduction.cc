@@ -1,10 +1,10 @@
-#include <mynum/mynum.h>
+#include <mynum/real.h>
 
 namespace mynum
 {
-  real_t reduction(const number_t &x)
+  real_t reduction(const real_t &x)
   {
-    if (x.type() == kNumTypeFraction)
+    if (x.type() == kRealTypeFraction)
     {
       real_t y;
       y.set_frac_value(f::reduction(x.num_fraction));

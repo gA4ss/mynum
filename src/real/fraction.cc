@@ -1,28 +1,28 @@
-#include <mynum/mynum.h>
+#include <mynum/real.h>
 
 namespace mynum
 {
-  real_t fraction(const number_t &x)
+  real_t fraction(const real_t &x)
   {
     real_t y;
     int type = x.type();
-    if (type == kNumTypeInteger)
+    if (type == kRealTypeInteger)
     {
       y.set_frac_value(f::fraction(static_cast<myflt_t>(x.num_integer)));
     }
-    else if (type == kNumTypeFloat)
+    else if (type == kRealTypeFloat)
     {
       y.set_frac_value(f::fraction(x.num_float));
     }
-    else if (type == kNumTypeMpz)
+    else if (type == kRealTypeMpz)
     {
       y.set_frac_value(f::fraction(x.num_mpz));
     }
-    else if (type == kNumTypeMpf)
+    else if (type == kRealTypeMpf)
     {
       y.set_frac_value(f::fraction(x.num_mpf));
     }
-    else if (type == kNumTypeFraction)
+    else if (type == kRealTypeFraction)
     {
       return x.num_fraction;
     }

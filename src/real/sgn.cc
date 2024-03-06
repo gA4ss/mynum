@@ -1,4 +1,4 @@
-#include <mynum/mynum.h>
+#include <mynum/real.h>
 #include <cmath>
 
 namespace mynum
@@ -6,23 +6,23 @@ namespace mynum
   int sgn(const real_t &x)
   {
     int type = x.type(), s = 0;
-    if (type == kNumTypeInteger)
+    if (type == kRealTypeInteger)
     {
       s = x.num_integer < 0 ? 1 : 0;
     }
-    else if (type == kNumTypeFloat)
+    else if (type == kRealTypeFloat)
     {
       s = x.num_float < 0.0 ? 1 : 0;
     }
-    else if (type == kNumTypeMpz)
+    else if (type == kRealTypeMpz)
     {
       s = z::sgn(x.num_mpz);
     }
-    else if (type == kNumTypeMpf)
+    else if (type == kRealTypeMpf)
     {
       s = f::sgn(x.num_mpf);
     }
-    else if (type == kNumTypeFraction)
+    else if (type == kRealTypeFraction)
     {
       s = f::sgn(x.num_fraction);
     }

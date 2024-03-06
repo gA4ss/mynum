@@ -1,5 +1,4 @@
-#include <mynum/mynum.h>
-#include <cmath>
+#include <mynum/number.h>
 
 namespace mynum
 {
