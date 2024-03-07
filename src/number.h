@@ -9,9 +9,9 @@ namespace mynum
   //
   // 数的定义
   //
-#define kNumTypeReal 0
+#define kNumTypeReal 2
+#define kNumTypeComplex 4
 #define kNumTypeGF 1
-#define kNumTypeComplex 0x10
 
   typedef struct __number_t
   {
@@ -20,12 +20,6 @@ namespace mynum
 
     __number_t(const __real_t &r);
     __number_t(const __complex_t &c);
-
-    __number_t(std::string n);
-    __number_t(myflt_t n);
-    __number_t(integer_t n);
-    __number_t(float_t n);
-    __number_t(fraction_t n);
 
     __number_t(const __real_t &re, const __real_t &im);
     __number_t(std::string re, std::string im);
@@ -38,6 +32,8 @@ namespace mynum
     // 重载运算符
     //
     __number_t &operator=(const __number_t &n);
+    __number_t &operator=(const __real_t &n);
+    __number_t &operator=(const __complex_t &n);
     __number_t &operator=(std::string n);
     __number_t &operator=(myflt_t n);
     __number_t &operator=(const integer_t &n);
@@ -53,8 +49,8 @@ namespace mynum
     // 保存的值
     //
     int __type;
-    real_t num_real;       // 实数
-    complex_t num_complex; // 复数
+    real_t real;       // 实数
+    complex_t complex; // 复数
   } number_t;
 
   bool test(const number_t &x, int type);

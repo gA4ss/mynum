@@ -17,17 +17,17 @@ namespace mynum
     __complex_t(const __real_t &re, const __real_t &im);
     __complex_t(std::string re, std::string im);
 
-    real_t re() const;
-    real_t im() const;
-
     std::string value() const;
 
     //
     // 实部与虚部
     //
-    real_t __real_park;
-    real_t __imaginary_part;
+    real_t real_park;
+    real_t imaginary_part;
   } complex_t;
+
+  complex_t integer_to_float(const complex_t &x);
+  complex_t float_to_integer(const complex_t &x);
 
   complex_t add(const complex_t &x, const complex_t &y);
   complex_t sub(const complex_t &x, const complex_t &y);
@@ -35,7 +35,7 @@ namespace mynum
   complex_t div(const complex_t &x, const complex_t &y);
   complex_t mod(const complex_t &x, const complex_t &y);
 
-  real_t length(const complex_t &x);
+  real_t abs(const complex_t &x);
   int cmp(const complex_t &x, const complex_t &y);
 
   complex_t exp(const complex_t &x, size_t precision = 16);

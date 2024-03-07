@@ -183,12 +183,12 @@ set(REAL_SRC
 #
 set(COMPLEX_SRC
   ${SRC_DIRECTORY}/complex/complex.cc
+  ${SRC_DIRECTORY}/complex/abs.cc
   ${SRC_DIRECTORY}/complex/add.cc
   ${SRC_DIRECTORY}/complex/sub.cc
   ${SRC_DIRECTORY}/complex/mul.cc
   ${SRC_DIRECTORY}/complex/div.cc
   ${SRC_DIRECTORY}/complex/mod.cc
-  ${SRC_DIRECTORY}/complex/length.cc
   ${SRC_DIRECTORY}/complex/cmp.cc
   ${SRC_DIRECTORY}/complex/exp.cc
   ${SRC_DIRECTORY}/complex/pow.cc

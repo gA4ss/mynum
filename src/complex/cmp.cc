@@ -5,9 +5,9 @@ namespace mynum
 {
   int cmp(const complex_t &x, const complex_t &y)
   {
-    if (length(x) < length(y))
+    if (abs(x) < abs(y))
       return -1;
-    else if (length(x) > length(y))
+    else if (abs(x) > abs(y))
       return 1;
     return 0;
   }

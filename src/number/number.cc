@@ -2,6 +2,10 @@
 
 namespace mynum
 {
+  static bool __test(int ty, int v)
+  {
+    return (ty & v) == v;
+  }
   __number_t::__number_t() : __type(kNumTypeReal)
   {
   }
@@ -9,49 +13,28 @@ namespace mynum
   __number_t::__number_t(const __number_t &n)
   {
     __type = n.type();
-    num_real = n.num_real;
-    num_complex = n.num_complex;
+    if (__test(__type, kNumTypeReal))
+      real = n.real;
+    else if (__test(__type, kNumTypeComplex))
+      complex = n.complex;
   }
 
-  __number_t::__number_t(std::string n)
+  __number_t::__number_t(const __real_t &r)
   {
     __type = kNumTypeReal;
-    num_real = real_t(n);
+    real = r;
   }
 
-  __number_t::__number_t(myflt_t n)
+  __number_t::__number_t(const __complex_t &c)
   {
-    __type = kNumTypeReal;
-    num_real = real_t(n);
-  }
-
-  __number_t::__number_t(float_t n)
-  {
-    __type = kNumTypeReal;
-    num_real = real_t(n);
-  }
-
-  __number_t::__number_t(integer_t n)
-  {
-    __type = kNumTypeReal;
-    num_real = real_t(n);
-  }
-
-  __number_t::__number_t(fraction_t n)
-  {
-    __type = kNumTypeReal;
-    num_real = real_t(n);
-  }
-
-  static bool __test(int ty, int v)
-  {
-    return (ty & v) == v;
+    __type = kNumTypeComplex;
+    complex = c;
   }
 
   std::string __number_t::value() const
   {
-    return __test(__type, kNumTypeReal) ? num_real.value() : __test(__type, kNumTypeComplex) ? num_complex.value()
-                                                                                             : "";
+    return __test(__type, kNumTypeReal) ? real.value() : __test(__type, kNumTypeComplex) ? complex.value()
+                                                                                         : "";
   }
 
   int __number_t::type() const
@@ -78,11 +61,11 @@ namespace mynum
 
     if (test(x, kNumTypeReal))
     {
-      y = number_t(x.num_real, real_t(0));
+      y = number_t(x.real, real_t(0));
     }
     else
     {
-      y = number_t(x.num_real);
+      y = number_t(x.real);
     }
     return y;
   }
@@ -92,11 +75,11 @@ namespace mynum
     number_t y = x;
     if (test(x, kNumTypeReal))
     {
-      y.num_real = integer_to_float(y.num_real);
+      y.real = integer_to_float(y.real);
     }
     else if (test(x, kNumTypeComplex))
     {
-      y.num_complex = integer_to_float(y.num_real);
+      y.complex = integer_to_float(y.complex);
     }
     return y;
   }
@@ -106,42 +89,67 @@ namespace mynum
     number_t y;
     if (test(x, kNumTypeReal))
     {
-      y.num_real = float_to_integer(y.num_real);
+      y.real = float_to_integer(y.real);
     }
     else if (test(x, kNumTypeComplex))
     {
-      y.num_complex = float_to_integer(y.num_real);
+      y.complex = float_to_integer(y.complex);
     }
     return y;
   }
 
+  __number_t &__number_t::operator=(const __real_t &n)
+  {
+    __type = kNumTypeReal;
+    real = n;
+  }
+
+  __number_t &__number_t::operator=(const __complex_t &n)
+  {
+    __type = kNumTypeComplex;
+    complex = n;
+  }
+
   __number_t &__number_t::operator=(const __number_t &n)
   {
-    set_num_value(n);
+    __type = n.type();
+    if (__test(__type, kNumTypeReal))
+      real = n.real;
+    else if (__test(__type, kNumTypeComplex))
+      complex = n.complex;
+
     return *this;
   }
 
   __number_t &__number_t::operator=(std::string n)
   {
-    set_str_value(n);
+    __type = kNumTypeReal;
+    real = real_t(n);
+
     return *this;
   }
 
   __number_t &__number_t::operator=(myflt_t n)
   {
-    set_flt_value(n);
+    __type = kNumTypeReal;
+    real = real_t(n);
+
     return *this;
   }
 
   __number_t &__number_t::operator=(const integer_t &n)
   {
-    set_mpz_value(n);
+    __type = kNumTypeReal;
+    real = real_t(n);
+
     return *this;
   }
 
   __number_t &__number_t::operator=(const float_t &n)
   {
-    set_mpf_value(n);
+    __type = kNumTypeReal;
+    real = real_t(n);
+
     return *this;
   }
 
