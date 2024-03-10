@@ -29,14 +29,18 @@ namespace mynum
   complex_t integer_to_float(const complex_t &x);
   complex_t float_to_integer(const complex_t &x);
 
+  bool is_zero(const complex_t &x);
+  real_t abs(const complex_t &x);
+  int cmp(const complex_t &x, const complex_t &y);
+  real_t argument(const complex_t &x, real_t *second);
+  complex_t normalize(const complex_t &x);
+  complex_t conjugate(const complex_t &x);
+
   complex_t add(const complex_t &x, const complex_t &y);
   complex_t sub(const complex_t &x, const complex_t &y);
   complex_t mul(const complex_t &x, const complex_t &y);
   complex_t div(const complex_t &x, const complex_t &y);
   complex_t mod(const complex_t &x, const complex_t &y);
-
-  real_t abs(const complex_t &x);
-  int cmp(const complex_t &x, const complex_t &y);
 
   complex_t exp(const complex_t &x, size_t precision = 16);
   complex_t pow(const complex_t &a, const complex_t &x, size_t precision = 16);

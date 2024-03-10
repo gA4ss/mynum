@@ -12,11 +12,11 @@ namespace mynum
     }
     else if (test(x.type(), kNumTypeComplex) && test(y.type(), kNumTypeReal))
     {
-      z = number_t(add(x.complex.real_park, y.real), add(x.complex.imaginary_part, real_t(0)));
+      z = number_t(add(x.complex.real_park, y.real), x.complex.imaginary_part);
     }
     else if (test(x.type(), kNumTypeReal) && test(y.type(), kNumTypeComplex))
     {
-      z = number_t(add(x.real, y.complex.real_park), add(real_t(0), y.complex.imaginary_part));
+      z = number_t(add(x.real, y.complex.real_park), y.complex.imaginary_part);
     }
     else if (test(x.type(), kNumTypeComplex) && test(y.type(), kNumTypeComplex))
     {

@@ -4,29 +4,25 @@ namespace mynum
 {
   number_t sub(const number_t &x, const number_t &y)
   {
-    std::pair<number_t, number_t> xy = same_type(x, y);
-    number_t _x = xy.first, _y = xy.second, z;
-    int type = _x.type();
-    if (type == kNumTypeInteger)
+    number_t z;
+
+    if (test(x.type(), kNumTypeReal) && test(y.type(), kNumTypeReal))
     {
-      z.set_int_value(_x.num_integer - _y.num_integer);
+      z = sub(x.real, y.real);
     }
-    else if (type == kNumTypeFloat)
+    else if (test(x.type(), kNumTypeComplex) && test(y.type(), kNumTypeReal))
     {
-      z.set_flt_value(_x.num_float - _y.num_float);
+      z = number_t(sub(x.complex.real_park, y.real), x.complex.imaginary_part);
     }
-    else if (type == kNumTypeMpz)
+    else if (test(x.type(), kNumTypeReal) && test(y.type(), kNumTypeComplex))
     {
-      z.set_mpz_value(mympz::sub(_x.num_mpz, _y.num_mpz));
+      z = number_t(sub(x.real, y.complex.real_park), sub(real_t(0), y.complex.imaginary_part));
     }
-    else if (type == kNumTypeMpf)
+    else if (test(x.type(), kNumTypeComplex) && test(y.type(), kNumTypeComplex))
     {
-      z.set_mpf_value(mympf::sub(_x.num_mpf, _y.num_mpf));
+      z = sub(x.complex, y.complex);
     }
-    else if (type == kNumTypeFraction)
-    {
-      z.set_frac_value(f::sub(_x.num_fraction, _y.num_fraction));
-    }
+
     return z;
   }
 } // namespace mynum
